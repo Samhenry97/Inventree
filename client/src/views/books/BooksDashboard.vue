@@ -1,6 +1,6 @@
 <template>
   <div id="books-dashboard">
-    <BookEditDialog ref="editDialog" :book="editBook"></BookEditDialog>
+    <BookEditDialog ref="editDialog"></BookEditDialog>
 
     <div class="d-flex align-center">
       <p class="display-1">My Library</p>
@@ -64,8 +64,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BookEditDialog from '../../components/BookEditDialog';
-import BookCard from '../../components/BookCard';
+import BookEditDialog from '../../components/books/BookEditDialog';
+import BookCard from '../../components/books/BookCard';
 import Shelf from '../../models/shelf';
 
 export default {
@@ -99,7 +99,6 @@ export default {
     ],
     selected: [],
     cards: 0,
-    editBook: {},
     loading: false,
     Shelf
   }),
@@ -112,8 +111,7 @@ export default {
   },
   methods: {
     edit(book) {
-      this.editBook = book;
-      this.$refs.editDialog.open();
+      this.$refs.editDialog.open(book);
     },
     remove(book) {
       if (confirm('Are you sure you want to delete this book?')) {

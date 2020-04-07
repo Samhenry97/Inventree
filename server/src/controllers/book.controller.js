@@ -11,7 +11,8 @@ export default {
   },
   async updateBook(conn, book) {
     await Book.updateOne({ _id: book._id }, book);
-    conn.sendToRoom('updateItem', { type: 'book', updated: book });
+    const updated = await Book.findById(book._id);
+    conn.sendToRoom('updateItem', { type: 'book', updated });
   },
   async createBook(conn, data) {
     data.user = conn.user._id;
@@ -30,7 +31,7 @@ export default {
   async updateManyBooks(conn, ids, update, finished) {
     await Book.updateMany({ _id: { $in: ids }}, update);
     const books = await Book.find({ _id: { $in: ids }});
-    conn.sendToRoom('updateManyBooks', { type: 'book', items: books });
+    conn.sendToRoom('updateManyItems', { type: 'book', items: books });
     finished();
   }
 };

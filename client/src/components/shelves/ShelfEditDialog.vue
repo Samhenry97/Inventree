@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import Shelf from '../models/shelf';
+  import Shelf from '../../models/shelf';
 
   export default {
     name: 'ShelfEditDialog',

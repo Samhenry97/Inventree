@@ -4,7 +4,8 @@ import {
   M_DELETE_MANY_ITEMS,
   M_MOVE_ITEMS,
   M_SET_ITEMS,
-  M_UPDATE_ITEM, M_UPDATE_MANY_ITEMS
+  M_UPDATE_ITEM,
+  M_UPDATE_MANY_ITEMS
 } from './mutations.type';
 
 const state = {

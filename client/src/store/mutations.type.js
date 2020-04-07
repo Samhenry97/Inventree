@@ -1,5 +1,10 @@
 export const M_SET_USER = 'live_setUser';
 
+export const M_SET_TAGS = 'live_setTags';
+export const M_CREATE_TAG = 'live_createTag';
+export const M_UPDATE_TAG = 'live_updateTag';
+export const M_DELETE_TAG = 'live_deleteTag';
+
 export const M_SET_SHELVES = 'live_setShelves';
 export const M_CREATE_SHELF = 'live_createShelf';
 export const M_UPDATE_SHELF = 'live_updateShelf';

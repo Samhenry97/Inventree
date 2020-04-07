@@ -72,7 +72,11 @@ export const BookSchema = new Schema(
       trim: true
     },
     description: String,
-    rating: Number
+    rating: Number,
+    tags: [{
+      type: Schema.Types.ObjectID,
+      ref: 'Tag'
+    }]
   },
   { collection: 'books' }
 );

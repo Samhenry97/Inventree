@@ -83,7 +83,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
   import Book from '../../models/book';
-  import BookEditDialog from '../../components/BookEditDialog';
+  import BookEditDialog from '../../components/books/BookEditDialog';
 
   export default {
     name: 'BookAdd',

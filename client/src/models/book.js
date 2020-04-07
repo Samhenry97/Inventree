@@ -18,7 +18,8 @@ export default class Book {
     isbn10: '',
     isbn13: '',
     description: '',
-    rating: null
+    rating: null,
+    tags: []
   };
 
   static exists(book) {

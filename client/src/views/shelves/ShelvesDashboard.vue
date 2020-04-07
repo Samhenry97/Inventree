@@ -46,8 +46,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import ShelfCard from '../../components/ShelfCard';
-  import ShelfEditDialog from '../../components/ShelfEditDialog';
+  import ShelfCard from '../../components/shelves/ShelfCard';
+  import ShelfEditDialog from '../../components/shelves/ShelfEditDialog';
   import Shelf from '../../models/shelf';
 
   export default {

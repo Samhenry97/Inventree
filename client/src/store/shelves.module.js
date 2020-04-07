@@ -1,4 +1,9 @@
-import { M_CREATE_SHELF, M_DELETE_SHELF, M_SET_SHELVES, M_UPDATE_SHELF } from './mutations.type';
+import {
+  M_CREATE_SHELF,
+  M_DELETE_SHELF,
+  M_SET_SHELVES,
+  M_UPDATE_SHELF
+} from './mutations.type';
 
 const state = {
   book: []
