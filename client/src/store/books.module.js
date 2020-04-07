@@ -1,12 +1,12 @@
-import { M_CREATE_BOOK, M_DELETE_BOOK, M_SET_BOOKS, M_UPDATE_BOOK } from './mutations.type';
+import { M_CREATE_BOOK, M_DELETE_BOOK, M_MOVE_ITEMS, M_SET_BOOKS, M_UPDATE_BOOK } from './mutations.type';
 
 const state = {
-  books: []
+  book: []
 };
 
 const getters = {
   books(state) {
-    return state.books;
+    return state.book;
   }
 };
 
@@ -16,20 +16,28 @@ const actions = {
 
 const mutations = {
   [M_SET_BOOKS](state, books) {
-    state.books = books;
+    state.book = books;
   },
   [M_CREATE_BOOK](state, book) {
-    state.books = [...state.books, book];
+    state.book = [...state.book, book];
   },
   [M_UPDATE_BOOK](state, updated) {
-    state.books = state.books.map(book => {
+    state.book = state.book.map(book => {
       if (book._id === updated._id) return updated;
       return book;
     });
   },
   [M_DELETE_BOOK](state, deleted) {
-    state.books = state.books.filter(book => {
+    state.book = state.book.filter(book => {
       return (book._id !== deleted._id);
+    });
+  },
+  [M_MOVE_ITEMS](state, { type, oldShelf, newShelf }) {
+    state[type] = state[type].map(book => {
+      if (book.shelf === oldShelf) {
+        return { ...book, shelf: newShelf };
+      }
+      return book;
     });
   }
 };

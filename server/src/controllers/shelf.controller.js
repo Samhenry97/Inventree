@@ -1,4 +1,5 @@
 import { Shelf } from '../models/shelf';
+import { Book } from '../models/book';
 
 export default {
   async getShelves(conn, data) {
@@ -10,12 +11,17 @@ export default {
     const shelf = await Shelf.create(data);
     conn.sendToRoom('createShelf', shelf);
   },
-  async updateShelf(conn, data) {
-    await Shelf.updateOne({ _id: data._id }, data);
-    conn.sendToRoom('updateShelf', data);
+  async updateShelf(conn, shelf) {
+    await Shelf.findByIdAndUpdate(shelf._id, shelf);
+    conn.sendToRoom('updateShelf', shelf);
   },
-  async deleteShelf(conn, data) {
-    await Shelf.deleteOne({ _id: data._id });
-    conn.sendToRoom('deleteShelf', data);
+  async deleteShelf(conn, shelf, moveShelf) {
+    await Shelf.findByIdAndDelete({ _id: shelf._id });
+    if (moveShelf) {
+      await Book.updateMany({ shelf: shelf._id }, { shelf: moveShelf });
+      const res = { type: shelf.type, oldShelf: shelf._id, newShelf: moveShelf };
+      conn.sendToRoom('moveItems', res);
+    }
+    conn.sendToRoom('deleteShelf', shelf);
   }
 };

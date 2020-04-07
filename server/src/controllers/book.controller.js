@@ -5,13 +5,13 @@ export default {
     const books = await Book.find({ user: conn.user._id });
     conn.send('setBooks', books);
   },
-  async deleteBook(conn, data) {
-    await Book.deleteOne({ _id: data._id });
-    conn.sendToRoom('deleteBook', data);
+  async deleteBook(conn, book) {
+    await Book.findByIdAndDelete(book._id);
+    conn.sendToRoom('deleteBook', book);
   },
-  async updateBook(conn, data) {
-    await Book.updateOne({ _id: data._id }, data);
-    conn.sendToRoom('updateBook', data);
+  async updateBook(conn, book) {
+    await Book.findByIdAndUpdate(book._id, book);
+    conn.sendToRoom('updateBook', book);
   },
   async createBook(conn, data) {
     data.user = conn.user._id;

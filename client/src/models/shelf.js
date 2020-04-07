@@ -24,4 +24,18 @@ export default class Shelf {
     }
     return null;
   }
+
+  static itemCount(shelf) {
+    let count = 0;
+    for (const book of store.state.books.book) {
+      if (book.shelf === shelf._id) count++;
+    }
+    return count;
+  }
+
+  static allBut(shelf) {
+    return store.state.shelves[shelf.type].filter(otherShelf => {
+      return otherShelf._id !== shelf._id;
+    });
+  }
 }

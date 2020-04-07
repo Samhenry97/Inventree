@@ -22,7 +22,7 @@ export default class Book {
   };
 
   static exists(book) {
-    for (const otherBook of store.state.books.books) {
+    for (const otherBook of store.state.books.book) {
       if (otherBook.isbn10 === book.isbn10 || otherBook.isbn13 === book.isbn13) {
         return true;
       }
@@ -31,7 +31,7 @@ export default class Book {
   }
 
   static getByISBN(book) {
-    for (const otherBook of store.state.books.books) {
+    for (const otherBook of store.state.books.book) {
       if (otherBook.isbn10 === book.isbn10 || otherBook.isbn13 === book.isbn13) {
         return otherBook;
       }
