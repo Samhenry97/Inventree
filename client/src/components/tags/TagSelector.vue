@@ -107,7 +107,12 @@
       'item.tags' (val, prev) {
         if (val.length > 0 && val.length > prev.length) {
           const newTag = val.filter(tag => !prev.includes(tag))[0];
-          if (!Tag.getById('book', newTag)) {
+          const nameTag = Tag.getByName('book', newTag);
+          if (nameTag) {
+            this.item.tags = this.item.tags.filter(tag => tag !== newTag);
+            if (this.item.tags.includes(nameTag._id)) return;
+            this.item.tags.push(nameTag._id);
+          } else if (!Tag.getById('book', newTag)) {
             this.tagsDisabled = true;
             this.item.tags = this.item.tags.filter(tag => tag !== newTag);
             this.$socket.emit('createTag', { name: newTag, type: 'book' }, result => {

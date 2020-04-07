@@ -38,7 +38,7 @@
 
     <v-row v-if="cards === 0">
       <v-col v-for="shelf of shelves" :key="shelf._id" cols="12" sm="6" md="4" lg="3">
-        <ShelfCard :shelf="shelf" :edit="edit" :remove="remove"></ShelfCard>
+        <ShelfCard @click="edit(shelf)" :shelf="shelf" :edit="edit" :remove="remove"></ShelfCard>
       </v-col>
     </v-row>
   </div>

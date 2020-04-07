@@ -58,17 +58,15 @@
     <div v-if="results.length > 0">
       <v-row>
         <v-col v-for="book in results" :key="book.fromid" cols="12" sm="6" md="4" lg="3">
-          <v-hover v-slot:default="{ hover }">
-            <v-card :elevation="hover ? 4 : 2">
-              <v-img height="256px" :src="book.smallThumbnail"></v-img>
-              <v-card-title>{{ book.title }}</v-card-title>
-              <v-card-subtitle>{{ book.author }}</v-card-subtitle>
-              <v-card-actions>
-                <v-btn v-if="!Book.exists(book)" color="success" text @click="add(book)">Add</v-btn>
-                <v-btn v-else color="error" text @click="remove(book)">Delete</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-hover>
+          <v-card hover ripple shaped>
+            <v-img height="192px" :src="book.smallThumbnail"></v-img>
+            <v-card-title>{{ book.title }}</v-card-title>
+            <v-card-subtitle>{{ book.author }}</v-card-subtitle>
+            <v-card-actions>
+              <v-btn v-if="!Book.exists(book)" color="success" text @click="add(book)">Add</v-btn>
+              <v-btn v-else color="error" text @click="remove(book)">Delete</v-btn>
+            </v-card-actions>
+          </v-card>
         </v-col>
       </v-row>
 

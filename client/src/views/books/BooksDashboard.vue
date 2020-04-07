@@ -27,7 +27,7 @@
 
     <v-row v-if="cards === 0">
       <v-col v-for="book of books" :key="book._id" cols="12" sm="6" md="4" lg="3">
-        <BookCard :book="book" :edit="edit" :remove="remove"></BookCard>
+        <BookCard @click="edit(book)" :book="book" :edit="edit" :remove="remove"></BookCard>
       </v-col>
     </v-row>
 
@@ -119,7 +119,7 @@ export default {
       }
     },
     editSelected() {
-      this.loading = true;
+      // TODO batch edit
     },
     removeSelected() {
       this.loading = true;

@@ -1,7 +1,14 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px" persistent>
+  <v-dialog
+      :fullscreen="$vuetify.breakpoint.smAndDown"
+      v-model="dialog"
+      max-width="600px"
+      persistent
+  >
     <v-card>
-      <v-card-title>{{ add ? 'New' : 'Edit' }} Shelf</v-card-title>
+      <v-toolbar dark color="secondary">
+        <v-toolbar-title>{{ add ? 'New' : 'Edit' }} Shelf</v-toolbar-title>
+      </v-toolbar>
 
       <v-card-text>
         <v-row>
