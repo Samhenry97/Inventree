@@ -36,6 +36,18 @@
                 auto-grow
             ></v-textarea>
           </v-col>
+          <v-col cols="auto" class="mx-auto">
+            <v-rating
+                v-model="editBook.rating"
+                half-increments
+                hover
+                empty-icon="mdi-heart-outline"
+                half-icon="mdi-heart-half-full"
+                full-icon="mdi-heart"
+                color="red"
+                background-color="grey"
+            ></v-rating>
+          </v-col>
         </v-row>
       </v-card-text>
 

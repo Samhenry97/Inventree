@@ -2,13 +2,20 @@
   <v-app id="inventree">
     <ConnectionHandler></ConnectionHandler>
 
-    <div v-if="loading" class="loading">
-      <v-progress-circular
-        :size="128"
-        :width="12"
-        indeterminate
-        color="secondary"
-      ></v-progress-circular>
+    <div v-if="loading" class="loading-container">
+      <v-progress-linear
+          :size="128"
+          :width="12"
+          indeterminate
+          color="secondary"
+      ></v-progress-linear>
+
+      <div class="loading mb-12">
+        <div>
+          <img :src="require('./assets/logo.png')"/>
+        </div>
+        <p class="display-4">Inventree</p>
+      </div>
     </div>
 
     <div v-else>
@@ -100,53 +107,59 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import ConnectionHandler from './components/ConnectionHandler';
+  import { mapGetters } from 'vuex';
+  import ConnectionHandler from './components/ConnectionHandler';
 
-export default {
-  name: 'App',
-  components: { ConnectionHandler },
-  data: () => ({
-    profileMenu: false,
-    loading: true
-  }),
-  beforeCreate() {
-    this.$auth.$watch('loading', loading => {
-      if (loading) return;
-      if (!this.$auth.user) this.loading = false;
-    });
-    this.$auth.$watch('user', user => {
-      if (user) this.$socket.emit('login', user);
-    });
-  },
-  sockets: {
-    setUser(user) {
-      this.$vuetify.theme.dark = user.darkMode;
+  export default {
+    name: 'App',
+    components: { ConnectionHandler },
+    data: () => ({
+      profileMenu: false,
+      loading: true
+    }),
+    beforeCreate() {
+      this.$auth.$watch('loading', loading => {
+        if (loading) return;
+        if (!this.$auth.user) this.loading = false;
+      });
+      this.$auth.$watch('user', user => {
+        if (user) this.$socket.emit('login', user);
+      });
+    },
+    sockets: {
+      setUser(user) {
+        this.$vuetify.theme.dark = user.darkMode;
+      }
+    },
+    computed: {
+      ...mapGetters(['user', 'authed'])
+    },
+    watch: {
+      authed() {
+        if (this.authed) this.loading = false;
+      }
+    },
+    methods: {
+      async logout() {
+        this.$socket.emit('logout');
+        await this.$auth.logout();
+      }
     }
-  },
-  computed: {
-    ...mapGetters(['user', 'authed'])
-  },
-  watch: {
-    authed() {
-      if (this.authed) this.loading = false;
-    }
-  },
-  methods: {
-    async logout() {
-      this.$socket.emit('logout');
-      await this.$auth.logout();
-    }
-  }
-};
+  };
 </script>
 
 <style>
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
 </style>
