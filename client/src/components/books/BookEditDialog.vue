@@ -29,6 +29,16 @@
           <v-col cols="12" md="6">
             <v-text-field v-model="editBook.isbn13" label="ISBN 13"></v-text-field>
           </v-col>
+          <v-col cols="12">
+            <TagSelector :item="editBook" type="book"></TagSelector>
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+                v-model="editBook.description"
+                label="Description"
+                auto-grow
+            ></v-textarea>
+          </v-col>
           <v-col cols="auto" class="mx-auto">
             <v-rating
                 v-model="editBook.rating"
@@ -40,52 +50,6 @@
                 color="red"
                 background-color="grey"
             ></v-rating>
-          </v-col>
-          <v-col cols="12">
-            <v-combobox
-                v-model="editBook.tags"
-                :items="tags"
-                :search-input.sync="tagSearch"
-                :disabled="tagsDisabled"
-                :loading="tagsDisabled"
-                item-text="name"
-                item-value="_id"
-                label="Tags"
-                multiple
-                small-chips
-            >
-              <template v-slot:no-data>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      No results matching "<strong>{{ tagSearch }}</strong>". Press <kbd>enter</kbd> to create a new tag.
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
-              <template v-slot:selection="data">
-                <v-chip
-                  :key="data.item._id"
-                  :input-value="data.item.name"
-                  v-bind="data.attrs"
-                  :disabled="data.disabled"
-                >
-                  <v-avatar
-                    class="secondary white--text"
-                    left
-                    v-text="data.item.name[0].toUpperCase()"
-                  ></v-avatar>
-                  {{ data.item.name }}
-                </v-chip>
-              </template>
-            </v-combobox>
-          </v-col>
-          <v-col cols="12">
-            <v-textarea
-                v-model="editBook.description"
-                label="Description"
-                auto-grow
-            ></v-textarea>
           </v-col>
         </v-row>
       </v-card-text>
@@ -102,35 +66,14 @@
 <script>
   import { mapState } from 'vuex';
   import Book from '../../models/book';
-  import Tag from '../../models/tag';
+  import TagSelector from '../tags/TagSelector';
 
   export default {
     name: 'BookEditDialog',
-    watch: {
-      'editBook.tags' (val) {
-        // We need to create new tags and update with the created one
-        const newTags = val.filter(tag => typeof tag === 'string');
-        if (newTags.length > 0) {
-          this.tagsDisabled = true;
-          this.editBook.tags = val.filter(tag => typeof tag !== 'string');
-          newTags.forEach(tag => {
-            if (Tag.exists({ name: tag, type: 'book' })) {
-              this.editBook.tags.push(Tag.getByName('book', tag));
-              this.tagsDisabled = false;
-            } else {
-              this.$socket.emit('createTag', { name: tag, type: 'book' }, result => {
-                this.editBook.tags.push(result);
-                this.tagsDisabled = false;
-              });
-            }
-          });
-        }
-      }
-    },
+    components: { TagSelector },
     computed: {
       ...mapState({
-        shelves: state => state.shelves.book,
-        tags: state => state.tags.book
+        shelves: state => state.shelves.book
       }),
       add() {
         return !this.editBook._id;
@@ -139,31 +82,24 @@
     sockets: {
       updateItem({ type, updated }) {
         if (type === 'book' && this.editBook && this.editBook._id === updated._id) {
-          this.editBook = this.normalizeBook(updated);
+          this.editBook = updated;
         }
       }
     },
     data: () => ({
       dialog: false,
       editBook: { tags: [] },
+      book: {},
       tagSearch: '',
-      tagsDisabled: false,
-      Tag
+      tagsDisabled: false
     }),
     methods: {
-      normalizeBook(book) {
-        return {
-          ...book,
-          tags: book.tags.map(id => Tag.getById('book', id))
-        }
-      },
       open(book) {
         if (book) {
-          this.editBook = this.normalizeBook(book);
+          this.editBook = book;
         } else {
           this.editBook = { ...Book.defaultModel, shelf: this.shelves[0]._id };
         }
-
         this.dialog = true;
       },
       save() {

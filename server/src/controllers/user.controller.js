@@ -4,9 +4,7 @@ import { Shelf } from '../models/shelf';
 export default {
   async login(conn, data) {
     let user = await User.findOne({ sub: data.sub });
-    if (!user) {
-      user = await createUser(data);
-    }
+    if (!user) user = await User.create(data);
     conn.login(user);
     conn.send('setUser', user);
   },
@@ -18,9 +16,3 @@ export default {
     conn.sendToRoom('setUser', user);
   }
 };
-
-async function createUser(data) {
-  const user = await User.create(data);
-  await Shelf.create({ user: user._id, type: 'book', name: 'Default' });
-  return user;
-}

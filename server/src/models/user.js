@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import timestamps from 'mongoose-timestamp';
+import { Shelf } from './shelf';
 
 export const UserSchema = new Schema(
     {
@@ -35,5 +36,12 @@ export const UserSchema = new Schema(
 );
 UserSchema.plugin(timestamps);
 UserSchema.index({ email: 1 });
+
+UserSchema.post('save', async function(user, next) {
+  if (user.isNew) {
+    await Shelf.create({ user: user._id, type: 'book', name: 'Default' });
+  }
+  next();
+});
 
 export const User = mongoose.model('User', UserSchema);

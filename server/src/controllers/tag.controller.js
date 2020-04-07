@@ -1,5 +1,4 @@
 import { Tag } from '../models/tag';
-import { Book } from '../models/book';
 
 export default {
   async getTags(conn, data) {
@@ -17,11 +16,7 @@ export default {
     conn.sendToRoom('updateTag', tag);
   },
   async deleteTag(conn, tag) {
-    // TODO
-    const books = Book.find({ tags: tag._id });
-    await Book.updateMany({ tags: tag._id }, { $pullAll: { tags: [tag._id] } });
     await Tag.deleteOne({ _id: tag._id });
-    conn.sendToRoom('updateManyItems', { type: 'book', items: books });
     conn.sendToRoom('deleteTag', tag);
   }
 };

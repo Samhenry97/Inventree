@@ -1,7 +1,7 @@
 import {
   M_CREATE_ITEM,
   M_DELETE_ITEM,
-  M_DELETE_MANY_ITEMS,
+  M_DELETE_MANY_ITEMS, M_DELETE_TAG,
   M_MOVE_ITEMS,
   M_SET_ITEMS,
   M_UPDATE_ITEM,
@@ -55,6 +55,14 @@ const mutations = {
     state[type] = state[type].map(item => {
       for (const otherItem of items) {
         if (otherItem._id === item._id) return otherItem;
+      }
+      return item;
+    });
+  },
+  [M_DELETE_TAG](state, deleted) {
+    state[deleted.type] = state[deleted.type].map(item => {
+      if (item.tags.includes(deleted._id)) {
+        return { ...item, tags: item.tags.filter(tag => tag !== deleted._id) };
       }
       return item;
     });
