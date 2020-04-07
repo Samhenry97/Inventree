@@ -14,7 +14,7 @@ export default {
     conn.logout();
   },
   async updateUser(conn, user) {
-    await User.findByIdAndUpdate(user._id, user);
+    await User.updateOne({ _id: user._id }, user);
     conn.sendToRoom('setUser', user);
   }
 };

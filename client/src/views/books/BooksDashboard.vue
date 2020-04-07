@@ -7,19 +7,23 @@
       <v-spacer></v-spacer>
       <v-btn-toggle class="mr-2" v-model="cards" mandatory dense>
         <v-btn text color="secondary">
+          <v-icon class="mr-2" color="secondary">mdi-card</v-icon>
           Cards
         </v-btn>
         <v-btn text color="secondary">
+          <v-icon class="mr-2" color="secondary">mdi-table</v-icon>
           Table
         </v-btn>
       </v-btn-toggle>
       <router-link :to="{ name: 'bookadd' }">
         <v-btn color="secondary">
-          <v-icon>mdi-plus</v-icon>
+          <v-icon class="mr-2">mdi-plus</v-icon>
           Add Book
         </v-btn>
       </router-link>
     </div>
+
+    <v-divider class="mb-2"></v-divider>
 
     <v-row v-if="cards === 0">
       <v-col v-for="book of books" :key="book._id" cols="12" sm="6" md="4" lg="3">
@@ -27,19 +31,34 @@
       </v-col>
     </v-row>
 
-    <v-data-table
-        v-else
-        @click:row="edit"
-        show-select
-        :headers="headers"
-        :items="books"
-        :items-per-page="12"
-        class="elevation-2"
-    >
-      <template v-slot:item.shelf="{ item }">
-        {{ Shelf.getById('book', item.shelf).name }}
-      </template>
-    </v-data-table>
+    <div v-else>
+      <div v-if="selected.length > 0" class="d-flex align-center">
+        <v-spacer></v-spacer>
+        <v-btn color="error" class="mr-2" @click="removeSelected">
+          <v-icon class="mr-2">mdi-delete</v-icon>
+          Delete Selected
+        </v-btn>
+        <v-btn color="secondary" @click="editSelected">
+          <v-icon class="mr-2">mdi-lead-pencil</v-icon>
+          Edit Selected
+        </v-btn>
+      </div>
+      <v-data-table
+          @click:row="edit"
+          v-model="selected"
+          show-select
+          :headers="headers"
+          :items="books"
+          :items-per-page="12"
+          :loading="loading"
+          item-key="_id"
+          class="elevation-2 mt-2"
+      >
+        <template v-slot:item.shelf="{ item }">
+          {{ Shelf.getById('book', item.shelf).name }}
+        </template>
+      </v-data-table>
+    </div>
   </div>
 </template>
 
@@ -78,8 +97,10 @@ export default {
         value: 'isbn13'
       }
     ],
+    selected: [],
     cards: 0,
     editBook: {},
+    loading: false,
     Shelf
   }),
   components: {
@@ -98,6 +119,14 @@ export default {
       if (confirm('Are you sure you want to delete this book?')) {
         this.$socket.emit('deleteBook', book);
       }
+    },
+    editSelected() {
+      this.loading = true;
+    },
+    removeSelected() {
+      this.loading = true;
+      const ids = this.selected.map(book => book._id);
+      this.$socket.emit('deleteManyBooks', ids, () => this.loading = false);
     }
   }
 };

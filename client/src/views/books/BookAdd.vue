@@ -6,9 +6,12 @@
       <p class="display-1">Add Books</p>
       <v-spacer></v-spacer>
       <v-btn color="secondary" @click="addManually">
+        <v-icon class="mr-2">mdi-clipboard-text</v-icon>
         Add Manually
       </v-btn>
     </div>
+
+    <v-divider class="mb-2"></v-divider>
 
     <v-form
         ref="search"
@@ -45,7 +48,10 @@
         <v-btn
             color="secondary"
             type="submit"
-        >Search</v-btn>
+        >
+          <v-icon class="mr-2">mdi-magnify</v-icon>
+          Search
+        </v-btn>
       </div>
     </v-form>
 

@@ -12,11 +12,11 @@ export default {
     conn.sendToRoom('createShelf', shelf);
   },
   async updateShelf(conn, shelf) {
-    await Shelf.findByIdAndUpdate(shelf._id, shelf);
+    await Shelf.updateOne({ _id: shelf._id }, shelf);
     conn.sendToRoom('updateShelf', shelf);
   },
   async deleteShelf(conn, shelf, moveShelf) {
-    await Shelf.findByIdAndDelete({ _id: shelf._id });
+    await Shelf.deleteOne({ _id: shelf._id });
     if (moveShelf) {
       await Book.updateMany({ shelf: shelf._id }, { shelf: moveShelf });
       const res = { type: shelf.type, oldShelf: shelf._id, newShelf: moveShelf };

@@ -25,15 +25,16 @@
       </v-card>
     </v-dialog>
 
-
     <div class="d-flex align-center">
       <p class="display-1">My Shelves</p>
       <v-spacer></v-spacer>
       <v-btn color="secondary" @click="add">
-        <v-icon>mdi-plus</v-icon>
+        <v-icon class="mr-2">mdi-plus</v-icon>
         Add Shelf
       </v-btn>
     </div>
+
+    <v-divider class="mb-2"></v-divider>
 
     <v-row v-if="cards === 0">
       <v-col v-for="shelf of shelves" :key="shelf._id" cols="12" sm="6" md="4" lg="3">

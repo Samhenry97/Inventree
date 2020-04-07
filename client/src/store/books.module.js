@@ -1,4 +1,11 @@
-import { M_CREATE_BOOK, M_DELETE_BOOK, M_MOVE_ITEMS, M_SET_BOOKS, M_UPDATE_BOOK } from './mutations.type';
+import {
+  M_CREATE_ITEM,
+  M_DELETE_ITEM,
+  M_DELETE_MANY_ITEMS,
+  M_MOVE_ITEMS,
+  M_SET_ITEMS,
+  M_UPDATE_ITEM, M_UPDATE_MANY_ITEMS
+} from './mutations.type';
 
 const state = {
   book: []
@@ -15,29 +22,40 @@ const actions = {
 };
 
 const mutations = {
-  [M_SET_BOOKS](state, books) {
-    state.book = books;
+  [M_SET_ITEMS](state, { type, items }) {
+    state[type] = items;
   },
-  [M_CREATE_BOOK](state, book) {
-    state.book = [...state.book, book];
+  [M_CREATE_ITEM](state, { type, created }) {
+    state[type] = [...state[type], created];
   },
-  [M_UPDATE_BOOK](state, updated) {
-    state.book = state.book.map(book => {
-      if (book._id === updated._id) return updated;
-      return book;
+  [M_UPDATE_ITEM](state, { type, updated }) {
+    state[type] = state[type].map(item => {
+      if (item._id === updated._id) return updated;
+      return item;
     });
   },
-  [M_DELETE_BOOK](state, deleted) {
-    state.book = state.book.filter(book => {
-      return (book._id !== deleted._id);
+  [M_DELETE_ITEM](state, { type, deleted }) {
+    state[type] = state[type].filter(item => {
+      return (item._id !== deleted._id);
     });
   },
   [M_MOVE_ITEMS](state, { type, oldShelf, newShelf }) {
-    state[type] = state[type].map(book => {
-      if (book.shelf === oldShelf) {
-        return { ...book, shelf: newShelf };
+    state[type] = state[type].map(item => {
+      if (item.shelf === oldShelf) {
+        return { ...item, shelf: newShelf };
       }
-      return book;
+      return item;
+    });
+  },
+  [M_DELETE_MANY_ITEMS](state, { type, ids }) {
+    state[type] = state[type].filter(item => !ids.includes(item._id));
+  },
+  [M_UPDATE_MANY_ITEMS](state, { type, items }) {
+    state[type] = state[type].map(item => {
+      for (const otherItem of items) {
+        if (otherItem._id === item._id) return otherItem;
+      }
+      return item;
     });
   }
 };

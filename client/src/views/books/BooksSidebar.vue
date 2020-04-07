@@ -14,7 +14,7 @@
             <v-icon>mdi-book</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>My Library</v-list-item-title>
+            <v-list-item-title>Library</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item to="/books/shelves" link color="secondary">

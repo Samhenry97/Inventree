@@ -42,17 +42,20 @@ const router = new Router({
         {
           path: 'library',
           name: 'books',
-          component: BooksDashboard
+          component: BooksDashboard,
+          meta: { title: 'Library' }
         },
         {
           path: 'add',
           name: 'bookadd',
-          component: BookAdd
+          component: BookAdd,
+          meta: { title: 'Add Books' }
         },
         {
           path: 'shelves',
           name: 'book-shelves',
           component: ShelvesDashboard,
+          meta: { title: 'Shelves' },
           props: { type: 'book' }
         }
       ],
