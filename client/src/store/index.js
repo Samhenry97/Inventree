@@ -4,6 +4,7 @@ import books from './books.module';
 import user from './user.module';
 import shelves from './shelves.module';
 import tags from './tags.module';
+import checkouts from './checkouts.module';
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     books,
     user,
     shelves,
-    tags
+    tags,
+    checkouts
   }
 })

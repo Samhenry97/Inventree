@@ -10,6 +10,11 @@ export const M_CREATE_SHELF = 'live_createShelf';
 export const M_UPDATE_SHELF = 'live_updateShelf';
 export const M_DELETE_SHELF = 'live_deleteShelf';
 
+export const M_SET_CHECKOUTS = 'live_setCheckouts';
+export const M_CREATE_CHECKOUT = 'live_createCheckout';
+export const M_UPDATE_CHECKOUT = 'live_updateCheckout';
+export const M_DELETE_CHECKOUT = 'live_deleteCheckout';
+
 export const M_SET_ITEMS = 'live_setItems';
 export const M_CREATE_ITEM = 'live_createItem';
 export const M_UPDATE_ITEM = 'live_updateItem';

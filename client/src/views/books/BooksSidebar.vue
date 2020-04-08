@@ -25,6 +25,14 @@
             <v-list-item-title>Shelves</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/books/checkouts" link color="secondary">
+          <v-list-item-icon>
+            <v-icon>mdi-cart</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Checkouts</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item to="/books/add" link color="secondary">
           <v-list-item-icon>
             <v-icon>mdi-plus</v-icon>

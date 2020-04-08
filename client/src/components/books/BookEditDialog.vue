@@ -2,16 +2,20 @@
   <v-dialog
       v-model="dialog"
       :fullscreen="$vuetify.breakpoint.smAndDown"
-      max-width="600px"
+      max-width="800px"
       persistent
   >
     <v-card>
       <v-toolbar dark color="secondary">
         <v-toolbar-title>{{ add ? 'New' : 'Edit' }} Book</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="dialog = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-toolbar>
 
       <v-divider></v-divider>
-      
+
       <v-tabs
           v-model="tab"
           grow
@@ -60,7 +64,6 @@
                 <v-textarea
                     v-model="editBook.description"
                     label="Description"
-                    auto-grow
                 ></v-textarea>
               </v-col>
               <v-col cols="auto" class="mx-auto">
@@ -86,7 +89,9 @@
         </v-tab-item>
 
         <v-tab-item value="checkouts">
-          Hi
+          <v-card-text>
+            <CheckoutsDashboard :book="editBook"></CheckoutsDashboard>
+          </v-card-text>
         </v-tab-item>
       </v-tabs>
     </v-card>
@@ -97,10 +102,11 @@
   import { mapState } from 'vuex';
   import Book from '../../models/book';
   import TagSelector from '../tags/TagSelector';
+  import CheckoutsDashboard from '../../views/checkouts/CheckoutsDashboard';
 
   export default {
     name: 'BookEditDialog',
-    components: { TagSelector },
+    components: { CheckoutsDashboard, TagSelector },
     computed: {
       ...mapState({
         shelves: state => state.shelves.book

@@ -39,4 +39,11 @@ export default class Book {
     }
     return null;
   }
+
+  static getById(id) {
+    for (const book of store.state.books.book) {
+      if (book._id === id) return book;
+    }
+    return null;
+  }
 }

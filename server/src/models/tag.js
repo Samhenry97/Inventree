@@ -6,7 +6,8 @@ export const TagSchema = new Schema(
     {
       user: {
         type: Schema.Types.ObjectID,
-        ref: 'User'
+        ref: 'User',
+        required: true
       },
       type: {
         type: String,

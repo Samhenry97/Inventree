@@ -10,6 +10,7 @@ export default {
   name: 'Books',
   beforeCreate() {
     this.$socket.emit('getBooks');
+    this.$socket.emit('getCheckouts');
     this.$socket.emit('getShelves', { type: 'book' });
     this.$socket.emit('getTags', { type: 'book' });
   },
