@@ -11,10 +11,12 @@
     </div>
     <v-card-text>
       <b>Date Out:</b> {{ formatDate(checkout.dateOut) }}
-      <br>
-      <b>Date In:</b> {{ formatDate(checkout.dateIn) }}
-      <br>
-      <b>Total Time:</b> {{ dateDifference(checkout.dateOut, checkout.dateIn) }}
+      <span v-if="checkout.dateIn">
+        <br>
+        <b>Date In:</b> {{ formatDate(checkout.dateIn) }}
+        <br>
+        <b>Total Time:</b> {{ dateDifference(checkout.dateOut, checkout.dateIn) }}
+      </span>
     </v-card-text>
     <v-card-actions class="pt-0">
       <v-btn text @click.stop="edit(checkout)">Edit</v-btn>

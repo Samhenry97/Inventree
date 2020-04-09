@@ -28,7 +28,7 @@
     <div class="d-flex align-center">
       <p class="display-1">My Shelves</p>
       <v-spacer></v-spacer>
-      <v-btn color="secondary" @click="add">
+      <v-btn color="secondary" @click="edit(null)">
         <v-icon class="mr-2">mdi-plus</v-icon>
         Add Shelf
       </v-btn>
@@ -77,10 +77,6 @@
       }
     },
     methods: {
-      add() {
-        this.editShelf = null;
-        this.$refs.editDialog.open();
-      },
       edit(shelf) {
         this.editShelf = shelf;
         this.$refs.editDialog.open();

@@ -1,6 +1,6 @@
 <template>
   <div id="books-dashboard">
-    <BookEditDialog ref="editDialog"></BookEditDialog>
+    <BookEditDialog ref="editDialog" :book="editBook"></BookEditDialog>
 
     <div class="d-flex align-center">
       <p class="display-1">My Library</p>
@@ -100,6 +100,7 @@ export default {
     selected: [],
     cards: 0,
     loading: false,
+    editBook: null,
     Shelf
   }),
   components: {
@@ -111,7 +112,8 @@ export default {
   },
   methods: {
     edit(book) {
-      this.$refs.editDialog.open(book);
+      this.editBook = book;
+      this.$refs.editDialog.open();
     },
     remove(book) {
       if (confirm('Are you sure you want to delete this book?')) {
