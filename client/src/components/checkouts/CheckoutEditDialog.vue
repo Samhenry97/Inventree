@@ -21,10 +21,14 @@
                 v-model="dateOutMenu"
                 :return-value.sync="editCheckout.dateOut"
                 :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
                     v-model="editCheckout.dateOut"
+                    clearable
                     label="Date Out"
                     prepend-inner-icon="mdi-calendar"
                     v-on="on"
@@ -49,10 +53,14 @@
                 v-model="dateInMenu"
                 :return-value.sync="editCheckout.dateIn"
                 :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
                     v-model="editCheckout.dateIn"
+                    clearable
                     label="Date In"
                     prepend-inner-icon="mdi-calendar"
                     v-on="on"
@@ -85,6 +93,7 @@
 
 <script>
   import Checkout from '../../models/checkout';
+  import { formatPickerDate } from '../../common/util';
 
   export default {
     name: 'CheckoutEditDialog',
@@ -114,7 +123,11 @@
       },
       reset() {
         if (this.checkout) {
-          this.editCheckout = { ...this.checkout, book: this.book };
+          this.editCheckout = {
+            ...this.checkout,
+            dateIn: formatPickerDate(this.checkout.dateIn),
+            dateOut: formatPickerDate(this.checkout.dateOut)
+          };
         } else {
           this.editCheckout = { ...Checkout.defaultModel, book: this.book };
         }

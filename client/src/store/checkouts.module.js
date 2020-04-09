@@ -15,6 +15,14 @@ function dateOutSort(a, b) {
   }
 }
 
+function normalize(checkout) {
+  return {
+    ...checkout,
+    dateIn: checkout.dateIn ? new Date(checkout.dateIn) : null,
+    dateOut: checkout.dateOut ? new Date(checkout.dateOut) : null
+  };
+}
+
 const state = {
   checkouts: []
 };
@@ -28,6 +36,11 @@ const getters = {
     return state.checkouts
         .filter(checkout => checkout.book === book._id)
         .sort(dateOutSort);
+  },
+  checkoutOutForBook: state => book => {
+    if (!book) return null;
+    const results = state.checkouts.filter(checkout => checkout.book === book._id && !checkout.dateIn);
+    return results.length > 0 ? results[0] : null;
   }
 };
 
@@ -40,11 +53,11 @@ const mutations = {
     state.checkouts = checkouts;
   },
   [M_CREATE_CHECKOUT](state, checkout) {
-    state.checkouts = [...state.checkouts, checkout];
+    state.checkouts = [...state.checkouts, normalize(checkout)];
   },
   [M_UPDATE_CHECKOUT](state, updated) {
     state.checkouts = state.checkouts.map(checkout => {
-      if (checkout._id === updated._id) return updated;
+      if (checkout._id === updated._id) return normalize(updated);
       return checkout;
     });
   },

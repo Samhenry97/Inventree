@@ -2,7 +2,7 @@
   <div id="book-checkouts">
     <CheckoutEditDialog :checkout="editCheckout" :book="book" ref="editDialog"></CheckoutEditDialog>
 
-    <v-row>
+    <v-row v-if="forBook">
       <v-col cols="12">
         <div class="d-flex">
           <v-spacer></v-spacer>

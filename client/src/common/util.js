@@ -5,6 +5,11 @@ export function formatDate(date) {
   return moment(date).format('MMMM Do YYYY');
 }
 
+export function formatPickerDate(date) {
+  if (!date) return '';
+  return moment(date).format('YYYY-MM-DD');
+}
+
 export function dateDifference(begin, end) {
   const momentBegin = moment(begin);
   const momentEnd = moment(end);

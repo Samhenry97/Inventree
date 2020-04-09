@@ -1,7 +1,11 @@
 <template>
-  <v-card hover ripple shaped @click="$emit('click')">
+  <v-card class="action-card" hover ripple shaped @click="$emit('click')">
     <div v-if="showBook">
-      <v-img height="192px" :src="book.smallThumbnail"></v-img>
+      <v-img height="192px" :src="book.smallThumbnail">
+        <div v-if="!checkout.dateIn" class="img-overlay">
+          <v-btn color="primary" @click.stop="finishReading">Finish Reading</v-btn>
+        </div>
+      </v-img>
       <v-card-title>{{ book.title }}</v-card-title>
       <v-card-subtitle>{{ book.author }}</v-card-subtitle>
     </div>
@@ -41,7 +45,13 @@
     data: () => ({
       formatDate,
       dateDifference
-    })
+    }),
+    methods: {
+      finishReading() {
+        const checkout = { ...this.checkout, dateIn: new Date() };
+        this.$socket.emit('updateCheckout', checkout);
+      }
+    }
   };
 </script>
 

@@ -162,4 +162,17 @@
     align-items: center;
     flex-grow: 1;
   }
+
+  .action-card:hover .img-overlay {
+    visibility: visible;
+  }
+
+  .img-overlay {
+    visibility: hidden;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.75);
+  }
 </style>
