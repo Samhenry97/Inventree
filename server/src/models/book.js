@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import timestamps from 'mongoose-timestamp';
+import { Checkout } from './checkout';
 
 export const BookSchema = new Schema(
   {
@@ -84,5 +85,11 @@ export const BookSchema = new Schema(
 );
 BookSchema.plugin(timestamps);
 BookSchema.index({ user: 1 });
+
+// We want to remove the checkouts associated with the book
+BookSchema.pre('remove', function(next) {
+  Checkout.deleteMany({ book: this._id });
+  next();
+});
 
 export const Book = mongoose.model('Book', BookSchema);

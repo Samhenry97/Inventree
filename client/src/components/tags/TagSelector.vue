@@ -24,7 +24,7 @@
           :disabled="disabled"
           v-bind="attrs"
       >
-        {{ tag(item).name }}
+        {{ tagById('book', item).name }}
       </v-chip>
     </template>
     <template v-slot:item="{ item }">
@@ -43,14 +43,14 @@
           v-else
           :key="item"
       >
-        {{ tag(item).name }}
+        {{ tagById('book', item).name }}
       </v-chip>
       <v-spacer></v-spacer>
       <div v-if="item === editTag">
         <v-list-item-action @click.stop>
           <v-btn
               icon
-              :disabled="!editTagName.trim() || Tag.exists({ name: editTagName, type: 'book' })"
+              :disabled="!editTagName.trim() || tagFindOne('book', { name: editTagName })"
               @click.stop.prevent="updateTag()"
           >
             <v-icon color="success">mdi-check</v-icon>
@@ -79,8 +79,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import Tag from '../../models/tag';
+  import { mapState, mapGetters } from 'vuex';
 
   export default {
     name: 'TagSelector',
@@ -93,13 +92,13 @@
       tagsDisabled: false,
       editTag: null,
       editTagName: null,
-      editValue: [],
-      Tag
+      editValue: []
     }),
     computed: {
       ...mapState({
         allTags: state => state.tags
       }),
+      ...mapGetters(['tagFindOne', 'tagById']),
       tags() {
         return this.allTags[this.type].map(tag => tag._id);
       }
@@ -111,13 +110,13 @@
       editValue(val, prev) {
         if (val.length > 0 && val.length > prev.length) {
           const newTag = val.filter(tag => !prev.includes(tag))[0];
-          const nameTag = Tag.getByName('book', newTag);
+          const nameTag = this.tagFindOne('book', { name: newTag });
           if (nameTag) {
             this.editValue = this.editValue.filter(tag => tag !== newTag);
             if (this.editValue.includes(nameTag._id)) return;
             this.editValue.push(nameTag._id);
             this.$emit('change', this.editValue);
-          } else if (!Tag.getById('book', newTag)) {
+          } else if (!this.tagById('book', newTag)) {
             this.tagsDisabled = true;
             this.editValue = this.editValue.filter(tag => tag !== newTag);
             this.$socket.emit('createTag', { name: newTag, type: 'book' }, result => {
@@ -135,30 +134,28 @@
       tags(val, prev) {
         if (val.length < prev.length) {
           this.editValue = this.editValue.filter(tag => val.includes(tag));
+          this.$emit('change', this.editValue);
         }
       }
     },
     methods: {
       deleteTag(tag) {
         if (confirm('Are you sure you want to delete this tag?')) {
-          this.$socket.emit('deleteTag', this.tag(tag));
+          this.$socket.emit('deleteTag', this.tagById('book', tag));
         }
       },
       updateTag() {
-        const update = { ...this.tag(this.editTag), name: this.editTagName };
+        const update = { ...this.tagById('book', this.editTag), name: this.editTagName };
         this.$socket.emit('updateTag', update);
         this.editTag = {};
       },
       startEditing(tag) {
         this.editTag = tag;
-        this.editTagName = this.tag(tag).name;
+        this.editTagName = this.tagById('book', tag).name;
       },
       filterTags(item, query) {
-        const name = this.tag(item).name;
+        const name = this.tagById('book', item).name;
         return name.toLowerCase().includes(query);
-      },
-      tag(id) {
-        return Tag.getById('book', id) || {};
       }
     }
   };

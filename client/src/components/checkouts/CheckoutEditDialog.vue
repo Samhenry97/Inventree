@@ -72,9 +72,9 @@
 </template>
 
 <script>
-  import Checkout from '../../models/checkout';
   import { formatPickerDate } from '../../common/util';
   import EditDialog from '../EditDialog';
+  import { defaultModel } from '../../store/checkouts.module';
 
   export default {
     name: 'CheckoutEditDialog',
@@ -117,7 +117,7 @@
             dateOut: formatPickerDate(this.checkout.dateOut)
           };
         } else {
-          this.editCheckout = { ...Checkout.defaultModel, book: this.book };
+          this.editCheckout = { ...defaultModel, book: this.book };
         }
       },
     }

@@ -3,7 +3,7 @@
     <BookEditDialog ref="editDialog" :book="editBook"></BookEditDialog>
 
     <div class="d-flex align-center">
-      <p class="display-1">My Library</p>
+      <p class="display-1 mb-0">My Library</p>
       <v-spacer></v-spacer>
       <v-btn-toggle class="mr-2" v-model="cards" mandatory dense>
         <v-btn text color="secondary">
@@ -23,7 +23,7 @@
       </router-link>
     </div>
 
-    <v-divider class="mb-2"></v-divider>
+    <v-divider class="my-2"></v-divider>
 
     <v-row v-if="cards === 0">
       <v-col v-for="book of books" :key="book._id" cols="12" sm="6" md="4" lg="3">
@@ -54,8 +54,8 @@
           item-key="_id"
           class="elevation-2 mt-2"
       >
-        <template v-slot:item.shelf="{ item }">
-          {{ Shelf.getById('book', item.shelf).name }}
+        <template v-slot:item.shelves="{ item }">
+          {{ shelfNames(item) }}
         </template>
       </v-data-table>
     </div>
@@ -66,15 +66,14 @@
 import { mapGetters } from 'vuex';
 import BookEditDialog from '../../components/books/BookEditDialog';
 import BookCard from '../../components/books/BookCard';
-import Shelf from '../../models/shelf';
 
 export default {
   name: 'BooksDashboard',
   data: () => ({
     headers: [
       {
-        text: 'Shelf',
-        value: 'shelf'
+        text: 'Shelves',
+        value: 'shelves'
       },
       {
         text: 'Title',
@@ -100,15 +99,14 @@ export default {
     selected: [],
     cards: 0,
     loading: false,
-    editBook: null,
-    Shelf
+    editBook: null
   }),
   components: {
     BookCard,
     BookEditDialog
   },
   computed: {
-    ...mapGetters(['books'])
+    ...mapGetters(['books', 'shelfById'])
   },
   methods: {
     edit(book) {
@@ -127,6 +125,10 @@ export default {
       this.loading = true;
       const ids = this.selected.map(book => book._id);
       this.$socket.emit('deleteManyBooks', ids, () => this.loading = false);
+    },
+    shelfNames(item) {
+      const names = item.shelves.map(shelf => this.shelfById('book', shelf).name);
+      return names.join(', ');
     }
   }
 };

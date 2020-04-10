@@ -10,7 +10,22 @@ const state = {
 };
 
 const getters = {
-
+  tagById: state => (type, id) => {
+    const results = state[type].filter(tag => tag._id === id);
+    return results.length > 0 ? results[0] : null;
+  },
+  tagFindOne: state => (type, query) => {
+    const results = getters.tagFindMany(type, query);
+    return results.length > 0 ? results[0] : null;
+  },
+  tagFindMany: state => (type, query) => {
+    return state[type].filter(tag => {
+      for (const field in query) {
+        if (tag[field] === query[field]) return true;
+      }
+      return false;
+    });
+  }
 };
 
 const actions = {

@@ -3,7 +3,7 @@
     <BookEditDialog ref="editDialog" :book="editBook"></BookEditDialog>
 
     <div class="d-flex align-center">
-      <p class="display-1">Add Books</p>
+      <p class="display-1 mb-0">Add Books</p>
       <v-spacer></v-spacer>
       <v-btn color="secondary" @click="addManually">
         <v-icon class="mr-2">mdi-clipboard-text</v-icon>
@@ -11,7 +11,7 @@
       </v-btn>
     </div>
 
-    <v-divider class="mb-2"></v-divider>
+    <v-divider class="my-2"></v-divider>
 
     <v-form
         ref="search"
@@ -23,7 +23,7 @@
           <v-select
               :items="allShelves"
               v-model="shelves"
-              label="Choose shelves..."
+              label="Shelves"
               item-text="name"
               item-value="_id"
               multiple
@@ -67,7 +67,7 @@
             <v-card-title>{{ book.title }}</v-card-title>
             <v-card-subtitle>{{ book.author }}</v-card-subtitle>
             <v-card-actions>
-              <v-btn v-if="!Book.exists(book)" color="success" text @click="add(book)">Add</v-btn>
+              <v-btn v-if="!bookByIsbn(book)" color="success" text @click="add(book)">Add</v-btn>
               <v-btn v-else color="error" text @click="remove(book)">Delete</v-btn>
             </v-card-actions>
           </v-card>
@@ -84,7 +84,6 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import Book from '../../models/book';
   import BookEditDialog from '../../components/books/BookEditDialog';
   import TagSelector from '../../components/tags/TagSelector';
 
@@ -111,14 +110,13 @@
       page: 1,
       resultsPerPage: 12,
       resultsPerPageOptions: [4, 8, 12, 16],
-      editBook: {},
-      Book
+      editBook: {}
     }),
     computed: {
       numPages() {
         return Math.ceil(this.totalResults / this.resultsPerPage);
       },
-      ...mapGetters(['books']),
+      ...mapGetters(['books', 'itemFindOne']),
       ...mapState({
         allShelves: state => state.shelves.book
       })
@@ -134,9 +132,15 @@
       },
       remove(book) {
         if (confirm('Are you sure you want to delete this book?')) {
-          const storeBook = Book.getByISBN(book);
+          const storeBook = this.bookByIsbn(book);
           this.$socket.emit('deleteBook', storeBook);
         }
+      },
+      bookByIsbn(book) {
+        const query = {};
+        if (book.isbn10) query.isbn10 = book.isbn10;
+        if (book.isbn13) query.isbn13 = book.isbn13;
+        return this.itemFindOne('book', query);
       },
       performSearch() {
         this.$refs.search.validate();

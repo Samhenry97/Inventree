@@ -1,6 +1,6 @@
 import {
   M_CREATE_CHECKOUT,
-  M_DELETE_CHECKOUT,
+  M_DELETE_CHECKOUT, M_DELETE_ITEM,
   M_SET_CHECKOUTS,
   M_UPDATE_CHECKOUT
 } from './mutations.type';
@@ -23,6 +23,12 @@ function normalize(checkout) {
   };
 }
 
+export const defaultModel = {
+  book: null,
+  dateIn: null,
+  dateOut: null
+};
+
 const state = {
   checkouts: []
 };
@@ -30,6 +36,22 @@ const state = {
 const getters = {
   checkouts: state => {
     return state.checkouts.sort(dateOutSort)
+  },
+  checkoutById: state => id => {
+    const results = state.checkouts.filter(checkout => checkout._id === id);
+    return results.length > 0 ? results[0] : null;
+  },
+  checkoutFindOne: state => query => {
+    const results = getters.checkoutFindMany(query);
+    return results.length > 0 ? results[0] : null;
+  },
+  checkoutFindMany: state => query => {
+    return state.checkouts.filter(checkout => {
+      for (const field in query) {
+        if (checkout[field] === query[field]) return true;
+      }
+      return false;
+    });
   },
   checkoutsForBook: state => book => {
     if (!book) return [];
@@ -65,6 +87,12 @@ const mutations = {
     state.checkouts = state.checkouts.filter(checkout => {
       return checkout._id !== deleted._id;
     });
+  },
+  [M_DELETE_ITEM](state, { type, deleted }) {
+    if (type !== 'book') return;
+    state.checkouts = state.checkouts.filter(checkout => {
+      return checkout.book !== deleted._id;
+    })
   }
 };
 

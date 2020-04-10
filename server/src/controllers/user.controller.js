@@ -1,5 +1,4 @@
 import { User } from '../models/user';
-import { Shelf } from '../models/shelf';
 
 export default {
   async login(conn, data) {

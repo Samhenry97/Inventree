@@ -2,6 +2,11 @@
   <div id="book-checkouts">
     <CheckoutEditDialog :checkout="editCheckout" :book="book" ref="editDialog"></CheckoutEditDialog>
 
+    <div v-if="!forBook">
+      <p class="display-1 mb-0">My Checkouts</p>
+      <v-divider class="my-2"></v-divider>
+    </div>
+
     <v-row v-if="forBook">
       <v-col cols="12">
         <div class="d-flex">

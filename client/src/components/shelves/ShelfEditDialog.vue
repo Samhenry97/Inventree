@@ -39,9 +39,9 @@
 </template>
 
 <script>
-  import Shelf from '../../models/shelf';
   import EditDialog from '../EditDialog';
   import ShelfItems from './ShelfItems';
+  import { defaultModel } from '../../store/shelves.module';
 
   export default {
     name: 'ShelfEditDialog',
@@ -78,7 +78,7 @@
         if (this.shelf) {
           this.editShelf = { ...this.shelf };
         } else {
-          this.editShelf = { ...Shelf.defaultModel, type: this.type };
+          this.editShelf = { ...defaultModel, type: this.type };
         }
       }
     }

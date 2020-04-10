@@ -6,8 +6,8 @@
         <v-btn v-else color="primary" @click.stop="finishReading">Finish Reading</v-btn>
       </div>
     </v-img>
-    <v-card-title>{{ book.title }}</v-card-title>
-    <v-card-subtitle>{{ book.author }}</v-card-subtitle>
+    <v-card-title><v-clamp autoresize :max-lines="2">{{ book.title }}</v-clamp></v-card-title>
+    <v-card-subtitle><v-clamp autoresize :max-lines="1">{{ book.author }}</v-clamp></v-card-subtitle>
     <v-card-text>
       <v-rating
           v-model="book.rating"
@@ -29,9 +29,13 @@
 
 <script>
   import { mapGetters } from 'vuex';
+  import VClamp from 'vue-clamp';
 
   export default {
     name: 'BookCard',
+    components: {
+      VClamp
+    },
     props: {
       book: Object,
       edit: Function,

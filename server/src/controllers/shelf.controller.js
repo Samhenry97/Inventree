@@ -15,13 +15,8 @@ export default {
     await Shelf.updateOne({ _id: shelf._id }, shelf);
     conn.sendToRoom('updateShelf', shelf);
   },
-  async deleteShelf(conn, shelf, moveShelf) {
+  async deleteShelf(conn, shelf) {
     await Shelf.deleteOne({ _id: shelf._id });
-    if (moveShelf) {
-      await Book.updateMany({ shelf: shelf._id }, { shelf: moveShelf });
-      const res = { type: shelf.type, oldShelf: shelf._id, newShelf: moveShelf };
-      conn.sendToRoom('moveItems', res);
-    }
     conn.sendToRoom('deleteShelf', shelf);
   }
 };

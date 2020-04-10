@@ -80,10 +80,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import Book from '../../models/book';
   import TagSelector from '../tags/TagSelector';
   import CheckoutsDashboard from '../../views/checkouts/CheckoutsDashboard';
   import EditDialog from '../EditDialog';
+  import { defaultModel } from '../../store/books.module';
 
   export default {
     name: 'BookEditDialog',
@@ -133,7 +133,7 @@
         if (this.book) {
           this.editBook = { ...this.book };
         } else {
-          this.editBook = { ...Book.defaultModel, shelf: this.shelves[0]._id };
+          this.editBook = { ...defaultModel, shelf: this.shelves[0]._id };
         }
       }
     }

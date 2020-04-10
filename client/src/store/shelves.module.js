@@ -1,17 +1,37 @@
 import {
-  M_CREATE_ITEM,
   M_CREATE_SHELF,
   M_DELETE_SHELF,
   M_SET_SHELVES,
   M_UPDATE_SHELF
 } from './mutations.type';
 
+export const defaultModel = {
+  name: '',
+  color: '#FFFFFF',
+  type: 'book'
+};
+
 const state = {
   book: []
 };
 
 const getters = {
-
+  shelfById: state => (type, id) => {
+    const results = state[type].filter(shelf => shelf._id === id);
+    return results.length > 0 ? results[0] : null;
+  },
+  shelfFindOne: state => (type, query) => {
+    const results = getters.shelfFindMany(type, query);
+    return results.length > 0 ? results[0] : null;
+  },
+  shelfFindMany: state => (type, query) => {
+    return state[type].filter(shelf => {
+      for (const field in query) {
+        if (shelf[field] === query[field]) return true;
+      }
+      return false;
+    });
+  }
 };
 
 const actions = {

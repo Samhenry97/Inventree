@@ -1,13 +1,13 @@
 <template>
   <v-card class="action-card" hover ripple shaped @click="$emit('click')">
+    <v-img v-if="showBook" height="192px" :src="book.smallThumbnail">
+      <div v-if="!checkout.dateIn" class="img-overlay">
+        <v-btn color="primary" @click.stop="finishReading">Finish Reading</v-btn>
+      </div>
+    </v-img>
     <div v-if="showBook">
-      <v-img height="192px" :src="book.smallThumbnail">
-        <div v-if="!checkout.dateIn" class="img-overlay">
-          <v-btn color="primary" @click.stop="finishReading">Finish Reading</v-btn>
-        </div>
-      </v-img>
-      <v-card-title>{{ book.title }}</v-card-title>
-      <v-card-subtitle>{{ book.author }}</v-card-subtitle>
+      <v-card-title><v-clamp autoresize :max-lines="2">{{ book.title }}</v-clamp></v-card-title>
+      <v-card-subtitle><v-clamp autoresize :max-lines="1">{{ book.author }}</v-clamp></v-card-subtitle>
     </div>
     <v-card-text>
       <b>Date Out:</b> {{ formatDate(checkout.dateOut) }}
@@ -27,22 +27,25 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import Book from '../../models/book';
   import { formatDate, dateDifference } from '../../common/util';
+  import VClamp from 'vue-clamp';
 
   export default {
-    name: 'BookCard',
+    name: 'CheckoutCard',
     props: {
       checkout: Object,
       edit: Function,
       remove: Function,
       showBook: Boolean
     },
+    components: {
+      VClamp
+    },
     computed: {
+      ...mapGetters(['itemById']),
       book() {
-        return Book.getById(this.checkout.book);
+        return this.itemById('book', this.checkout.book);
       },
-      ...mapGetters(['books'])
     },
     data: () => ({
       formatDate,
