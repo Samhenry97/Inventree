@@ -2,7 +2,6 @@
   <v-dialog
       :fullscreen="$vuetify.breakpoint.smAndDown"
       v-model="dialog"
-      max-width="600px"
       persistent
   >
     <v-card>

@@ -13,8 +13,12 @@ const state = {
 };
 
 const getters = {
-  books(state) {
-    return state.book;
+  books: state => state.book,
+  itemsInShelf: state => shelf => {
+    if (!shelf) return [];
+    return state[shelf.type].filter(item => {
+      return item.shelves.includes(shelf._id);
+    })
   }
 };
 
