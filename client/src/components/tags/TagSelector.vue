@@ -1,6 +1,6 @@
 <template>
   <v-combobox
-      v-model="item.tags"
+      v-model="editValue"
       :items="tags"
       :search-input.sync="tagSearch"
       :disabled="tagsDisabled"
@@ -18,13 +18,13 @@
         </v-list-item-content>
       </v-list-item>
     </template>
-    <template v-slot:selection="data">
+    <template v-slot:selection="{ item, disabled, attrs }">
       <v-chip
-          :key="data.item"
-          :disabled="data.disabled"
-          v-bind="data.attrs"
+          :key="item"
+          :disabled="disabled"
+          v-bind="attrs"
       >
-        {{ tag(data.item).name }}
+        {{ tag(item).name }}
       </v-chip>
     </template>
     <template v-slot:item="{ item }">
@@ -85,7 +85,7 @@
   export default {
     name: 'TagSelector',
     props: {
-      item: Object,
+      value: Array,
       type: String
     },
     data: () => ({
@@ -93,6 +93,7 @@
       tagsDisabled: false,
       editTag: null,
       editTagName: null,
+      editValue: [],
       Tag
     }),
     computed: {
@@ -104,27 +105,36 @@
       }
     },
     watch: {
-      'item.tags' (val, prev) {
+      value(val) {
+        this.editValue = val;
+      },
+      editValue(val, prev) {
         if (val.length > 0 && val.length > prev.length) {
           const newTag = val.filter(tag => !prev.includes(tag))[0];
           const nameTag = Tag.getByName('book', newTag);
           if (nameTag) {
-            this.item.tags = this.item.tags.filter(tag => tag !== newTag);
-            if (this.item.tags.includes(nameTag._id)) return;
-            this.item.tags.push(nameTag._id);
+            this.editValue = this.editValue.filter(tag => tag !== newTag);
+            if (this.editValue.includes(nameTag._id)) return;
+            this.editValue.push(nameTag._id);
+            this.$emit('change', this.editValue);
           } else if (!Tag.getById('book', newTag)) {
             this.tagsDisabled = true;
-            this.item.tags = this.item.tags.filter(tag => tag !== newTag);
+            this.editValue = this.editValue.filter(tag => tag !== newTag);
             this.$socket.emit('createTag', { name: newTag, type: 'book' }, result => {
-              this.item.tags.push(result._id);
+              this.editValue.push(result._id);
               this.tagsDisabled = false;
+              this.$emit('change', this.editValue);
             })
+          } else {
+            this.$emit('change', this.editValue);
           }
+        } else {
+          this.$emit('change', this.editValue);
         }
       },
       tags(val, prev) {
         if (val.length < prev.length) {
-          this.item.tags = this.item.tags.filter(tag => val.includes(tag));
+          this.editValue = this.editValue.filter(tag => val.includes(tag));
         }
       }
     },

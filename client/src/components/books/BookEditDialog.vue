@@ -45,7 +45,7 @@
               <v-text-field v-model="editBook.isbn13" label="ISBN 13"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <TagSelector :item="editBook" type="book"></TagSelector>
+              <TagSelector :value="editBook.tags" @change="editBook.tags = $event" type="book"></TagSelector>
             </v-col>
             <v-col cols="12">
               <v-textarea

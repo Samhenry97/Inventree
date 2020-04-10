@@ -18,8 +18,8 @@
         v-model="validSearch"
         @submit.prevent="performSearch"
     >
-      <div class="row">
-        <div class="col">
+      <v-row>
+        <v-col cols="12" sm="6">
           <v-select
               :items="allShelves"
               v-model="shelves"
@@ -28,8 +28,11 @@
               item-value="_id"
               multiple
           ></v-select>
-        </div>
-      </div>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <TagSelector :value="tags" @change="tags = $event" type="book"></TagSelector>
+        </v-col>
+      </v-row>
       <div class="d-flex align-center">
         <v-select
             class="mr-4 flex-grow-0"
@@ -83,10 +86,11 @@
   import { mapGetters, mapState } from 'vuex';
   import Book from '../../models/book';
   import BookEditDialog from '../../components/books/BookEditDialog';
+  import TagSelector from '../../components/tags/TagSelector';
 
   export default {
     name: 'BookAdd',
-    components: { BookEditDialog },
+    components: { TagSelector, BookEditDialog },
     data: () => ({
       validSearch: true,
       searchTypes: [
@@ -96,6 +100,7 @@
         { text: 'ISBN', value: 'isbn:' }
       ],
       shelves: [],
+      tags: [],
       searchType: '',
       queryTimeout: null,
       query: '',
@@ -125,7 +130,7 @@
     },
     methods: {
       add(book) {
-        this.$socket.emit('createBook', { ...book, shelves: this.shelves });
+        this.$socket.emit('createBook', { ...book, shelves: this.shelves, tags: this.tags });
       },
       remove(book) {
         if (confirm('Are you sure you want to delete this book?')) {
