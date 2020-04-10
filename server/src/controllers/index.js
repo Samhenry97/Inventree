@@ -4,6 +4,7 @@ import generalController from './general.controller';
 import shelfController from './shelf.controller';
 import tagController from './tag.controller';
 import checkoutController from './checkout.controller';
+import reportController from './report.controller';
 
 export default {
   ...bookController,
@@ -11,5 +12,6 @@ export default {
   ...generalController,
   ...shelfController,
   ...tagController,
-  ...checkoutController
+  ...checkoutController,
+  ...reportController
 };
