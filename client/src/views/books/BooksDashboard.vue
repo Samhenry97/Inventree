@@ -3,7 +3,7 @@
     <BookEditDialog ref="editDialog" :book="editBook"></BookEditDialog>
 
     <div class="d-flex align-center">
-      <p class="display-1 mb-0">My Library</p>
+      <p class="display-1 mb-0">My Books ({{ books.length }})</p>
       <v-spacer></v-spacer>
       <v-btn-toggle class="mr-2" v-model="cards" mandatory dense>
         <v-btn text color="secondary">

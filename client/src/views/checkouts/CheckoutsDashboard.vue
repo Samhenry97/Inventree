@@ -3,7 +3,7 @@
     <CheckoutEditDialog :checkout="editCheckout" :book="book" ref="editDialog"></CheckoutEditDialog>
 
     <div v-if="!forBook">
-      <p class="display-1 mb-0">My Checkouts</p>
+      <p class="display-1 mb-0">My Checkouts ({{ checkouts.length }})</p>
       <v-divider class="my-2"></v-divider>
     </div>
 

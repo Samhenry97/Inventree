@@ -15,7 +15,7 @@ const getters = {
     return results.length > 0 ? results[0] : null;
   },
   tagFindOne: state => (type, query) => {
-    const results = getters.tagFindMany(type, query);
+    const results = getters.tagFindMany(state)(type, query);
     return results.length > 0 ? results[0] : null;
   },
   tagFindMany: state => (type, query) => {

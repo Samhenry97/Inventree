@@ -10,6 +10,7 @@ import Settings from '../views/Settings';
 import Profile from '../views/Profile';
 import ShelvesDashboard from '../views/shelves/ShelvesDashboard';
 import CheckoutsDashboard from '../views/checkouts/CheckoutsDashboard';
+import ReportsDashboard from '../views/reports/ReportsDashboard';
 
 Vue.use(Router);
 
@@ -64,6 +65,12 @@ const router = new Router({
           name: 'checkouts',
           component: CheckoutsDashboard,
           meta: { title: 'Checkouts' },
+        },
+        {
+          path: 'reports',
+          name: 'reports',
+          component: ReportsDashboard,
+          meta: { title: 'Reports' }
         }
       ],
       meta: { title: 'Books' }

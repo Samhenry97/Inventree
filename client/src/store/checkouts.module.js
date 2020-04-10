@@ -42,7 +42,7 @@ const getters = {
     return results.length > 0 ? results[0] : null;
   },
   checkoutFindOne: state => query => {
-    const results = getters.checkoutFindMany(query);
+    const results = getters.checkoutFindMany(state)(query);
     return results.length > 0 ? results[0] : null;
   },
   checkoutFindMany: state => query => {

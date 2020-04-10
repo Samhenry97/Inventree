@@ -21,7 +21,7 @@ const getters = {
     return results.length > 0 ? results[0] : null;
   },
   shelfFindOne: state => (type, query) => {
-    const results = getters.shelfFindMany(type, query);
+    const results = getters.shelfFindMany(state)(type, query);
     return results.length > 0 ? results[0] : null;
   },
   shelfFindMany: state => (type, query) => {

@@ -3,7 +3,7 @@
     <ShelfEditDialog ref="editDialog" :shelf="editShelf" :type="type"></ShelfEditDialog>
 
     <div class="d-flex align-center">
-      <p class="display-1 mb-0">My Shelves</p>
+      <p class="display-1 mb-0">My Shelves ({{ shelves.length }})</p>
       <v-spacer></v-spacer>
       <v-btn color="secondary" @click="edit(null)">
         <v-icon class="mr-2">mdi-plus</v-icon>

@@ -1,8 +1,9 @@
 import {
   M_CREATE_ITEM,
   M_DELETE_ITEM,
-  M_DELETE_MANY_ITEMS, M_DELETE_SHELF, M_DELETE_TAG,
-  M_MOVE_ITEMS,
+  M_DELETE_MANY_ITEMS,
+  M_DELETE_SHELF,
+  M_DELETE_TAG,
   M_SET_ITEMS,
   M_UPDATE_ITEM,
   M_UPDATE_MANY_ITEMS
@@ -41,7 +42,7 @@ const getters = {
     return results.length > 0 ? results[0] : null;
   },
   itemFindOne: state => (type, query) => {
-    const results = getters.itemFindMany(type, query);
+    const results = getters.itemFindMany(state)(type, query);
     return results.length > 0 ? results[0] : null;
   },
   itemFindMany: state => (type, query) => {
