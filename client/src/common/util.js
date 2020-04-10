@@ -14,7 +14,7 @@ export function dateDifference(begin, end) {
   const momentBegin = moment(begin);
   const momentEnd = moment(end);
 
-  const days = momentEnd.diff(momentBegin, 'days');
+  const days = momentEnd.diff(momentBegin, 'days') + 1;
   const months = momentEnd.diff(momentBegin, 'months');
   const years = momentEnd.diff(momentBegin, 'years');
 

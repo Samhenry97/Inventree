@@ -21,11 +21,12 @@
       <div class="row">
         <div class="col">
           <v-select
-              :items="shelves"
-              label="Choose shelf..."
-              v-model="shelf"
+              :items="allShelves"
+              v-model="shelves"
+              label="Choose shelves..."
               item-text="name"
               item-value="_id"
+              multiple
           ></v-select>
         </div>
       </div>
@@ -94,7 +95,7 @@
         { text: 'Author', value: 'inauthor:' },
         { text: 'ISBN', value: 'isbn:' }
       ],
-      shelf: '',
+      shelves: [],
       searchType: '',
       queryTimeout: null,
       query: '',
@@ -114,7 +115,7 @@
       },
       ...mapGetters(['books']),
       ...mapState({
-        shelves: state => state.shelves.book
+        allShelves: state => state.shelves.book
       })
     },
     watch: {
@@ -122,12 +123,9 @@
         this.performSearch();
       }
     },
-    created() {
-      this.shelf = this.shelves[0]._id;
-    },
     methods: {
       add(book) {
-        this.$socket.emit('createBook', { ...book, shelf: this.shelf });
+        this.$socket.emit('createBook', { ...book, shelves: this.shelves });
       },
       remove(book) {
         if (confirm('Are you sure you want to delete this book?')) {

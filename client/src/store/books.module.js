@@ -1,7 +1,7 @@
 import {
   M_CREATE_ITEM,
   M_DELETE_ITEM,
-  M_DELETE_MANY_ITEMS, M_DELETE_TAG,
+  M_DELETE_MANY_ITEMS, M_DELETE_SHELF, M_DELETE_TAG,
   M_MOVE_ITEMS,
   M_SET_ITEMS,
   M_UPDATE_ITEM,
@@ -66,6 +66,14 @@ const mutations = {
       }
       return item;
     });
+  },
+  [M_DELETE_SHELF](state, deleted) {
+    state[deleted.type] = state[deleted.type].map(item => {
+      if (item.shelves.includes(deleted._id)) {
+        return { ...item, shelves: item.shelves.filter(shelf => shelf !== deleted._id) };
+      }
+      return item;
+    })
   }
 };
 

@@ -8,11 +8,14 @@ export const BookSchema = new Schema(
       ref: 'User',
       required: true
     },
-    shelf: {
+    shelves: [{
       type: Schema.Types.ObjectID,
-      ref: 'Shelf',
-      required: true
-    },
+      ref: 'Shelf'
+    }],
+    tags: [{
+      type: Schema.Types.ObjectID,
+      ref: 'Tag'
+    }],
     title: {
       type: String,
       trim: true,
@@ -71,12 +74,11 @@ export const BookSchema = new Schema(
       type: String,
       trim: true
     },
-    description: String,
-    rating: Number,
-    tags: [{
-      type: Schema.Types.ObjectID,
-      ref: 'Tag'
-    }]
+    description: {
+      type: String,
+      trim: true
+    },
+    rating: Number
   },
   { collection: 'books' }
 );

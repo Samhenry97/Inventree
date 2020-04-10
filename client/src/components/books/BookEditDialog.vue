@@ -10,7 +10,7 @@
     >
       <v-tabs-slider></v-tabs-slider>
       <v-tab href="#main">
-        Main
+        Book
       </v-tab>
       <v-tab href="#checkouts">
         Checkouts
@@ -21,11 +21,12 @@
           <v-row>
             <v-col cols="12" md="6">
               <v-select
-                  v-model="editBook.shelf"
-                  label="Shelf"
                   :items="shelves"
+                  v-model="editBook.shelves"
+                  label="Shelf"
                   item-text="name"
                   item-value="_id"
+                  multiple
               ></v-select>
             </v-col>
             <v-col cols="12" md="6">
@@ -112,6 +113,11 @@
       tagsDisabled: false,
       tab: null
     }),
+    watch: {
+      book() {
+        this.reset();
+      }
+    },
     methods: {
       open() {
         this.reset();
@@ -119,7 +125,7 @@
       },
       save() {
         const command = this.add ? 'createBook' : 'updateBook';
-        this.$socket.emit(command, this.editBook);
+        this.$socket.emit(command, this.editBook, this.shelves);
         this.$refs.dialog.close();
       },
       reset() {

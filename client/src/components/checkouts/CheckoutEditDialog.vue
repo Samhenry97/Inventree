@@ -94,6 +94,11 @@
         return !this.editCheckout._id;
       }
     },
+    watch: {
+      checkout() {
+        this.reset();
+      }
+    },
     methods: {
       open() {
         this.reset();

@@ -32,6 +32,11 @@
         return !this.shelf;
       }
     },
+    watch: {
+      shelf() {
+        this.reset();
+      }
+    },
     methods: {
       open() {
         this.reset();

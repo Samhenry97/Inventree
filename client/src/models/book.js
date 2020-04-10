@@ -2,6 +2,8 @@ import store from '../store';
 
 export default class Book {
   static defaultModel = {
+    shelves: [],
+    tags: [],
     title: 'Book',
     subtitle: '',
     publisher: '',
@@ -18,8 +20,7 @@ export default class Book {
     isbn10: '',
     isbn13: '',
     description: '',
-    rating: null,
-    tags: []
+    rating: null
   };
 
   static exists(book) {
