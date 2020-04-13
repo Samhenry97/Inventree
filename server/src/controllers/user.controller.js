@@ -6,12 +6,14 @@ export default {
     if (!user) user = await User.create(data);
     conn.login(user);
     conn.send('setUser', user);
+    return user;
   },
-  logout(conn) {
+  async logout(conn) {
     conn.logout();
   },
   async updateUser(conn, user) {
     await User.updateOne({ _id: user._id }, user);
     conn.sendToRoom('setUser', user);
+    return user;
   }
 };

@@ -66,6 +66,7 @@
 import { mapGetters } from 'vuex';
 import BookEditDialog from '../../components/books/BookEditDialog';
 import BookCard from '../../components/books/BookCard';
+import { A_DELETE_ITEM, A_DELETE_MANY_ITEMS } from '../../store/actions.type';
 
 export default {
   name: 'BooksDashboard',
@@ -115,16 +116,19 @@ export default {
     },
     remove(book) {
       if (confirm('Are you sure you want to delete this book?')) {
-        this.$socket.emit('deleteBook', book);
+        this.$store.dispatch(A_DELETE_ITEM, { type: 'book', item: book });
       }
     },
     editSelected() {
       // TODO batch edit
     },
     removeSelected() {
-      this.loading = true;
-      const ids = this.selected.map(book => book._id);
-      this.$socket.emit('deleteManyBooks', ids, () => this.loading = false);
+      if (confirm(`Are you sure you want to delete ${this.selected.length} books?`)) {
+        this.loading = true;
+        const ids = this.selected.map(book => book._id);
+        this.$store.dispatch(A_DELETE_MANY_ITEMS, { type: 'book', ids })
+            .then(() => this.loading = false);
+      }
     },
     shelfNames(item) {
       const names = item.shelves.map(shelf => this.shelfById('book', shelf).name);

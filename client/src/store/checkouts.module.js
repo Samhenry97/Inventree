@@ -1,9 +1,13 @@
 import {
   M_CREATE_CHECKOUT,
-  M_DELETE_CHECKOUT, M_DELETE_ITEM,
+  M_DELETE_CHECKOUT,
+  M_DELETE_ITEM,
+  M_DELETE_MANY_ITEMS,
   M_SET_CHECKOUTS,
   M_UPDATE_CHECKOUT
 } from './mutations.type';
+import { A_CREATE_CHECKOUT, A_DELETE_CHECKOUT, A_UPDATE_CHECKOUT } from './actions.type';
+import Socket from '../common/socket';
 
 function dateOutSort(a, b) {
   if (a.dateIn && b.dateIn) {
@@ -67,7 +71,30 @@ const getters = {
 };
 
 const actions = {
-
+  [A_CREATE_CHECKOUT](context, data) {
+    return Socket.one(this._vm, {
+      name: 'createCheckout',
+      data,
+      success: 'Successfully created checkout!',
+      error: 'Error creating checkout.'
+    });
+  },
+  [A_UPDATE_CHECKOUT](context, data) {
+    return Socket.one(this._vm, {
+      name: 'updateCheckout',
+      data,
+      success: 'Successfully updated checkout!',
+      error: 'Error updating checkout.'
+    });
+  },
+  [A_DELETE_CHECKOUT](context, data) {
+    return Socket.one(this._vm, {
+      name: 'deleteCheckout',
+      data,
+      success: 'Successfully deleted checkout!',
+      error: 'Error deleting checkout.'
+    });
+  }
 };
 
 const mutations = {
@@ -93,6 +120,12 @@ const mutations = {
     state.checkouts = state.checkouts.filter(checkout => {
       return checkout.book !== deleted._id;
     })
+  },
+  [M_DELETE_MANY_ITEMS](state, { type, ids }) {
+    if (type !== 'book') return;
+    state.checkouts = state.checkouts.filter(checkout => {
+      return !ids.includes(checkout.book);
+    });
   }
 };
 

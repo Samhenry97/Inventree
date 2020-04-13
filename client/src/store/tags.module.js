@@ -4,6 +4,8 @@ import {
   M_SET_TAGS,
   M_UPDATE_TAG
 } from './mutations.type';
+import { A_CREATE_TAG, A_DELETE_TAG, A_UPDATE_TAG } from './actions.type';
+import Socket from '../common/socket';
 
 const state = {
   book: []
@@ -29,7 +31,30 @@ const getters = {
 };
 
 const actions = {
-
+  [A_CREATE_TAG](context, data) {
+    return Socket.one(this._vm, {
+      name: 'createTag',
+      data,
+      success: 'Successfully created tag!',
+      error: 'Error creating tag.'
+    });
+  },
+  [A_UPDATE_TAG](context, data) {
+    return Socket.one(this._vm, {
+      name: 'updateTag',
+      data,
+      success: 'Successfully updated tag!',
+      error: 'Error updating tag.'
+    });
+  },
+  [A_DELETE_TAG](context, data) {
+    return Socket.one(this._vm, {
+      name: 'deleteTag',
+      data,
+      success: 'Successfully deleted tag!',
+      error: 'Error deleting tag.'
+    });
+  }
 };
 
 const mutations = {

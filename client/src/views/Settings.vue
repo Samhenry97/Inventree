@@ -8,6 +8,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { A_UPDATE_USER } from '../store/actions.type';
 
 export default {
   name: 'Settings',
@@ -18,7 +19,7 @@ export default {
     toggleDarkMode() {
       const darkMode = !this.$vuetify.theme.dark;
       this.$vuetify.theme.dark = darkMode;
-      if (this.user) this.$socket.emit('updateUser', { ...this.user, darkMode });
+      if (this.user) this.$store.dispatch(A_UPDATE_USER, { ...this.user, darkMode });
     }
   }
 };

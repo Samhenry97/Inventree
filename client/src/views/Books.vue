@@ -1,18 +1,25 @@
 <template>
   <div id="books">
-    <router-view></router-view>
+    <Skeleton v-if="loading"></Skeleton>
+    <router-view v-else></router-view>
   </div>
 </template>
 
 <script>
+import { A_FETCH_ITEMS } from '../store/actions.type';
+import Skeleton from '../components/Skeleton';
 
 export default {
   name: 'Books',
+  components: { Skeleton },
+  data: () => ({
+    loading: true
+  }),
   beforeCreate() {
-    this.$socket.emit('getBooks');
-    this.$socket.emit('getCheckouts');
-    this.$socket.emit('getShelves', { type: 'book' });
-    this.$socket.emit('getTags', { type: 'book' });
+    this.loading = true;
+    this.$store.dispatch(A_FETCH_ITEMS, 'book')
+        .then(() => this.loading = false)
+        .catch(err => this.$snackbar.error(err));
   },
 };
 </script>

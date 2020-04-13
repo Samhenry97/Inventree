@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inventree">
+  <v-app id="app">
     <ConnectionHandler></ConnectionHandler>
 
     <div v-if="loading" class="loading-container">
@@ -109,6 +109,7 @@
 <script>
   import { mapGetters } from 'vuex';
   import ConnectionHandler from './components/ConnectionHandler';
+  import { A_LOGIN, A_LOGOUT } from './store/actions.type';
 
   export default {
     name: 'App',
@@ -123,7 +124,7 @@
         if (!this.$auth.user) this.loading = false;
       });
       this.$auth.$watch('user', user => {
-        if (user) this.$socket.emit('login', user);
+        if (user) this.$store.dispatch(A_LOGIN, user);
       });
     },
     sockets: {
@@ -141,8 +142,8 @@
     },
     methods: {
       async logout() {
-        this.$socket.emit('logout');
-        await this.$auth.logout();
+        this.$store.dispatch(A_LOGOUT)
+            .then(() => this.$auth.logout());
       }
     }
   };

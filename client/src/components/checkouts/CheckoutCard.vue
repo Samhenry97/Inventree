@@ -29,6 +29,7 @@
   import { mapGetters } from 'vuex';
   import { formatDate, dateDifference } from '../../common/util';
   import VClamp from 'vue-clamp';
+  import { A_UPDATE_CHECKOUT } from '../../store/actions.type';
 
   export default {
     name: 'CheckoutCard',
@@ -54,7 +55,7 @@
     methods: {
       finishReading() {
         const checkout = { ...this.checkout, dateIn: new Date() };
-        this.$socket.emit('updateCheckout', checkout);
+        this.$store.dispatch(A_UPDATE_CHECKOUT, checkout);
       }
     }
   };

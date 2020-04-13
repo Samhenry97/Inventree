@@ -25,6 +25,7 @@
   import { mapState } from 'vuex';
   import ShelfCard from '../../components/shelves/ShelfCard';
   import ShelfEditDialog from '../../components/shelves/ShelfEditDialog';
+  import { A_DELETE_SHELF } from '../../store/actions.type';
 
   export default {
     name: 'ShelvesDashboard',
@@ -54,7 +55,7 @@
       },
       remove(shelf) {
         if(confirm('Are you sure you want to delete this shelf?')) {
-          this.$socket.emit('deleteShelf', shelf);
+          this.$store.dispatch(A_DELETE_SHELF, shelf);
         }
       }
     }

@@ -8,11 +8,19 @@ import {
   M_UPDATE_ITEM,
   M_UPDATE_MANY_ITEMS
 } from './mutations.type';
+import {
+  A_CREATE_ITEM,
+  A_DELETE_ITEM,
+  A_DELETE_MANY_ITEMS,
+  A_FETCH_ITEMS,
+  A_UPDATE_ITEM
+} from './actions.type';
+import Socket from '../common/socket';
 
 export const defaultModel = {
   shelves: [],
   tags: [],
-  title: 'Book',
+  title: '',
   subtitle: '',
   publisher: '',
   published: '',
@@ -62,7 +70,48 @@ const getters = {
 };
 
 const actions = {
+  [A_FETCH_ITEMS](context, type) {
+    const commands = [
+      { name: 'getItems', data: { type }},
+      { name: 'getShelves', data: { type }},
+      { name: 'getTags', data: { type }}
+    ];
+    if (type === 'book') commands.push({ name: 'getCheckouts' });
 
+    return Socket.all(this._vm, commands);
+  },
+  [A_CREATE_ITEM](context, data) {
+    return Socket.one(this._vm, {
+      name: 'createItem',
+      data,
+      success: 'Successfully created item!',
+      error: 'Error saving item.'
+    });
+  },
+  [A_DELETE_ITEM](context, data) {
+    return Socket.one(this._vm, {
+      name: 'deleteItem',
+      data,
+      success: 'Successfully deleted item!',
+      error: 'Error deleting item.'
+    });
+  },
+  [A_UPDATE_ITEM](context, data) {
+    return Socket.one(this._vm, {
+      name: 'updateItem',
+      data,
+      success: 'Successfully updated item!',
+      error: 'Error updating item.'
+    });
+  },
+  [A_DELETE_MANY_ITEMS](context, data) {
+    return Socket.one(this._vm, {
+      name: 'deleteManyItems',
+      data,
+      success: 'Successfully deleted items!',
+      error: 'Error deleting items.'
+    });
+  }
 };
 
 const mutations = {

@@ -28,8 +28,11 @@ TagSchema.index({ user: 1 });
 TagSchema.index({ type: 1 });
 
 // We want to remove the tag from everything using it
-TagSchema.pre('remove', function(next) {
-  Book.updateMany({ tags: this._id }, { $pullAll: { tags: this._id } });
+TagSchema.pre('deleteOne', async function(next) {
+  const tag = await this.model.findOne(this.getQuery());
+  if (tag.type === 'book') {
+    await Book.updateMany({ tags: tag._id }, { $pull: { tags: tag._id } });
+  }
   next();
 });
 

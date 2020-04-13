@@ -34,8 +34,11 @@ ShelfSchema.index({ user: 1 });
 ShelfSchema.index({ type: 1 });
 
 // We want to remove the tag from everything using it
-ShelfSchema.pre('remove', function(next) {
-  Book.updateMany({ shelves: this._id }, { $pullAll: { shelves: this._id } });
+ShelfSchema.pre('deleteOne', async function(next) {
+  const shelf = await this.model.findOne(this.getQuery());
+  if (shelf.type === 'book') {
+    await Book.updateMany({ shelves: shelf._id }, { $pull: { shelves: shelf._id } });
+  }
   next();
 });
 

@@ -37,6 +37,7 @@
   import { mapGetters } from 'vuex';
   import CheckoutEditDialog from '../../components/checkouts/CheckoutEditDialog';
   import CheckoutCard from '../../components/checkouts/CheckoutCard';
+  import { A_DELETE_CHECKOUT } from '../../store/actions.type';
 
   export default {
     name: 'CheckoutsDashboard',
@@ -70,7 +71,7 @@
       },
       remove(checkout) {
         if (confirm('Are you sure you want to delete this checkout?')) {
-          this.$socket.emit('deleteCheckout', checkout);
+          this.$store.dispatch(A_DELETE_CHECKOUT, checkout);
         }
       }
     }

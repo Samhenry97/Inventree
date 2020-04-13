@@ -4,6 +4,8 @@ import {
   M_SET_SHELVES,
   M_UPDATE_SHELF
 } from './mutations.type';
+import { A_CREATE_SHELF, A_DELETE_SHELF, A_UPDATE_SHELF } from './actions.type';
+import Socket from '../common/socket';
 
 export const defaultModel = {
   name: '',
@@ -35,7 +37,30 @@ const getters = {
 };
 
 const actions = {
-
+  [A_CREATE_SHELF](context, data) {
+    return Socket.one(this._vm, {
+      name: 'createShelf',
+      data,
+      success: 'Successfully created shelf!',
+      error: 'Error creating shelf.'
+    });
+  },
+  [A_UPDATE_SHELF](context, data) {
+    return Socket.one(this._vm, {
+      name: 'updateShelf',
+      data,
+      success: 'Successfully updated shelf!',
+      error: 'Error updating shelf.'
+    });
+  },
+  [A_DELETE_SHELF](context, data) {
+    return Socket.one(this._vm, {
+      name: 'deleteShelf',
+      data,
+      success: 'Successfully deleted shelf!',
+      error: 'Error deleting shelf.'
+    });
+  }
 };
 
 const mutations = {

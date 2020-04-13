@@ -75,6 +75,7 @@
   import { formatPickerDate } from '../../common/util';
   import EditDialog from '../EditDialog';
   import { defaultModel } from '../../store/checkouts.module';
+  import { A_CREATE_CHECKOUT, A_UPDATE_CHECKOUT } from '../../store/actions.type';
 
   export default {
     name: 'CheckoutEditDialog',
@@ -105,9 +106,9 @@
         this.$refs.dialog.open();
       },
       save() {
-        const command = this.add ? 'createCheckout' : 'updateCheckout';
-        this.$socket.emit(command, this.editCheckout);
-        this.$refs.dialog.close();
+        const command = this.add ? A_CREATE_CHECKOUT : A_UPDATE_CHECKOUT;
+        this.$store.dispatch(command, this.editCheckout)
+            .then(() => this.$refs.dialog.close());
       },
       reset() {
         if (this.checkout) {

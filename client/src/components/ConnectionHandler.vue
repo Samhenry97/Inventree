@@ -12,6 +12,8 @@
 </template>
 
 <script>
+  import { A_LOGIN } from '../store/actions.type';
+
   export default {
     name: 'ConnectionHandler',
     data: () => ({
@@ -38,7 +40,7 @@
       reconnect() {
         this.connected = true;
         if (this.$auth.user) {
-          this.$socket.emit('login', this.$auth.user);
+          this.$store.dispatch(A_LOGIN, this.$auth.user);
         }
       }
     },

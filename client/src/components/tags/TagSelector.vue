@@ -50,7 +50,7 @@
         <v-list-item-action @click.stop>
           <v-btn
               icon
-              :disabled="!editTagName.trim() || tagFindOne('book', { name: editTagName })"
+              :disabled="!editTagName.trim() || !!tagFindOne('book', { name: editTagName })"
               @click.stop.prevent="updateTag()"
           >
             <v-icon color="success">mdi-check</v-icon>
@@ -80,6 +80,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+  import { A_CREATE_TAG, A_DELETE_TAG, A_UPDATE_TAG } from '../../store/actions.type';
 
   export default {
     name: 'TagSelector',
@@ -103,6 +104,9 @@
         return this.allTags[this.type].map(tag => tag._id);
       }
     },
+    created() {
+      this.editValue = this.value;
+    },
     watch: {
       value(val) {
         this.editValue = val;
@@ -119,11 +123,12 @@
           } else if (!this.tagById('book', newTag)) {
             this.tagsDisabled = true;
             this.editValue = this.editValue.filter(tag => tag !== newTag);
-            this.$socket.emit('createTag', { name: newTag, type: 'book' }, result => {
-              this.editValue.push(result._id);
-              this.tagsDisabled = false;
-              this.$emit('change', this.editValue);
-            })
+            this.$store.dispatch(A_CREATE_TAG, { name: newTag, type: 'book' })
+                .then(tag => {
+                  this.editValue.push(tag._id);
+                  this.tagsDisabled = false;
+                  this.$emit('change', this.editValue);
+                });
           } else {
             this.$emit('change', this.editValue);
           }
@@ -141,13 +146,13 @@
     methods: {
       deleteTag(tag) {
         if (confirm('Are you sure you want to delete this tag?')) {
-          this.$socket.emit('deleteTag', this.tagById('book', tag));
+          this.$store.dispatch(A_DELETE_TAG, this.tagById('book', tag));
         }
       },
       updateTag() {
         const update = { ...this.tagById('book', this.editTag), name: this.editTagName };
-        this.$socket.emit('updateTag', update);
-        this.editTag = {};
+        this.$store.dispatch(A_UPDATE_TAG, update)
+            .then(() => this.editTag = null);
       },
       startEditing(tag) {
         this.editTag = tag;

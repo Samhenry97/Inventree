@@ -86,6 +86,7 @@
   import { mapGetters, mapState } from 'vuex';
   import BookEditDialog from '../../components/books/BookEditDialog';
   import TagSelector from '../../components/tags/TagSelector';
+  import { A_CREATE_ITEM, A_DELETE_ITEM, A_SEARCH_BOOKS } from '../../store/actions.type';
 
   export default {
     name: 'BookAdd',
@@ -128,12 +129,12 @@
     },
     methods: {
       add(book) {
-        this.$socket.emit('createBook', { ...book, shelves: this.shelves, tags: this.tags });
+        this.$store.dispatch(A_CREATE_ITEM, { type: 'book', item: { ...book, shelves: this.shelves, tags: this.tags } });
       },
       remove(book) {
         if (confirm('Are you sure you want to delete this book?')) {
           const storeBook = this.bookByIsbn(book);
-          this.$socket.emit('deleteBook', storeBook);
+          this.$store.dispatch(A_DELETE_ITEM, { type: 'book', item: storeBook });
         }
       },
       bookByIsbn(book) {
@@ -152,11 +153,12 @@
           maxResults: this.resultsPerPage,
           startIndex: (this.page - 1) * this.resultsPerPage
         };
-        this.$socket.emit('searchBooks', query, data => {
-          this.results = data.books;
-          this.totalResults = data.totalBooks;
-          this.loading = false;
-        });
+        this.$store.dispatch(A_SEARCH_BOOKS, query)
+            .then(data => {
+              this.results = data.books;
+              this.totalResults = data.totalBooks;
+              this.loading = false;
+            });
       },
       addManually() {
         this.editBook = null;

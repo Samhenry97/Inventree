@@ -1,9 +1,9 @@
 import GoogleBooksAPI from '../utils/google.books.api';
 
 export default {
-  async searchBooks(conn, data, callback) {
+  async searchBooks(conn, data) {
     const response = await GoogleBooksAPI.search(data);
     const books = GoogleBooksAPI.normalizeBooks(response.data.items);
-    callback({ books, totalBooks: response.data.totalItems });
+    return { books, totalBooks: response.data.totalItems };
   }
 };

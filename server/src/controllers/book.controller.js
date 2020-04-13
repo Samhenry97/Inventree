@@ -1,37 +1,46 @@
 import { Book } from '../models/book';
 
 export default {
-  async getBooks(conn) {
-    const books = await Book.find({ user: conn.user._id });
-    conn.send('setItems', { type: 'book', items: books });
-  },
-  async deleteBook(conn, book) {
-    await Book.deleteOne({ _id: book._id });
-    conn.sendToRoom('deleteItem', { type: 'book', deleted: book });
-  },
-  async updateBook(conn, book) {
-    await Book.updateOne({ _id: book._id }, book);
-    const updated = await Book.findById(book._id);
-    conn.sendToRoom('updateItem', { type: 'book', updated });
-  },
-  async createBook(conn, data) {
-    data.user = conn.user._id;
-    const book = await Book.create(data);
-    if (book.from === 'inventree') {
-      book.fromid = book._id;
-      await book.save();
+  async getItems(conn, { type }) {
+    let items;
+    if (type === 'book') {
+      items = await Book.find({ user: conn.user._id });
     }
-    conn.sendToRoom('createItem', { type: 'book', created: book });
+    conn.send('setItems', { type, items });
+    return items;
   },
-  async deleteManyBooks(conn, ids, finished) {
-    await Book.deleteMany({ _id: { $in: ids }});
-    conn.sendToRoom('deleteManyItems', { type: 'book', ids });
-    finished();
+  async deleteItem(conn, { type, item }) {
+    if (type === 'book') {
+      await Book.deleteOne({ _id: item._id });
+    }
+    conn.sendToRoom('deleteItem', { type, deleted: item });
+    return item;
   },
-  async updateManyBooks(conn, ids, update, finished) {
-    await Book.updateMany({ _id: { $in: ids }}, update);
-    const books = await Book.find({ _id: { $in: ids }});
-    conn.sendToRoom('updateManyItems', { type: 'book', items: books });
-    finished();
+  async updateItem(conn, { type, item }) {
+    if (type === 'book') {
+      await Book.updateOne({ _id: item._id }, item);
+    }
+    conn.sendToRoom('updateItem', { type, updated: item });
+    return item;
+  },
+  async createItem(conn, { type, item }) {
+    item.user = conn.user._id;
+    let created;
+    if (type === 'book') {
+      created = await Book.create(item);
+      if (created.from === 'inventree') {
+        created.fromid = created._id;
+        await created.save();
+      }
+    }
+    conn.sendToRoom('createItem', { type, created });
+    return created;
+  },
+  async deleteManyItems(conn, { type, ids }) {
+    if (type === 'book') {
+      await Book.deleteMany({ _id: { $in: ids }});
+    }
+    conn.sendToRoom('deleteManyItems', { type, ids });
+    return ids;
   }
 };

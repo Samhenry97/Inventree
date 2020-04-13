@@ -14,8 +14,13 @@ export default class Connection {
     this.io = io;
 
     for (const method in controllers) {
-      this.socket.on(method, (...params) => {
-        controllers[method](this, ...params);
+      this.socket.on(method, (data, callback) => {
+        controllers[method](this, data)
+            .then(data => callback('success', data))
+            .catch(err => {
+              logger.error(`Socket method error (${method}): ${err}`);
+              callback('error', err);
+            });
       });
     }
   }

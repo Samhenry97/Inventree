@@ -84,6 +84,7 @@
   import CheckoutsDashboard from '../../views/checkouts/CheckoutsDashboard';
   import EditDialog from '../EditDialog';
   import { defaultModel } from '../../store/books.module';
+  import { A_CREATE_ITEM, A_UPDATE_ITEM } from '../../store/actions.type';
 
   export default {
     name: 'BookEditDialog',
@@ -124,16 +125,16 @@
         this.$refs.dialog.open();
       },
       save() {
-        const command = this.add ? 'createBook' : 'updateBook';
-        this.$socket.emit(command, this.editBook, this.shelves);
-        this.$refs.dialog.close();
+        const command = this.add ? A_CREATE_ITEM : A_UPDATE_ITEM;
+        this.$store.dispatch(command, { type: 'book', item: this.editBook })
+            .then(() => this.$refs.dialog.close());
       },
       reset() {
         this.tab = 'main';
         if (this.book) {
           this.editBook = { ...this.book };
         } else {
-          this.editBook = { ...defaultModel, shelf: this.shelves[0]._id };
+          this.editBook = { ...defaultModel };
         }
       }
     }

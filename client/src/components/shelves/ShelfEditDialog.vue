@@ -42,6 +42,7 @@
   import EditDialog from '../EditDialog';
   import ShelfItems from './ShelfItems';
   import { defaultModel } from '../../store/shelves.module';
+  import { A_CREATE_SHELF, A_UPDATE_SHELF } from '../../store/actions.type';
 
   export default {
     name: 'ShelfEditDialog',
@@ -70,9 +71,9 @@
         this.$refs.dialog.open();
       },
       save() {
-        const command = this.add ? 'createShelf' : 'updateShelf';
-        this.$socket.emit(command, this.editShelf);
-        this.$refs.dialog.close();
+        const command = this.add ? A_CREATE_SHELF : A_UPDATE_SHELF;
+        this.$store.dispatch(command, this.editShelf)
+            .then(() => this.$refs.dialog.close());
       },
       reset() {
         if (this.shelf) {

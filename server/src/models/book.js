@@ -87,8 +87,17 @@ BookSchema.plugin(timestamps);
 BookSchema.index({ user: 1 });
 
 // We want to remove the checkouts associated with the book
-BookSchema.pre('remove', function(next) {
-  Checkout.deleteMany({ book: this._id });
+BookSchema.pre('deleteOne', async function(next) {
+  const query = this.getQuery();
+  const id = query._id || (await this.model.findOne(query))._id;
+  await Checkout.deleteMany({ book: id });
+  next();
+});
+
+BookSchema.pre('deleteMany', async function(next) {
+  const query = this.getQuery();
+  const ids = (await this.model.find(query)).map(item => item._id);
+  await Checkout.deleteMany({ book: { $in: ids } });
   next();
 });
 

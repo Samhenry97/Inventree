@@ -30,6 +30,7 @@
 <script>
   import { mapGetters } from 'vuex';
   import VClamp from 'vue-clamp';
+  import { A_CREATE_CHECKOUT, A_UPDATE_CHECKOUT } from '../../store/actions.type';
 
   export default {
     name: 'BookCard',
@@ -53,11 +54,11 @@
           dateOut: new Date(),
           book: this.book
         };
-        this.$socket.emit('createCheckout', checkout);
+        this.$store.dispatch(A_CREATE_CHECKOUT, checkout);
       },
       finishReading() {
         const checkout = { ...this.checkoutOut, dateIn: new Date() };
-        this.$socket.emit('updateCheckout', checkout);
+        this.$store.dispatch(A_UPDATE_CHECKOUT, checkout);
       }
     }
   };
