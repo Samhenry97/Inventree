@@ -13,11 +13,22 @@
 
     <v-divider class="my-2"></v-divider>
 
-    <v-row v-if="cards === 0">
-      <v-col v-for="shelf of shelves" :key="shelf._id" cols="12" sm="6" md="4" lg="3">
-        <ShelfCard @click="edit(shelf)" :shelf="shelf" :edit="edit" :remove="remove"></ShelfCard>
-      </v-col>
-    </v-row>
+    <CustomTable
+        :items="shelves"
+        :sortOptions="[{ text: 'Name', value: 'name' }]"
+    >
+      <template #default="{ items: shelves }">
+        <v-row v-if="cards === 0">
+          <v-col v-for="shelf of shelves" :key="shelf._id" cols="12" sm="6" md="4" lg="3">
+            <ShelfCard @click="edit(shelf)" :shelf="shelf" :edit="edit" :remove="remove"></ShelfCard>
+          </v-col>
+        </v-row>
+      </template>
+
+      <template #no-data>
+        <p class="pa-4 text-center">No shelves here. <a @click="edit(null)">Add</a> some to get started!</p>
+      </template>
+    </CustomTable>
   </div>
 </template>
 
@@ -26,6 +37,7 @@
   import ShelfCard from '../../components/shelves/ShelfCard';
   import ShelfEditDialog from '../../components/shelves/ShelfEditDialog';
   import { A_DELETE_SHELF } from '../../store/actions.type';
+  import CustomTable from '../../components/CustomTable';
 
   export default {
     name: 'ShelvesDashboard',
@@ -37,6 +49,7 @@
       editShelf: null
     }),
     components: {
+      CustomTable,
       ShelfEditDialog,
       ShelfCard
     },
@@ -63,5 +76,7 @@
 </script>
 
 <style scoped>
-
+a {
+  text-decoration: underline;
+}
 </style>

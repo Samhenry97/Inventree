@@ -6,11 +6,11 @@
       <p class="display-1 mb-0">My Books ({{ books.length }})</p>
       <v-spacer></v-spacer>
       <v-btn-toggle class="mr-2" v-model="cards" mandatory dense>
-        <v-btn text color="secondary">
+        <v-btn text color="secondary" :value="true">
           <v-icon class="mr-2" color="secondary">mdi-card</v-icon>
           Cards
         </v-btn>
-        <v-btn text color="secondary">
+        <v-btn text color="secondary" :value="false">
           <v-icon class="mr-2" color="secondary">mdi-table</v-icon>
           Table
         </v-btn>
@@ -25,11 +25,23 @@
 
     <v-divider class="my-2"></v-divider>
 
-    <v-row v-if="cards === 0">
-      <v-col v-for="book of books" :key="book._id" cols="12" sm="6" md="4" lg="3">
-        <BookCard @click="edit(book)" :book="book" :edit="edit" :remove="remove"></BookCard>
-      </v-col>
-    </v-row>
+    <CustomTable
+        v-if="cards"
+        :items="books"
+        :sortOptions="sortOptions"
+    >
+      <template #default="{ items: books }">
+        <v-row>
+          <v-col v-for="book of books" :key="book._id" cols="12" sm="6" md="4" lg="3">
+            <BookCard @click="edit(book)" :book="book" :edit="edit" :remove="remove"></BookCard>
+          </v-col>
+        </v-row>
+      </template>
+
+      <template #no-data>
+        <p class="pa-4 text-center">No books here. <router-link :to="{ name: 'bookadd' }">Add</router-link> some to get started!</p>
+      </template>
+    </CustomTable>
 
     <div v-else>
       <div v-if="selected.length > 0" class="d-flex align-center">
@@ -67,6 +79,7 @@ import { mapGetters } from 'vuex';
 import BookEditDialog from '../../components/books/BookEditDialog';
 import BookCard from '../../components/books/BookCard';
 import { A_DELETE_ITEM, A_DELETE_MANY_ITEMS } from '../../store/actions.type';
+import CustomTable from '../../components/CustomTable';
 
 export default {
   name: 'BooksDashboard',
@@ -97,12 +110,18 @@ export default {
         value: 'isbn13'
       }
     ],
+    sortOptions: [
+      { text: 'Title', value: 'title' },
+      { text: 'Subtitle', value: 'subtitle' },
+      { text: 'Author', value: 'author' }
+    ],
     selected: [],
-    cards: 0,
+    cards: true,
     loading: false,
     editBook: null
   }),
   components: {
+    CustomTable,
     BookCard,
     BookEditDialog
   },
