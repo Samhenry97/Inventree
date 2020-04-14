@@ -85,6 +85,7 @@ export const BookSchema = new Schema(
 );
 BookSchema.plugin(timestamps);
 BookSchema.index({ user: 1 });
+BookSchema.index({ createdAt: 1 });
 
 // We want to remove the checkouts associated with the book
 BookSchema.pre('deleteOne', async function(next) {
