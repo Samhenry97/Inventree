@@ -28,7 +28,7 @@
               scrollable
               color="secondary"
               header-color="primary"
-              :allowed-dates="date => endDate ? new Date(date) >= new Date(endDate) : true"
+              :allowed-dates="date => endDate ? new Date(date) <= new Date(endDate) : true"
           >
             <v-spacer></v-spacer>
             <v-btn text @click="startDateMenu = false">Cancel</v-btn>
@@ -68,16 +68,25 @@
           </v-date-picker>
         </v-menu>
       </v-col>
+
+      <v-col v-for="report of reports" :key="report.datasets[0].label" cols="12">
+        <BarChart :chartData="report"></BarChart>
+      </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+  import moment from 'moment';
+  import { A_BOOK_REPORTS } from '../../store/actions.type';
+  import BarChart from '../../components/charts/BarChart';
+  import { formatPickerDate } from '../../common/util';
+
   export default {
     name: 'ReportsDashboard',
+    components: { BarChart },
     data: () => ({
-      chartData: null,
-      options: null,
+      reports: [],
       startDate: null,
       endDate: null,
       startDateMenu: false,
@@ -91,11 +100,31 @@
         this.updateReports();
       }
     },
+    computed: {
+      currentTheme() {
+        if (this.$vuetify.theme.isDark) {
+          return this.$vuetify.theme.themes.dark;
+        } else {
+          return this.$vuetify.theme.themes.light;
+        }
+      }
+    },
+    created() {
+      this.endDate = formatPickerDate(new Date());
+      this.startDate = formatPickerDate(moment(new Date()).subtract(1, 'month').toDate());
+      this.updateReports();
+    },
     methods: {
       updateReports() {
         const range = { startDate: this.startDate, endDate: this.endDate };
         if (this.startDate && this.endDate) {
-          this.$socket.emit('bookReports', range);
+          this.$store.dispatch(A_BOOK_REPORTS, range)
+              .then(reports => {
+                for (const report of reports) {
+                  report.datasets[0].backgroundColor = this.currentTheme.secondary.base;
+                }
+                this.reports = reports;
+              });
         }
       }
     }

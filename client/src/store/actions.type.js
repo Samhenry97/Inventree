@@ -17,6 +17,7 @@ export const A_UPDATE_SHELF = 'updateShelf';
 export const A_DELETE_SHELF = 'deleteShelf';
 
 export const A_SEARCH_BOOKS = 'searchBooks';
+export const A_BOOK_REPORTS = 'bookReports';
 
 export const A_LOGIN = 'login';
 export const A_LOGOUT = 'logout';

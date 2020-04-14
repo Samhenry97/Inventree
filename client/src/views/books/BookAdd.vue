@@ -62,13 +62,13 @@
     <div v-if="results.length > 0">
       <v-row>
         <v-col v-for="book in results" :key="book.fromid" cols="12" sm="6" md="4" lg="3">
-          <v-card hover ripple shaped>
+          <v-card hover ripple shaped @click="add(book)">
             <v-img height="192px" :src="book.smallThumbnail"></v-img>
             <v-card-title>{{ book.title }}</v-card-title>
             <v-card-subtitle>{{ book.author }}</v-card-subtitle>
             <v-card-actions>
-              <v-btn v-if="!bookByIsbn(book)" color="success" text @click="add(book)">Add</v-btn>
-              <v-btn v-else color="error" text @click="remove(book)">Delete</v-btn>
+              <v-btn v-if="!bookByIsbn(book)" color="success" text @click.stop="add(book)">Add</v-btn>
+              <v-btn v-else color="error" text @click.stop="remove(book)">Delete</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
