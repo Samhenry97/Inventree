@@ -3,14 +3,14 @@ import timestamps from 'mongoose-timestamp';
 
 export const CheckoutSchema = new Schema(
     {
-      user: {
+      type: {
         type: Schema.Types.ObjectID,
-        ref: 'User',
+        ref: 'Type',
         required: true
       },
-      book: {
+      item: {
         type: Schema.Types.ObjectID,
-        ref: 'Book',
+        ref: 'Item',
         required: true
       },
       dateOut: Date,

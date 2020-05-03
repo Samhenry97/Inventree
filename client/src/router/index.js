@@ -1,16 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import { authGuard } from '../common/authGuard';
-import Home from '../views/Home';
-import Books from '../views/Books';
-import BooksSidebar from '../views/books/BooksSidebar';
-import BookAdd from '../views/books/BookAdd';
-import BooksDashboard from '../views/books/BooksDashboard';
+import BookAdd from '../views/items/presets/books/BookAdd';
 import Settings from '../views/Settings';
 import Profile from '../views/Profile';
-import ShelvesDashboard from '../views/shelves/ShelvesDashboard';
-import CheckoutsDashboard from '../views/checkouts/CheckoutsDashboard';
-import ReportsDashboard from '../views/reports/ReportsDashboard';
+import ShelvesDashboard from '../views/items/shelves/ShelvesDashboard';
+import CheckoutsDashboard from '../views/items/checkouts/CheckoutsDashboard';
+import ReportsDashboard from '../views/items/reports/ReportsDashboard';
+import Items from '../views/items/Items';
+import ItemsDashboard from '../views/items/ItemsDashboard';
+import Dashboard from '../views/home/Dashboard';
 
 Vue.use(Router);
 
@@ -19,7 +18,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Dashboard,
       meta: { title: 'Home' }
     },
     {
@@ -35,45 +34,40 @@ const router = new Router({
       meta: { title: 'Settings' }
     },
     {
-      path: '/books',
-      components: {
-        default: Books,
-        sidebar: BooksSidebar
-      },
+      path: '/c/:container/:type',
+      component: Items,
       children: [
         {
-          path: 'library',
-          name: 'books',
-          component: BooksDashboard,
-          meta: { title: 'Library' }
-        },
-        {
-          path: 'add',
-          name: 'bookadd',
-          component: BookAdd,
-          meta: { title: 'Add Books' }
+          path: 'items',
+          name: 'items',
+          component: ItemsDashboard,
+          meta: { title: 'Items' }
         },
         {
           path: 'shelves',
-          name: 'book-shelves',
+          name: 'shelves',
           component: ShelvesDashboard,
-          meta: { title: 'Shelves' },
-          props: { type: 'book' }
-        },
-        {
-          path: 'checkouts',
-          name: 'checkouts',
-          component: CheckoutsDashboard,
-          meta: { title: 'Checkouts' },
+          meta: { title: 'Shelves' }
         },
         {
           path: 'reports',
           name: 'reports',
           component: ReportsDashboard,
           meta: { title: 'Reports' }
+        },
+        {
+          path: 'checkouts',
+          name: 'checkouts',
+          component: CheckoutsDashboard,
+          meta: { title: 'Checkouts' }
+        },
+        {
+          path: 'bookadd',
+          name: 'bookadd',
+          component: BookAdd,
+          meta: { title: 'Add Books' }
         }
-      ],
-      meta: { title: 'Books' }
+      ]
     }
   ]
 });

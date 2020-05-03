@@ -72,6 +72,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   import { formatPickerDate } from '../../common/util';
   import EditDialog from '../EditDialog';
   import { defaultModel } from '../../store/checkouts.module';
@@ -82,15 +83,15 @@
     components: { EditDialog },
     props: {
       checkout: Object,
-      book: Object
+      item: Object
     },
     data: () => ({
       editCheckout: {},
-      dialog: false,
       dateOutMenu: false,
       dateInMenu: false
     }),
     computed: {
+      ...mapGetters(['type']),
       add() {
         return !this.editCheckout._id;
       }
@@ -118,7 +119,7 @@
             dateOut: formatPickerDate(this.checkout.dateOut)
           };
         } else {
-          this.editCheckout = { ...defaultModel, book: this.book };
+          this.editCheckout = { ...defaultModel, type: this.type._id, item: this.item._id };
         }
       },
     }

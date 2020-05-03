@@ -1,4 +1,5 @@
 export const M_SET_USER = 'live_setUser';
+export const M_SET_AUTHED = 'setAuthed';
 
 export const M_SET_TAGS = 'live_setTags';
 export const M_CREATE_TAG = 'live_createTag';
@@ -21,3 +22,21 @@ export const M_UPDATE_ITEM = 'live_updateItem';
 export const M_DELETE_ITEM = 'live_deleteItem';
 export const M_DELETE_MANY_ITEMS = 'live_deleteManyItems';
 export const M_UPDATE_MANY_ITEMS = 'live_updateManyItems';
+
+export const M_SET_TYPES = 'live_setTypes';
+export const M_CREATE_TYPE = 'live_createType';
+export const M_UPDATE_TYPE = 'live_updateType';
+export const M_DELETE_TYPE = 'live_deleteType';
+
+export const M_SET_CONTAINERS = 'live_setContainers';
+export const M_CREATE_CONTAINER = 'live_createContainer';
+export const M_UPDATE_CONTAINER = 'live_updateContainer';
+export const M_DELETE_CONTAINER = 'live_deleteContainer';
+
+export const M_SET_FIELDS = 'live_setFields';
+export const M_CREATE_FIELD = 'live_createField';
+export const M_UPDATE_FIELD = 'live_updateField';
+export const M_DELETE_FIELD = 'live_deleteField';
+
+export const M_SET_SELECTED_CONTAINER = 'setSelectedContainer';
+export const M_SET_SELECTED_TYPE = 'setSelectedType';

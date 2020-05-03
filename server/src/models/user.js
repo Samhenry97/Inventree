@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import timestamps from 'mongoose-timestamp';
-import { Shelf } from './shelf';
 
 export const UserSchema = new Schema(
     {

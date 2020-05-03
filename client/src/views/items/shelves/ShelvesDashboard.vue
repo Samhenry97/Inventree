@@ -1,6 +1,6 @@
 <template>
   <div id="shelves-dashboard">
-    <ShelfEditDialog ref="editDialog" :shelf="editShelf" :type="type"></ShelfEditDialog>
+    <ShelfEditDialog ref="editDialog" :shelf="editShelf"></ShelfEditDialog>
 
     <div class="d-flex align-center">
       <p class="display-1 mb-0">My Shelves ({{ shelves.length }})</p>
@@ -33,17 +33,14 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import ShelfCard from '../../components/shelves/ShelfCard';
-  import ShelfEditDialog from '../../components/shelves/ShelfEditDialog';
-  import { A_DELETE_SHELF } from '../../store/actions.type';
-  import CustomTable from '../../components/CustomTable';
+  import { mapGetters } from 'vuex';
+  import ShelfCard from '../../../components/shelves/ShelfCard';
+  import ShelfEditDialog from '../../../components/shelves/ShelfEditDialog';
+  import { A_DELETE_SHELF } from '../../../store/actions.type';
+  import CustomTable from '../../../components/CustomTable';
 
   export default {
     name: 'ShelvesDashboard',
-    props: {
-      type: String
-    },
     data: () => ({
       cards: 0,
       editShelf: null
@@ -53,14 +50,7 @@
       ShelfEditDialog,
       ShelfCard
     },
-    computed: {
-      ...mapState({
-        allShelves: state => state.shelves
-      }),
-      shelves() {
-        return this.allShelves[this.type];
-      }
-    },
+    computed: mapGetters(['shelves']),
     methods: {
       edit(shelf) {
         this.editShelf = shelf;

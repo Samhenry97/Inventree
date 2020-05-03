@@ -37,13 +37,6 @@
           </v-btn>
         </router-link>
 
-        <router-link v-if="authed" :to="{ name: 'books' }">
-          <v-btn color="primary" depressed>
-            <v-icon class="mr-1">mdi-book</v-icon>
-            Books
-          </v-btn>
-        </router-link>
-
         <v-menu v-if="authed" v-model="profileMenu" open-on-hover>
           <template v-slot:activator="{ on }">
             <v-avatar class="ml-4" v-on="on">
@@ -95,13 +88,7 @@
         </v-btn>
       </v-app-bar>
 
-      <router-view name="sidebar"></router-view>
-
-      <v-content>
-        <div class="pa-4">
-          <router-view></router-view>
-        </div>
-      </v-content>
+      <router-view></router-view>
     </div>
   </v-app>
 </template>
@@ -120,11 +107,13 @@
     }),
     beforeCreate() {
       this.$auth.$watch('loading', loading => {
-        if (loading) return;
-        if (!this.$auth.user) this.loading = false;
+        if (!loading && !this.$auth.user) this.loading = false;
       });
       this.$auth.$watch('user', user => {
-        if (user) this.$store.dispatch(A_LOGIN, user);
+        if (user) {
+          this.$store.dispatch(A_LOGIN, user)
+              .then(() => this.loading = false);
+        }
       });
     },
     sockets: {
@@ -132,14 +121,7 @@
         this.$vuetify.theme.dark = user.darkMode;
       }
     },
-    computed: {
-      ...mapGetters(['user', 'authed'])
-    },
-    watch: {
-      authed() {
-        if (this.authed) this.loading = false;
-      }
-    },
+    computed: mapGetters(['user', 'authed']),
     methods: {
       async logout() {
         this.$store.dispatch(A_LOGOUT)

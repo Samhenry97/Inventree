@@ -6,6 +6,12 @@ export default {
     if (!user) user = await User.create(data);
     conn.login(user);
     conn.send('setUser', user);
+    await conn.call('getContainers');
+    return user;
+  },
+  async reconnect(conn, data) {
+    const user = await User.findOne({ sub: data.sub });
+    conn.login(user);
     return user;
   },
   async logout(conn) {

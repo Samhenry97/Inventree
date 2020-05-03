@@ -1,9 +1,9 @@
 import { Tag } from '../models/tag';
 
 export default {
-  async getTags(conn, data) {
-    const tags = await Tag.find({ user: conn.user._id, type: data.type });
-    conn.send('setTags', { type: data.type, tags });
+  async getTags(conn, type) {
+    const tags = await Tag.find({ type });
+    conn.send('setTags', { type, tags });
     return tags;
   },
   async createTag(conn, data) {

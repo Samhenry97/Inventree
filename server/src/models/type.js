@@ -2,24 +2,41 @@ import mongoose, { Schema } from 'mongoose';
 import timestamps from 'mongoose-timestamp';
 
 export const TypeSchema = new Schema({
-  user: {
+  container: {
     type: Schema.Types.ObjectID,
-    ref: 'User',
+    ref: 'Container',
     required: true
   },
-  label: {
+  preset: {
     type: String,
-    trim: true,
-    required: true
+    enum: ['book']
   },
   name: {
     type: String,
     trim: true,
     required: true
-  }
+  },
+  path: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  fields: [{
+    name: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    path: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    options: Schema.Types.Mixed
+  }]
 });
 TypeSchema.plugin(timestamps);
-TypeSchema.index({ user: 1 });
+TypeSchema.index({ collection: 1 });
 TypeSchema.index({ name: 1 });
 
 export const Type = mongoose.model('Type', TypeSchema);

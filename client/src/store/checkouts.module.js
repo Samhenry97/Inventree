@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import {
   M_CREATE_CHECKOUT,
   M_DELETE_CHECKOUT,
@@ -34,38 +35,38 @@ export const defaultModel = {
 };
 
 const state = {
-  checkouts: []
+
 };
 
 const getters = {
-  checkouts: state => {
-    return state.checkouts.sort(dateOutSort)
+  checkouts: (state, getters) => {
+    return state[getters.type._id].sort(dateOutSort)
   },
-  checkoutById: state => id => {
-    const results = state.checkouts.filter(checkout => checkout._id === id);
+  checkoutById: (state, getters) => id => {
+    const results = state[getters.type._id].filter(checkout => checkout._id === id);
     return results.length > 0 ? results[0] : null;
   },
-  checkoutFindOne: state => query => {
-    const results = getters.checkoutFindMany(state)(query);
+  checkoutFindOne: (state, getters) => query => {
+    const results = getters.checkoutFindMany(query);
     return results.length > 0 ? results[0] : null;
   },
-  checkoutFindMany: state => query => {
-    return state.checkouts.filter(checkout => {
+  checkoutFindMany: (state, getters) => query => {
+    return state[getters.type._id].filter(checkout => {
       for (const field in query) {
         if (checkout[field] === query[field]) return true;
       }
       return false;
     });
   },
-  checkoutsForBook: state => book => {
-    if (!book) return [];
-    return state.checkouts
-        .filter(checkout => checkout.book === book._id)
+  checkoutsForItem: (state, getters) => item => {
+    if (!item) return [];
+    return state[getters.type._id]
+        .filter(checkout => checkout.item === item._id)
         .sort(dateOutSort);
   },
-  checkoutOutForBook: state => book => {
-    if (!book) return null;
-    const results = state.checkouts.filter(checkout => checkout.book === book._id && !checkout.dateIn);
+  checkoutOutForItem: (state, getters) => item => {
+    if (!item) return null;
+    const results = state[getters.type._id].filter(checkout => checkout.item === item._id && !checkout.dateIn);
     return results.length > 0 ? results[0] : null;
   }
 };
@@ -98,33 +99,33 @@ const actions = {
 };
 
 const mutations = {
-  [M_SET_CHECKOUTS](state, checkouts) {
-    state.checkouts = checkouts;
+  [M_SET_CHECKOUTS](state, { type, checkouts }) {
+    Vue.set(state, type, checkouts);
   },
   [M_CREATE_CHECKOUT](state, checkout) {
-    state.checkouts = [...state.checkouts, normalize(checkout)];
+    state[checkout.type] = [...state[checkout.type], checkout];
   },
   [M_UPDATE_CHECKOUT](state, updated) {
-    state.checkouts = state.checkouts.map(checkout => {
+    state[updated.type] = state[updated.type].map(checkout => {
       if (checkout._id === updated._id) return normalize(updated);
       return checkout;
     });
   },
   [M_DELETE_CHECKOUT](state, deleted) {
-    state.checkouts = state.checkouts.filter(checkout => {
+    state[deleted.type] = state[deleted.type].filter(checkout => {
       return checkout._id !== deleted._id;
     });
   },
   [M_DELETE_ITEM](state, { type, deleted }) {
-    if (type !== 'book') return;
-    state.checkouts = state.checkouts.filter(checkout => {
-      return checkout.book !== deleted._id;
+    if (!state[deleted.type]) return;
+    state[deleted.type] = state[deleted.type].filter(checkout => {
+      return checkout.item !== deleted._id;
     })
   },
   [M_DELETE_MANY_ITEMS](state, { type, ids }) {
-    if (type !== 'book') return;
-    state.checkouts = state.checkouts.filter(checkout => {
-      return !ids.includes(checkout.book);
+    if (!state[type]) return;
+    state[type] = state[type].filter(checkout => {
+      return !ids.includes(checkout.item);
     });
   }
 };

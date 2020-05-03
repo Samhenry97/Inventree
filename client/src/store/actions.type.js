@@ -8,6 +8,16 @@ export const A_CREATE_CHECKOUT = 'createCheckout';
 export const A_UPDATE_CHECKOUT = 'updateCheckout';
 export const A_DELETE_CHECKOUT = 'deleteCheckout';
 
+export const A_FETCH_CONTAINERS = 'fetchContainers';
+export const A_CREATE_CONTAINER = 'createContainer';
+export const A_UPDATE_CONTAINER = 'updateContainer';
+export const A_DELETE_CONTAINER = 'deleteContainer';
+
+export const A_FETCH_TYPES = 'fetchTypes';
+export const A_CREATE_TYPE = 'createType';
+export const A_UPDATE_TYPE = 'updateType';
+export const A_DELETE_TYPE = 'deleteType';
+
 export const A_CREATE_TAG = 'createTag';
 export const A_UPDATE_TAG = 'updateTag';
 export const A_DELETE_TAG = 'deleteTag';
@@ -21,4 +31,5 @@ export const A_BOOK_REPORTS = 'bookReports';
 
 export const A_LOGIN = 'login';
 export const A_LOGOUT = 'logout';
+export const A_RECONNECT = 'reconnect';
 export const A_UPDATE_USER = 'updateUser';

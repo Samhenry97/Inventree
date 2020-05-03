@@ -1,13 +1,13 @@
 <template>
   <v-card class="action-card" hover ripple shaped @click="$emit('click')">
-    <v-img v-if="showBook" height="192px" :src="book.smallThumbnail">
+    <v-img v-if="showItem" height="192px" :src="item.smallThumbnail">
       <div v-if="!checkout.dateIn" class="img-overlay">
         <v-btn color="primary" @click.stop="finishReading">Finish Reading</v-btn>
       </div>
     </v-img>
-    <div v-if="showBook">
-      <v-card-title><v-clamp autoresize :max-lines="2">{{ book.title }}</v-clamp></v-card-title>
-      <v-card-subtitle><v-clamp autoresize :max-lines="1">{{ book.author }}</v-clamp></v-card-subtitle>
+    <div v-if="showItem">
+      <v-card-title><v-clamp autoresize :max-lines="2">{{ item.title }}</v-clamp></v-card-title>
+      <v-card-subtitle><v-clamp autoresize :max-lines="1">{{ item.author }}</v-clamp></v-card-subtitle>
     </div>
     <v-card-text>
       <b>Date Out:</b> {{ formatDate(checkout.dateOut) }}
@@ -37,15 +37,15 @@
       checkout: Object,
       edit: Function,
       remove: Function,
-      showBook: Boolean
+      showItem: Boolean
     },
     components: {
       VClamp
     },
     computed: {
       ...mapGetters(['itemById']),
-      book() {
-        return this.itemById('book', this.checkout.book);
+      item() {
+        return this.itemById(this.checkout.item);
       },
     },
     data: () => ({

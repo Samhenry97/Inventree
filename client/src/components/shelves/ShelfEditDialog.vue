@@ -13,7 +13,7 @@
         Shelf
       </v-tab>
       <v-tab href="#checkouts">
-        Books
+        {{ type.name }}
       </v-tab>
 
       <v-tab-item value="main">
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   import EditDialog from '../EditDialog';
   import ShelfItems from './ShelfItems';
   import { defaultModel } from '../../store/shelves.module';
@@ -48,14 +49,14 @@
     name: 'ShelfEditDialog',
     components: { EditDialog, ShelfItems },
     props: {
-      shelf: Object,
-      type: String
+      shelf: Object
     },
     data: () => ({
       editShelf: {},
       tab: null
     }),
     computed: {
+      ...mapGetters(['type']),
       add() {
         return !this.shelf;
       }
@@ -79,7 +80,7 @@
         if (this.shelf) {
           this.editShelf = { ...this.shelf };
         } else {
-          this.editShelf = { ...defaultModel, type: this.type };
+          this.editShelf = { ...defaultModel, type: this.type._id };
         }
       }
     }

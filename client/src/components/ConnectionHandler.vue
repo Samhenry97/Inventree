@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import { A_LOGIN } from '../store/actions.type';
+  import { A_RECONNECT } from '../store/actions.type';
 
   export default {
     name: 'ConnectionHandler',
@@ -40,7 +40,7 @@
       reconnect() {
         this.connected = true;
         if (this.$auth.user) {
-          this.$store.dispatch(A_LOGIN, this.$auth.user);
+          this.$store.dispatch(A_RECONNECT, this.$auth.user);
         }
       }
     },

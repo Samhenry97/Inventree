@@ -1,9 +1,10 @@
 <template>
   <v-card hover ripple shaped @click="$emit('click')">
     <v-card-title>{{ type.name }}</v-card-title>
-    <v-card-actions v-if="editable" class="pt-0">
-      <v-btn text @click.stop="edit(shelf)">Edit</v-btn>
-      <v-btn color="error" text @click.stop="remove(shelf)">Delete</v-btn>
+    <v-card-subtitle>{{ type.path }}</v-card-subtitle>
+    <v-card-actions class="pt-0">
+      <v-btn text @click.stop="$emit('edit', type)">Edit</v-btn>
+      <v-btn color="error" text @click.stop="$emit('remove', type)">Delete</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -12,10 +13,10 @@
   export default {
     name: 'TypeCard',
     props: {
-      type: Object,
-      editable: Boolean,
-      edit: Function,
-      remove: Function
+      type: {
+        type: Object,
+        required: true
+      }
     }
   };
 </script>

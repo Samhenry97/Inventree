@@ -1,19 +1,15 @@
 import moment from 'moment';
-import { Book } from '../models/book';
+import { Item } from '../models/item';
 import { Checkout } from '../models/checkout';
 
 export default {
-  async bookReports(conn, data) {
+  async itemReports(conn, data) {
     const reports = [];
     if (data.startDate && data.endDate) {
       const ranges = generateRanges(data.startDate, data.endDate);
-      reports.push(await reportNewBooks(ranges));
-      reports.push(await reportReadBooks(ranges));
+      reports.push(await reportNewItems(ranges));
     }
     return reports;
-  },
-  async itemReports(conn, data) {
-
   }
 };
 
@@ -81,18 +77,18 @@ function generateYearRanges(startDate, endDate) {
   return res;
 }
 
-async function reportNewBooks(ranges) {
+async function reportNewItems(ranges) {
   const labels = ranges.map(range => range.label);
   const data = [];
   for (const range of ranges) {
-    const total = await Book.count({ createdAt: { $gte: range.start, $lte: range.end } });
+    const total = await Item.count({ createdAt: { $gte: range.start, $lte: range.end } });
     data.push(total);
   }
 
   return {
     labels,
     datasets: [{
-      label: 'Total Books Added',
+      label: 'Total Items Added',
       data
     }]
   };

@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import {
   M_CREATE_ITEM,
   M_DELETE_ITEM,
@@ -44,17 +45,18 @@ const state = {
 };
 
 const getters = {
-  books: state => state.book,
-  itemById: state => (type, id) => {
-    const results = state[type].filter(item => item._id === id);
+  items: (state, getters) => state[getters.type._id],
+  itemById: (state, getters) => id => {
+    const type = getters.type;
+    const results = state[type._id].filter(item => item._id === id);
     return results.length > 0 ? results[0] : null;
   },
-  itemFindOne: state => (type, query) => {
-    const results = getters.itemFindMany(state)(type, query);
+  itemFindOne: (state, getters) => query => {
+    const results = getters.itemFindMany(query);
     return results.length > 0 ? results[0] : null;
   },
-  itemFindMany: state => (type, query) => {
-    return state[type].filter(item => {
+  itemFindMany: (state, getters) => query => {
+    return state[getters.type._id].filter(item => {
       for (const field in query) {
         if (item[field] === query[field]) return true;
       }
@@ -72,12 +74,11 @@ const getters = {
 const actions = {
   [A_FETCH_ITEMS](context, type) {
     const commands = [
-      { name: 'getItems', data: { type }},
-      { name: 'getShelves', data: { type }},
-      { name: 'getTags', data: { type }}
+      { name: 'getItems', data: type },
+      { name: 'getShelves', data: type },
+      { name: 'getTags', data: type },
+      { name: 'getCheckouts', data: type }
     ];
-    if (type === 'book') commands.push({ name: 'getCheckouts' });
-
     return Socket.all(this._vm, commands);
   },
   [A_CREATE_ITEM](context, data) {
@@ -116,19 +117,19 @@ const actions = {
 
 const mutations = {
   [M_SET_ITEMS](state, { type, items }) {
-    state[type] = items;
+    Vue.set(state, type, items);
   },
-  [M_CREATE_ITEM](state, { type, created }) {
-    state[type] = [...state[type], created];
+  [M_CREATE_ITEM](state, created) {
+    state[created.type] = [...state[created.type], created];
   },
-  [M_UPDATE_ITEM](state, { type, updated }) {
-    state[type] = state[type].map(item => {
+  [M_UPDATE_ITEM](state, updated) {
+    state[updated.type] = state[updated.type].map(item => {
       if (item._id === updated._id) return updated;
       return item;
     });
   },
-  [M_DELETE_ITEM](state, { type, deleted }) {
-    state[type] = state[type].filter(item => {
+  [M_DELETE_ITEM](state, deleted) {
+    state[deleted.type] = state[deleted.type].filter(item => {
       return (item._id !== deleted._id);
     });
   },

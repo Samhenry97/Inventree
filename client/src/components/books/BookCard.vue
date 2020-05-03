@@ -1,16 +1,16 @@
 <template>
   <v-card class="action-card" hover ripple shaped @click="$emit('click')">
-    <v-img height="192px" :src="book.smallThumbnail">
+    <v-img height="192px" :src="item.smallThumbnail">
       <div class="img-overlay">
         <v-btn v-if="!checkoutOut" color="secondary" @click.stop="startReading">Start Reading</v-btn>
         <v-btn v-else color="primary" @click.stop="finishReading">Finish Reading</v-btn>
       </div>
     </v-img>
-    <v-card-title><v-clamp autoresize :max-lines="2">{{ book.title }}</v-clamp></v-card-title>
-    <v-card-subtitle><v-clamp autoresize :max-lines="1">{{ book.author }}</v-clamp></v-card-subtitle>
+    <v-card-title><v-clamp autoresize :max-lines="2">{{ item.title }}</v-clamp></v-card-title>
+    <v-card-subtitle><v-clamp autoresize :max-lines="1">{{ item.author }}</v-clamp></v-card-subtitle>
     <v-card-actions class="pt-0">
-      <v-btn text @click.stop="edit(book)">Edit</v-btn>
-      <v-btn color="error" text @click.stop="remove(book)">Delete</v-btn>
+      <v-btn text @click.stop="edit(item)">Edit</v-btn>
+      <v-btn color="error" text @click.stop="remove(item)">Delete</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -26,21 +26,22 @@
       VClamp
     },
     props: {
-      book: Object,
+      item: Object,
       edit: Function,
       remove: Function
     },
     computed: {
-      ...mapGetters(['checkoutOutForBook']),
+      ...mapGetters(['checkoutOutForItem', 'type']),
       checkoutOut() {
-        return this.checkoutOutForBook(this.book);
+        return this.checkoutOutForItem(this.item);
       }
     },
     methods: {
       startReading() {
         const checkout = {
           dateOut: new Date(),
-          book: this.book
+          item: this.item._id,
+          type: this.type._id
         };
         this.$store.dispatch(A_CREATE_CHECKOUT, checkout);
       },
@@ -51,7 +52,3 @@
     }
   };
 </script>
-
-<style scoped>
-
-</style>

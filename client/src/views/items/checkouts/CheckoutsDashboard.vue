@@ -1,12 +1,11 @@
 <template>
   <div id="book-checkouts">
-    <CheckoutEditDialog :checkout="editCheckout" :book="book" ref="editDialog"></CheckoutEditDialog>
+    <CheckoutEditDialog :checkout="editCheckout" :item="item" ref="editDialog"></CheckoutEditDialog>
 
-    <div v-if="!forBook">
+    <div v-if="!forItem">
       <p class="display-1 mb-0">My Checkouts ({{ checkouts.length }})</p>
       <v-divider class="my-2"></v-divider>
     </div>
-
     <v-row v-else>
       <v-col cols="12">
         <div class="d-flex">
@@ -32,14 +31,14 @@
                 :checkout="checkout"
                 :edit="edit"
                 :remove="remove"
-                :showBook="!forBook"
+                :showItem="!forItem"
             ></CheckoutCard>
           </v-col>
         </v-row>
       </template>
 
       <template #no-data>
-        <p class="pa-4 text-center">No checkouts yet. <router-link :to="{ name: 'books' }">Start reading</router-link>!</p>
+        <p class="pa-4 text-center">No checkouts yet. <router-link :to="{ name: 'items' }">Start reading</router-link>!</p>
       </template>
     </CustomTable>
   </div>
@@ -47,29 +46,29 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import CheckoutEditDialog from '../../components/checkouts/CheckoutEditDialog';
-  import CheckoutCard from '../../components/checkouts/CheckoutCard';
-  import { A_DELETE_CHECKOUT } from '../../store/actions.type';
-  import CustomTable from '../../components/CustomTable';
+  import CheckoutEditDialog from '../../../components/checkouts/CheckoutEditDialog';
+  import CheckoutCard from '../../../components/checkouts/CheckoutCard';
+  import { A_DELETE_CHECKOUT } from '../../../store/actions.type';
+  import CustomTable from '../../../components/CustomTable';
 
   export default {
     name: 'CheckoutsDashboard',
     components: { CustomTable, CheckoutEditDialog, CheckoutCard },
     props: {
-      book: Object
+      item: Object
     },
     computed: {
       ...mapGetters({
-        checkoutsForBook: 'checkoutsForBook',
+        checkoutsForItem: 'checkoutsForItem',
         allCheckouts: 'checkouts',
         itemById: 'itemById'
       }),
-      forBook() {
-        return !!this.book;
+      forItem() {
+        return !!this.item;
       },
       checkouts() {
-        if (this.forBook) {
-          return this.checkoutsForBook(this.book);
+        if (this.forItem) {
+          return this.checkoutsForItem(this.item);
         } else {
           return this.allCheckouts;
         }
@@ -93,10 +92,10 @@
 
         search = search.toLowerCase();
         const results = [];
-        const bookFields = ['title', 'subtitle', 'author'];
+        const itemFields = ['title', 'subtitle', 'author'];
         for (const checkout of items) {
-          const book = this.itemById('book', checkout.book);
-          for (const field of bookFields) {
+          const book = this.itemById(checkout.item);
+          for (const field of itemFields) {
             if (book[field].toLowerCase().includes(search)) {
               results.push(checkout);
               break;

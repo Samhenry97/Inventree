@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import {
   M_CREATE_TAG,
   M_DELETE_TAG,
@@ -8,20 +9,23 @@ import { A_CREATE_TAG, A_DELETE_TAG, A_UPDATE_TAG } from './actions.type';
 import Socket from '../common/socket';
 
 const state = {
-  book: []
+
 };
 
 const getters = {
-  tagById: state => (type, id) => {
-    const results = state[type].filter(tag => tag._id === id);
+  tags: (state, getters) => state[getters.type._id],
+  tagById: (state, getters) => id => {
+    const type = getters.type;
+    const results = state[type._id].filter(tag => tag._id === id);
     return results.length > 0 ? results[0] : null;
   },
-  tagFindOne: state => (type, query) => {
-    const results = getters.tagFindMany(state)(type, query);
+  tagFindOne: (state, getters) => query => {
+    const results = getters.tagFindMany(query);
     return results.length > 0 ? results[0] : null;
   },
-  tagFindMany: state => (type, query) => {
-    return state[type].filter(tag => {
+  tagFindMany: (state, getters) => query => {
+    const type = getters.type;
+    return state[type._id].filter(tag => {
       for (const field in query) {
         if (tag[field] === query[field]) return true;
       }
@@ -59,7 +63,7 @@ const actions = {
 
 const mutations = {
   [M_SET_TAGS](state, { type, tags }) {
-    state[type] = tags;
+    Vue.set(state, type, tags);
   },
   [M_CREATE_TAG](state, tag) {
     state[tag.type] = [...state[tag.type], tag];

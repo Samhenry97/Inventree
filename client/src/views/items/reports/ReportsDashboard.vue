@@ -78,9 +78,9 @@
 
 <script>
   import moment from 'moment';
-  import { A_BOOK_REPORTS } from '../../store/actions.type';
-  import BarChart from '../../components/charts/BarChart';
-  import { formatPickerDate } from '../../common/util';
+  import { A_BOOK_REPORTS } from '../../../store/actions.type';
+  import BarChart from '../../../components/charts/BarChart';
+  import { formatPickerDate } from '../../../common/util';
 
   export default {
     name: 'ReportsDashboard',

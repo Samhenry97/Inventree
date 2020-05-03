@@ -25,6 +25,10 @@ export default class Connection {
     }
   }
 
+  async call(method, data) {
+    return await controllers[method](this, data);
+  }
+
   login(user) {
     this.user = user;
     this.room = `${ROOM_PREFIX}${user._id}`;

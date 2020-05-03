@@ -24,7 +24,7 @@
           :disabled="disabled"
           v-bind="attrs"
       >
-        {{ tagById('book', item).name }}
+        {{ tagById(item).name }}
       </v-chip>
     </template>
     <template v-slot:item="{ item }">
@@ -43,14 +43,14 @@
           v-else
           :key="item"
       >
-        {{ tagById('book', item).name }}
+        {{ tagById(item).name }}
       </v-chip>
       <v-spacer></v-spacer>
       <div v-if="item === editTag">
         <v-list-item-action @click.stop>
           <v-btn
               icon
-              :disabled="!editTagName.trim() || !!tagFindOne('book', { name: editTagName })"
+              :disabled="!editTagName.trim() || !!tagFindOne({ name: editTagName })"
               @click.stop.prevent="updateTag()"
           >
             <v-icon color="success">mdi-check</v-icon>
@@ -79,14 +79,13 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters } from 'vuex';
   import { A_CREATE_TAG, A_DELETE_TAG, A_UPDATE_TAG } from '../../store/actions.type';
 
   export default {
     name: 'TagSelector',
     props: {
-      value: Array,
-      type: String
+      value: Array
     },
     data: () => ({
       tagSearch: '',
@@ -96,12 +95,14 @@
       editValue: []
     }),
     computed: {
-      ...mapState({
-        allTags: state => state.tags
+      ...mapGetters({
+        tagFindOne: 'tagFindOne',
+        tagById: 'tagById',
+        allTags: 'tags',
+        type: 'type'
       }),
-      ...mapGetters(['tagFindOne', 'tagById']),
       tags() {
-        return this.allTags[this.type].map(tag => tag._id);
+        return this.allTags.map(tag => tag._id);
       }
     },
     created() {
@@ -114,16 +115,16 @@
       editValue(val, prev) {
         if (val.length > 0 && val.length > prev.length) {
           const newTag = val.filter(tag => !prev.includes(tag))[0];
-          const nameTag = this.tagFindOne('book', { name: newTag });
+          const nameTag = this.tagFindOne({ name: newTag });
           if (nameTag) {
             this.editValue = this.editValue.filter(tag => tag !== newTag);
             if (this.editValue.includes(nameTag._id)) return;
             this.editValue.push(nameTag._id);
             this.$emit('change', this.editValue);
-          } else if (!this.tagById('book', newTag)) {
+          } else if (!this.tagById(newTag)) {
             this.tagsDisabled = true;
             this.editValue = this.editValue.filter(tag => tag !== newTag);
-            this.$store.dispatch(A_CREATE_TAG, { name: newTag, type: 'book' })
+            this.$store.dispatch(A_CREATE_TAG, { name: newTag, type: this.type._id })
                 .then(tag => {
                   this.editValue.push(tag._id);
                   this.tagsDisabled = false;
@@ -146,20 +147,20 @@
     methods: {
       deleteTag(tag) {
         if (confirm('Are you sure you want to delete this tag?')) {
-          this.$store.dispatch(A_DELETE_TAG, this.tagById('book', tag));
+          this.$store.dispatch(A_DELETE_TAG, this.tagById(tag));
         }
       },
       updateTag() {
-        const update = { ...this.tagById('book', this.editTag), name: this.editTagName };
+        const update = { ...this.tagById(this.editTag), name: this.editTagName };
         this.$store.dispatch(A_UPDATE_TAG, update)
             .then(() => this.editTag = null);
       },
       startEditing(tag) {
         this.editTag = tag;
-        this.editTagName = this.tagById('book', tag).name;
+        this.editTagName = this.tagById(tag).name;
       },
       filterTags(item, query) {
-        const name = this.tagById('book', item).name;
+        const name = this.tagById(item).name;
         return name.toLowerCase().includes(query);
       }
     }

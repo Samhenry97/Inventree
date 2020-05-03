@@ -1,13 +1,12 @@
 import { Checkout } from '../models/checkout';
 
 export default {
-  async getCheckouts(conn) {
-    const checkouts = await Checkout.find({ user: conn.user._id });
-    conn.send('setCheckouts', checkouts);
+  async getCheckouts(conn, type) {
+    const checkouts = await Checkout.find({ type });
+    conn.send('setCheckouts', { type, checkouts });
     return checkouts;
   },
   async createCheckout(conn, data) {
-    data.user = conn.user._id;
     const checkout = await Checkout.create(data);
     conn.sendToRoom('createCheckout', checkout);
     return checkout;

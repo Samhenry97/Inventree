@@ -71,7 +71,7 @@
 
       <v-tab-item value="checkouts">
         <v-card-text>
-          <CheckoutsDashboard :book="editBook"></CheckoutsDashboard>
+          <CheckoutsDashboard :item="editBook"></CheckoutsDashboard>
         </v-card-text>
       </v-tab-item>
     </v-tabs>
@@ -79,36 +79,26 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters } from 'vuex';
   import TagSelector from '../tags/TagSelector';
-  import CheckoutsDashboard from '../../views/checkouts/CheckoutsDashboard';
+  import CheckoutsDashboard from '../../views/items/checkouts/CheckoutsDashboard';
   import EditDialog from '../EditDialog';
-  import { defaultModel } from '../../store/books.module';
+  import { defaultModel } from '../../store/items.module';
   import { A_CREATE_ITEM, A_UPDATE_ITEM } from '../../store/actions.type';
 
   export default {
     name: 'BookEditDialog',
     components: { EditDialog, CheckoutsDashboard, TagSelector },
     computed: {
-      ...mapState({
-        shelves: state => state.shelves.book
-      }),
+      ...mapGetters(['shelves']),
       add() {
         return !this.editBook._id;
-      }
-    },
-    sockets: {
-      updateItem({ type, updated }) {
-        if (type === 'book' && this.editBook && this.editBook._id === updated._id) {
-          this.editBook = updated;
-        }
       }
     },
     props: {
       book: Object
     },
     data: () => ({
-      dialog: false,
       editBook: { tags: [] },
       tagSearch: '',
       tagsDisabled: false,
@@ -126,7 +116,7 @@
       },
       save() {
         const command = this.add ? A_CREATE_ITEM : A_UPDATE_ITEM;
-        this.$store.dispatch(command, { type: 'book', item: this.editBook })
+        this.$store.dispatch(command, this.editBook)
             .then(() => this.$refs.dialog.close());
       },
       reset() {

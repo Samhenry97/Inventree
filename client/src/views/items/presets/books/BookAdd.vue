@@ -30,7 +30,7 @@
           ></v-select>
         </v-col>
         <v-col cols="12" sm="6">
-          <TagSelector :value="tags" @change="tags = $event" type="book"></TagSelector>
+          <TagSelector :value="tags" @change="tags = $event"></TagSelector>
         </v-col>
       </v-row>
       <div class="d-flex align-center">
@@ -84,9 +84,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import BookEditDialog from '../../components/books/BookEditDialog';
-  import TagSelector from '../../components/tags/TagSelector';
-  import { A_CREATE_ITEM, A_DELETE_ITEM, A_SEARCH_BOOKS } from '../../store/actions.type';
+  import BookEditDialog from '../../../../components/books/BookEditDialog';
+  import TagSelector from '../../../../components/tags/TagSelector';
+  import { A_CREATE_ITEM, A_DELETE_ITEM, A_SEARCH_BOOKS } from '../../../../store/actions.type';
 
   export default {
     name: 'BookAdd',
@@ -117,9 +117,10 @@
       numPages() {
         return Math.ceil(this.totalResults / this.resultsPerPage);
       },
-      ...mapGetters(['books', 'itemFindOne']),
-      ...mapState({
-        allShelves: state => state.shelves.book
+      ...mapGetters({
+        itemFindOne: 'itemFindOne',
+        allShelves: 'shelves',
+        type: 'type'
       })
     },
     watch: {
@@ -129,19 +130,25 @@
     },
     methods: {
       add(book) {
-        this.$store.dispatch(A_CREATE_ITEM, { type: 'book', item: { ...book, shelves: this.shelves, tags: this.tags } });
+        book = {
+          ...book,
+          type: this.type._id,
+          shelves: this.shelves,
+          tags: this.tags
+        };
+        this.$store.dispatch(A_CREATE_ITEM, book);
       },
       remove(book) {
         if (confirm('Are you sure you want to delete this book?')) {
           const storeBook = this.bookByIsbn(book);
-          this.$store.dispatch(A_DELETE_ITEM, { type: 'book', item: storeBook });
+          this.$store.dispatch(A_DELETE_ITEM, storeBook);
         }
       },
       bookByIsbn(book) {
         const query = {};
         if (book.isbn10) query.isbn10 = book.isbn10;
         if (book.isbn13) query.isbn13 = book.isbn13;
-        return this.itemFindOne('book', query);
+        return this.itemFindOne(query);
       },
       performSearch() {
         this.$refs.search.validate();

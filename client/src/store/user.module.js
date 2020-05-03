@@ -1,9 +1,10 @@
-import { M_SET_USER } from './mutations.type';
+import { M_SET_AUTHED, M_SET_USER } from './mutations.type';
 import { A_LOGIN, A_LOGOUT, A_UPDATE_USER } from './actions.type';
 import Socket from '../common/socket';
 
 const state = {
-  user: {}
+  user: {},
+  authed: false
 };
 
 const getters = {
@@ -11,17 +12,22 @@ const getters = {
     return state.user;
   },
   authed(state) {
-    return !!state.user._id;
+    return state.authed;
   }
 };
 
 const actions = {
-  [A_LOGIN](context, data) {
-    return Socket.one(this._vm, {
-      name: 'login',
-      data,
-      success: 'Successfully logged in!',
-      error: 'Error logging in.'
+  [A_LOGIN]({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      Socket.one(this._vm, {
+        name: 'login',
+        data,
+        success: 'Successfully logged in!',
+        error: 'Error logging in.'
+      }).then(response => {
+        commit(M_SET_AUTHED, true);
+        resolve(response);
+      }).catch(reject);
     });
   },
   [A_LOGOUT](context, data) {
@@ -45,6 +51,9 @@ const actions = {
 const mutations = {
   [M_SET_USER](state, user) {
     state.user = user;
+  },
+  [M_SET_AUTHED](state, authed) {
+    state.authed = authed;
   }
 };
 

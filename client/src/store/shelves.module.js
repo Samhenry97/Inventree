@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import {
   M_CREATE_SHELF,
   M_DELETE_SHELF,
@@ -14,20 +15,23 @@ export const defaultModel = {
 };
 
 const state = {
-  book: []
+
 };
 
 const getters = {
-  shelfById: state => (type, id) => {
-    const results = state[type].filter(shelf => shelf._id === id);
+  shelves: (state, getters) => state[getters.type._id],
+  shelfById: (state, getters) => id => {
+    const type = getters.type;
+    const results = state[type._id].filter(shelf => shelf._id === id);
     return results.length > 0 ? results[0] : null;
   },
-  shelfFindOne: state => (type, query) => {
-    const results = getters.shelfFindMany(state)(type, query);
+  shelfFindOne: (state, getters) => query => {
+    const results = getters.shelfFindMany(query);
     return results.length > 0 ? results[0] : null;
   },
-  shelfFindMany: state => (type, query) => {
-    return state[type].filter(shelf => {
+  shelfFindMany: (state, getters) => query => {
+    const type = getters.type;
+    return state[type._id].filter(shelf => {
       for (const field in query) {
         if (shelf[field] === query[field]) return true;
       }
@@ -65,7 +69,7 @@ const actions = {
 
 const mutations = {
   [M_SET_SHELVES](state, { type, shelves }) {
-    state[type] = shelves;
+    Vue.set(state, type, shelves);
   },
   [M_CREATE_SHELF](state, shelf) {
     state[shelf.type] = [...state[shelf.type], shelf];
