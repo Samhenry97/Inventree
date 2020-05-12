@@ -120,7 +120,7 @@
             this.editValue = this.editValue.filter(tag => tag !== newTag);
             if (this.editValue.includes(nameTag._id)) return;
             this.editValue.push(nameTag._id);
-            this.$emit('change', this.editValue);
+            this.$emit('input', this.editValue);
           } else if (!this.tagById(newTag)) {
             this.tagsDisabled = true;
             this.editValue = this.editValue.filter(tag => tag !== newTag);
@@ -128,19 +128,19 @@
                 .then(tag => {
                   this.editValue.push(tag._id);
                   this.tagsDisabled = false;
-                  this.$emit('change', this.editValue);
+                  this.$emit('input', this.editValue);
                 });
           } else {
-            this.$emit('change', this.editValue);
+            this.$emit('input', this.editValue);
           }
         } else {
-          this.$emit('change', this.editValue);
+          this.$emit('input', this.editValue);
         }
       },
       tags(val, prev) {
         if (val.length < prev.length) {
           this.editValue = this.editValue.filter(tag => val.includes(tag));
-          this.$emit('change', this.editValue);
+          this.$emit('input', this.editValue);
         }
       }
     },

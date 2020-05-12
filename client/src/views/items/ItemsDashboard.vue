@@ -1,6 +1,6 @@
 <template>
   <div id="items-dashboard">
-    <ItemEditDialog ref="editDialog" :book="editItem"></ItemEditDialog>
+    <ItemEditDialog ref="editDialog" :item="editItem"></ItemEditDialog>
 
     <div class="d-flex align-center">
       <p class="display-1 mb-0">My Items ({{ items.length }})</p>
@@ -102,7 +102,7 @@
     methods: {
       edit(item) {
         this.editItem = item;
-        this.$refs.editDialog.open();
+        this.$nextTick(() => this.$refs.editDialog.open());
       },
       remove(item) {
         if (confirm('Are you sure you want to delete this item?')) {

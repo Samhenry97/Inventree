@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div v-if="textual">
-      {{ value }}
-    </div>
+    <div v-html="html"></div>
   </div>
 </template>
 
@@ -14,14 +12,15 @@
         type: Object,
         required: true
       },
-      value: {
-        type: String,
-        required: true
-      }
+      value: null
     },
     computed: {
-      textual() {
-        return ['text', 'text-long'].includes(this.field.preset);
+      html() {
+        if (this.value instanceof Array) {
+          return this.value.join(', ');
+        } else {
+          return this.value;
+        }
       }
     }
   };

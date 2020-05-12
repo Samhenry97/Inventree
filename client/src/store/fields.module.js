@@ -12,14 +12,17 @@ import {
 } from './actions.type';
 import Socket from '../common/socket';
 
-export const defaultModel = {
-  name: '',
-  path: '',
-  preset: 'text',
-  options: {
-    cardDisplay: 'none'
-  }
-};
+export function defaultModel() {
+  return {
+    name: '',
+    path: '',
+    preset: 'text',
+    options: {
+      cardDisplay: 'none',
+      choices: []
+    }
+  };
+}
 
 export const PRESETS = [
   { name: 'Text', icon: 'text-short', value: 'text' },

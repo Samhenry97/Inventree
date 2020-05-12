@@ -30,7 +30,7 @@
           ></v-select>
         </v-col>
         <v-col cols="12" sm="6">
-          <TagSelector :value="tags" @change="tags = $event"></TagSelector>
+          <TagSelector v-model="tags"></TagSelector>
         </v-col>
       </v-row>
       <div class="d-flex align-center">
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
+  import { mapGetters } from 'vuex';
   import BookEditDialog from '../../../../components/books/BookEditDialog';
   import TagSelector from '../../../../components/tags/TagSelector';
   import { A_CREATE_ITEM, A_DELETE_ITEM, A_SEARCH_BOOKS } from '../../../../store/actions.type';

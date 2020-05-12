@@ -27,9 +27,6 @@
     props: {
       item: Object
     },
-    data: () => ({
-
-    }),
     computed: {
       ...mapGetters(['fields']),
       titles() {
