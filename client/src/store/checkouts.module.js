@@ -116,7 +116,7 @@ const mutations = {
       return checkout._id !== deleted._id;
     });
   },
-  [M_DELETE_ITEM](state, { type, deleted }) {
+  [M_DELETE_ITEM](state, deleted) {
     if (!state[deleted.type]) return;
     state[deleted.type] = state[deleted.type].filter(checkout => {
       return checkout.item !== deleted._id;

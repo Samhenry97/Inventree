@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div v-else>
+      <div v-else class="pa-4">
         <p class="display-1">Welcome to Inventree!</p>
       </div>
     </v-content>

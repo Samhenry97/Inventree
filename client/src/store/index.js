@@ -8,6 +8,7 @@ import checkouts from './checkouts.module';
 import containers from './containers.module';
 import types from './types.module';
 import general from './general.module';
+import fields from './fields.module';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     checkouts,
     containers,
     types,
-    general
+    general,
+    fields
   }
 })

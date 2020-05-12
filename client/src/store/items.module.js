@@ -20,24 +20,7 @@ import Socket from '../common/socket';
 
 export const defaultModel = {
   shelves: [],
-  tags: [],
-  title: '',
-  subtitle: '',
-  publisher: '',
-  published: '',
-  pageCount: null,
-  printType: 'paper',
-  maturityRating: '',
-  thumbnail: 'https://www.aamindus.com/images/notfound.png',
-  smallThumbnail: 'https://www.aamindus.com/images/notfound.png',
-  language: 'en',
-  author: '',
-  from: 'inventree',
-  fromid: '',
-  isbn10: '',
-  isbn13: '',
-  description: '',
-  rating: null
+  tags: []
 };
 
 const state = {
@@ -77,7 +60,8 @@ const actions = {
       { name: 'getItems', data: type },
       { name: 'getShelves', data: type },
       { name: 'getTags', data: type },
-      { name: 'getCheckouts', data: type }
+      { name: 'getCheckouts', data: type },
+      { name: 'getFields', data: type }
     ];
     return Socket.all(this._vm, commands);
   },

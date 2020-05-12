@@ -78,7 +78,7 @@
 
 <script>
   import moment from 'moment';
-  import { A_BOOK_REPORTS } from '../../../store/actions.type';
+  import { A_ITEM_REPORTS } from '../../../store/actions.type';
   import BarChart from '../../../components/charts/BarChart';
   import { formatPickerDate } from '../../../common/util';
 
@@ -118,7 +118,7 @@
       updateReports() {
         const range = { startDate: this.startDate, endDate: this.endDate };
         if (this.startDate && this.endDate) {
-          this.$store.dispatch(A_BOOK_REPORTS, range)
+          this.$store.dispatch(A_ITEM_REPORTS, range)
               .then(reports => {
                 for (const report of reports) {
                   report.datasets[0].backgroundColor = this.currentTheme.secondary.base;

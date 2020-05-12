@@ -10,7 +10,7 @@ export default new Vuetify({
       },
       dark: {
         primary: colors.green,
-        secondary: colors.lightBlue
+        secondary: colors.indigo
       }
     }
   }

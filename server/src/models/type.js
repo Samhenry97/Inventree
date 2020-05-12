@@ -20,20 +20,7 @@ export const TypeSchema = new Schema({
     type: String,
     trim: true,
     required: true
-  },
-  fields: [{
-    name: {
-      type: String,
-      trim: true,
-      required: true
-    },
-    path: {
-      type: String,
-      trim: true,
-      required: true
-    },
-    options: Schema.Types.Mixed
-  }]
+  }
 });
 TypeSchema.plugin(timestamps);
 TypeSchema.index({ collection: 1 });

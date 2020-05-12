@@ -49,6 +49,14 @@
             <v-list-item-title>Add {{ type.name }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item :to="{ name: 'fields' }" link color="secondary">
+          <v-list-item-icon>
+            <v-icon>mdi-text-box-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Fields</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 

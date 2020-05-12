@@ -10,6 +10,7 @@ import ReportsDashboard from '../views/items/reports/ReportsDashboard';
 import Items from '../views/items/Items';
 import ItemsDashboard from '../views/items/ItemsDashboard';
 import Dashboard from '../views/home/Dashboard';
+import FieldsDashboard from '../views/items/fields/FieldsDashboard';
 
 Vue.use(Router);
 
@@ -66,6 +67,12 @@ const router = new Router({
           name: 'bookadd',
           component: BookAdd,
           meta: { title: 'Add Books' }
+        },
+        {
+          path: 'fields',
+          name: 'fields',
+          component: FieldsDashboard,
+          meta: { title: 'Fields' }
         }
       ]
     }

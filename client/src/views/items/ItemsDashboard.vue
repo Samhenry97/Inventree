@@ -1,6 +1,6 @@
 <template>
   <div id="items-dashboard">
-    <BookEditDialog ref="editDialog" :book="editItem"></BookEditDialog>
+    <ItemEditDialog ref="editDialog" :book="editItem"></ItemEditDialog>
 
     <div class="d-flex align-center">
       <p class="display-1 mb-0">My Items ({{ items.length }})</p>
@@ -33,7 +33,7 @@
       <template #default="{ items }">
         <v-row>
           <v-col v-for="item of items" :key="item._id" cols="12" sm="6" md="4" lg="3">
-            <BookCard @click="edit(item)" :item="item" :edit="edit" :remove="remove"></BookCard>
+            <ItemCard @click="edit(item)" :item="item" @edit="edit" @remove="remove"></ItemCard>
           </v-col>
         </v-row>
       </template>
@@ -76,49 +76,24 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import BookEditDialog from '../../components/books/BookEditDialog';
   import { A_DELETE_ITEM, A_DELETE_MANY_ITEMS } from '../../store/actions.type';
   import CustomTable from '../../components/CustomTable';
-  import BookCard from '../../components/books/BookCard';
+  import ItemCard from '../../components/items/ItemCard';
+  import ItemEditDialog from '../../components/items/ItemEditDialog';
 
   export default {
     name: 'ItemsDashboard',
-    components: { BookCard, CustomTable, BookEditDialog },
+    components: { ItemEditDialog, ItemCard, CustomTable },
     computed: {
-      ...mapGetters(['items', 'type', 'shelfById'])
+      ...mapGetters(['items', 'type', 'shelfById', 'fields']),
+      headers() {
+        return this.fields.map(field => ({ text: field.name, value: field.name }));
+      },
+      sortOptions() {
+        return this.fields.map(field => ({ text: field.name, value: field.name }));
+      }
     },
     data: () => ({
-      headers: [
-        {
-          text: 'Shelves',
-          value: 'shelves'
-        },
-        {
-          text: 'Title',
-          value: 'title'
-        },
-        {
-          text: 'Subtitle',
-          value: 'subtitle'
-        },
-        {
-          text: 'Author',
-          value: 'author'
-        },
-        {
-          text: 'ISBN 10',
-          value: 'isbn10'
-        },
-        {
-          text: 'ISBN 13',
-          value: 'isbn13'
-        }
-      ],
-      sortOptions: [
-        { text: 'Title', value: 'title' },
-        { text: 'Subtitle', value: 'subtitle' },
-        { text: 'Author', value: 'author' }
-      ],
       editItem: null,
       cards: true,
       loading: false,

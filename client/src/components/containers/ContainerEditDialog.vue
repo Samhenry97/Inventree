@@ -32,11 +32,6 @@
         return !this.editContainer._id;
       }
     },
-    watch: {
-      container() {
-        this.reset();
-      }
-    },
     data: () => ({
       editContainer: {}
     }),

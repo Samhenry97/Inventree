@@ -7,6 +7,7 @@ import checkoutController from './checkout.controller';
 import reportController from './report.controller';
 import containerController from './container.controller';
 import typeController from './type.controller';
+import fieldController from './field.controller';
 
 export default {
   ...itemController,
@@ -17,5 +18,6 @@ export default {
   ...checkoutController,
   ...reportController,
   ...containerController,
-  ...typeController
+  ...typeController,
+  ...fieldController
 };

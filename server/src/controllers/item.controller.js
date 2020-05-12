@@ -18,7 +18,7 @@ export default {
   },
   async deleteItem(conn, item) {
     await Item.deleteOne({ _id: item._id });
-    conn.sendToRoom('deleteItem', { deleted: item });
+    conn.sendToRoom('deleteItem', item);
     return item;
   },
   async deleteManyItems(conn, { type, ids }) {

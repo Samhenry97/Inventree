@@ -1,4 +1,4 @@
-import { A_BOOK_REPORTS, A_SEARCH_BOOKS } from './actions.type';
+import { A_ITEM_REPORTS, A_SEARCH_BOOKS } from './actions.type';
 import Socket from '../common/socket';
 import { M_SET_SELECTED_CONTAINER, M_SET_SELECTED_TYPE } from './mutations.type';
 
@@ -20,9 +20,9 @@ const actions = {
       error: 'Error searching for books.'
     });
   },
-  [A_BOOK_REPORTS](context, data) {
+  [A_ITEM_REPORTS](context, data) {
     return Socket.one(this._vm, {
-      name: 'bookReports',
+      name: 'itemReports',
       data,
       error: 'Error generating reports.'
     });

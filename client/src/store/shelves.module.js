@@ -10,8 +10,7 @@ import Socket from '../common/socket';
 
 export const defaultModel = {
   name: '',
-  color: '#FFFFFF',
-  type: 'book'
+  color: '#FFFFFF'
 };
 
 const state = {

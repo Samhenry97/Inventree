@@ -16,6 +16,11 @@ export const M_CREATE_CHECKOUT = 'live_createCheckout';
 export const M_UPDATE_CHECKOUT = 'live_updateCheckout';
 export const M_DELETE_CHECKOUT = 'live_deleteCheckout';
 
+export const M_SET_FIELDS = 'live_setFields';
+export const M_CREATE_FIELD = 'live_createField';
+export const M_UPDATE_FIELD = 'live_updateField';
+export const M_DELETE_FIELD = 'live_deleteField';
+
 export const M_SET_ITEMS = 'live_setItems';
 export const M_CREATE_ITEM = 'live_createItem';
 export const M_UPDATE_ITEM = 'live_updateItem';
@@ -32,11 +37,6 @@ export const M_SET_CONTAINERS = 'live_setContainers';
 export const M_CREATE_CONTAINER = 'live_createContainer';
 export const M_UPDATE_CONTAINER = 'live_updateContainer';
 export const M_DELETE_CONTAINER = 'live_deleteContainer';
-
-export const M_SET_FIELDS = 'live_setFields';
-export const M_CREATE_FIELD = 'live_createField';
-export const M_UPDATE_FIELD = 'live_updateField';
-export const M_DELETE_FIELD = 'live_deleteField';
 
 export const M_SET_SELECTED_CONTAINER = 'setSelectedContainer';
 export const M_SET_SELECTED_TYPE = 'setSelectedType';
