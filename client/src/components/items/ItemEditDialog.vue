@@ -61,7 +61,7 @@
           const defaultValues = {};
           for (const field of this.fields) {
             if (this.item[field.name] === undefined) {
-              defaultValues[field.name] = field.options.default || '';
+              defaultValues[field.name] = field.options.default || null;
             }
           }
 
@@ -72,7 +72,7 @@
         } else {
           const defaultValues = {};
           for (const field of this.fields) {
-            defaultValues[field.name] = field.options.default || '';
+            defaultValues[field.name] = field.options.default || null;
           }
 
           this.editItem = {

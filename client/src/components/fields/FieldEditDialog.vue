@@ -32,6 +32,12 @@
               item-value="value"
           ></v-select>
         </v-col>
+        <v-col cols="12" sm="6">
+          <v-checkbox
+              v-model="editField.options.tableDisplay"
+              label="Table Display"
+          ></v-checkbox>
+        </v-col>
         <v-col v-if="['select', 'select-multi'].includes(editField.preset)" cols="12" sm="6">
           <v-list subheader dense>
             <v-subheader>Choices</v-subheader>

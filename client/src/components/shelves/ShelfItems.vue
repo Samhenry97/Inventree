@@ -19,7 +19,7 @@
   import ItemCard from '../items/ItemCard';
 
   export default {
-    name: 'ShelfBooks',
+    name: 'ShelfItems',
     components: { ItemCard, CustomTable },
     props: {
       shelf: Object

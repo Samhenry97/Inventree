@@ -1,6 +1,18 @@
 <template>
   <div>
-    <div v-html="html"></div>
+    <v-rating
+        v-if="field.preset === 'rating'"
+        :value="value"
+        readonly
+        half-increments
+        hover
+        empty-icon="mdi-heart-outline"
+        half-icon="mdi-heart-half-full"
+        full-icon="mdi-heart"
+        color="red"
+        background-color="grey"
+    ></v-rating>
+    <div v-else>{{ display }}</div>
   </div>
 </template>
 
@@ -15,7 +27,7 @@
       value: null
     },
     computed: {
-      html() {
+      display() {
         if (this.value instanceof Array) {
           return this.value.join(', ');
         } else {

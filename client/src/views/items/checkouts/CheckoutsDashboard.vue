@@ -1,5 +1,5 @@
 <template>
-  <div id="book-checkouts">
+  <div id="checkouts-dashboard">
     <CheckoutEditDialog :checkout="editCheckout" :item="item" ref="editDialog"></CheckoutEditDialog>
 
     <div v-if="!forItem">
@@ -94,9 +94,9 @@
         const results = [];
         const itemFields = ['title', 'subtitle', 'author'];
         for (const checkout of items) {
-          const book = this.itemById(checkout.item);
+          const item = this.itemById(checkout.item);
           for (const field of itemFields) {
-            if (book[field].toLowerCase().includes(search)) {
+            if (item[field].toLowerCase().includes(search)) {
               results.push(checkout);
               break;
             }

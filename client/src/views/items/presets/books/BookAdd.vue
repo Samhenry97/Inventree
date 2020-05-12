@@ -1,9 +1,9 @@
 <template>
-  <div id="bookadd">
-    <BookEditDialog ref="editDialog" :book="editBook"></BookEditDialog>
+  <div id="book-add">
+    <ItemEditDialog ref="editDialog" :item="editItem"></ItemEditDialog>
 
     <div class="d-flex align-center">
-      <p class="display-1 mb-0">Add Books</p>
+      <p class="display-1 mb-0">Add {{ type.name }}</p>
       <v-spacer></v-spacer>
       <v-btn color="secondary" @click="addManually">
         <v-icon class="mr-2">mdi-clipboard-text</v-icon>
@@ -84,13 +84,13 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import BookEditDialog from '../../../../components/books/BookEditDialog';
   import TagSelector from '../../../../components/tags/TagSelector';
   import { A_CREATE_ITEM, A_DELETE_ITEM, A_SEARCH_BOOKS } from '../../../../store/actions.type';
+  import ItemEditDialog from '../../../../components/items/ItemEditDialog';
 
   export default {
     name: 'BookAdd',
-    components: { TagSelector, BookEditDialog },
+    components: { ItemEditDialog, TagSelector },
     data: () => ({
       validSearch: true,
       searchTypes: [
@@ -111,7 +111,7 @@
       page: 1,
       resultsPerPage: 12,
       resultsPerPageOptions: [4, 8, 12, 16],
-      editBook: {}
+      editItem: null
     }),
     computed: {
       numPages() {
@@ -168,7 +168,7 @@
             });
       },
       addManually() {
-        this.editBook = null;
+        this.editItem = null;
         this.$refs.editDialog.open();
       }
     }

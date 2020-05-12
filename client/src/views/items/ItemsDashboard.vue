@@ -87,7 +87,9 @@
     computed: {
       ...mapGetters(['items', 'type', 'shelfById', 'fields']),
       headers() {
-        return this.fields.map(field => ({ text: field.name, value: field.name }));
+        return this.fields
+            .filter(field => field.options.tableDisplay)
+            .map(field => ({ text: field.name, value: field.name }));
       },
       sortOptions() {
         return this.fields.map(field => ({ text: field.name, value: field.name }));

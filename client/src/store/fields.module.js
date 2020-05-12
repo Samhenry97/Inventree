@@ -19,6 +19,7 @@ export function defaultModel() {
     preset: 'text',
     options: {
       cardDisplay: 'none',
+      tableDisplay: true,
       choices: []
     }
   };
@@ -35,8 +36,6 @@ export const PRESETS = [
   { name: 'Email', icon: 'email', value: 'email' },
   { name: 'URL', icon: 'link', value: 'url' },
   { name: 'Rating', icon: 'star', value: 'rating' },
-  { name: 'Created Time', icon: 'folder-plus', value: 'created' },
-  { name: 'Updated Time', icon: 'update', value: 'updated' },
   { name: 'Photo', icon: 'camera', value: 'photo' }
 ];
 
