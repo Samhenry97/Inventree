@@ -10,7 +10,6 @@
         Add Field
       </v-btn>
     </div>
-
     <v-divider class="my-2"></v-divider>
 
     <v-row>

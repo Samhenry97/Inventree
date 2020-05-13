@@ -9,6 +9,16 @@
             :container="editTypeContainerSelection"
         ></TypeEditDialog>
 
+        <div class="d-flex align-center">
+          <p class="display-1 mb-0">My Containers ({{ containers.length }})</p>
+          <v-spacer></v-spacer>
+          <v-btn color="secondary" @click="editContainer(null)">
+            <v-icon class="mr-2">mdi-plus</v-icon>
+            Add Container
+          </v-btn>
+        </div>
+        <v-divider class="my-2"></v-divider>
+
         <div v-for="container of containers" :key="container._id">
           <v-toolbar color="secondary" dark>
             {{ container.name }}
