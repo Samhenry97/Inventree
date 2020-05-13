@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 const server = new Server(app);
 const io = Socket(server);
-server.listen(8000);
+server.listen(process.env.PORT || 8000);
 
 // Serve the actual Vue client
 app.use('/', express.static(process.cwd() + '/../client/dist'));

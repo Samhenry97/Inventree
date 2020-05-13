@@ -1,0 +1,12 @@
+{
+  "name": "inventree",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Samuel Henry",
+  "license": "MIT",
+  "scripts": {
+    "build": "cd client && yarn install --production=false && yarn build && cd ../server && yarn install --production=false && yarn build && cd ..",
+    "start": "cd server && npm start"
+  },
+  "dependencies": {}
+}

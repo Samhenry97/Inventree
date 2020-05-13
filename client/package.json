@@ -1,11 +1,10 @@
 {
-  "name": "inventree",
+  "name": "inventree-client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build --mode prod"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.5",
