@@ -11,6 +11,7 @@ import Items from '../views/items/Items';
 import ItemsDashboard from '../views/items/ItemsDashboard';
 import Dashboard from '../views/Dashboard';
 import FieldsDashboard from '../views/items/fields/FieldsDashboard';
+import UserProfile from '../views/users/UserProfile';
 
 Vue.use(Router);
 
@@ -33,6 +34,11 @@ const router = new Router({
       name: 'settings',
       component: Settings,
       meta: { title: 'Settings' }
+    },
+    {
+      path: '/u/:user',
+      name: 'user-profile',
+      component: UserProfile
     },
     {
       path: '/c/:container/:type',

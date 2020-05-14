@@ -29,7 +29,11 @@ export const UserSchema = new Schema(
       darkMode: {
         type: Boolean,
         default: false
-      }
+      },
+      friends: [{
+        type: Schema.Types.ObjectID,
+        ref: 'User'
+      }]
     },
     { collection: 'users' }
 );

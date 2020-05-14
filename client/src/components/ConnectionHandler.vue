@@ -1,6 +1,6 @@
 <template>
   <div v-if="!connected" id="connection-handler">
-    <div v-if="!reconnect_failed">
+    <div v-if="!reconnectFailed">
       <p class="display-2">Lost Connection</p>
       <p class="display-1">Reconnecting...</p>
     </div>
@@ -18,9 +18,8 @@
     name: 'ConnectionHandler',
     data: () => ({
       connected: true,
-      reconnect_attempt: 0,
-      reconnect_failed: false,
-      reconnect_success: false
+      reconnectFailed: false,
+      maxAttempts: 30
     }),
     sockets: {
       connect() {
@@ -30,11 +29,13 @@
         this.connected = false;
       },
       reconnect_attempt(attempt) {
-        this.reconnect_attempt = attempt;
+        if (attempt > this.maxAttempts) {
+          this.reconnectFailed = true;
+        }
         this.connected = false;
       },
       reconnect_failed() {
-        this.reconnect_failed = true;
+        this.reconnectFailed = true;
         this.connected = false;
       },
       reconnect() {

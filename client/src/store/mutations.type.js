@@ -1,5 +1,7 @@
 export const M_SET_USER = 'live_setUser';
 export const M_SET_AUTHED = 'setAuthed';
+export const M_ADD_FRIEND = 'live_addFriend';
+export const M_DELETE_FRIEND = 'live_deleteFriend';
 
 export const M_SET_TAGS = 'live_setTags';
 export const M_CREATE_TAG = 'live_createTag';

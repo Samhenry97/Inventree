@@ -36,5 +36,9 @@ export const A_ITEM_REPORTS = 'itemReports';
 
 export const A_LOGIN = 'login';
 export const A_LOGOUT = 'logout';
-export const A_RECONNECT = 'reconnect';
+export const A_RECONNECT = 'loginRefresh';
 export const A_UPDATE_USER = 'updateUser';
+export const A_SEARCH_USERS = 'searchUsers';
+export const A_FETCH_USER = 'fetchUser';
+export const A_ADD_FRIEND = 'addFriend';
+export const A_DELETE_FRIEND = 'deleteFriend';

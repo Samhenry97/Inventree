@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default new VueSocketIO({
-  debug: true,
+  debug: process.env.NODE_ENV !== 'production',
   connection: process.env.VUE_APP_SOCKET_URL,
   vuex: {
     store,
