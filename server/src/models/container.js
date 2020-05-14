@@ -13,11 +13,6 @@ export const ContainerSchema = new Schema(
       trim: true,
       required: true
     },
-    path: {
-      type: String,
-      trim: true,
-      required: true
-    },
     description: {
       type: String,
       trim: true

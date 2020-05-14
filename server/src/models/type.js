@@ -15,11 +15,6 @@ export const TypeSchema = new Schema({
     type: String,
     trim: true,
     required: true
-  },
-  path: {
-    type: String,
-    trim: true,
-    required: true
   }
 });
 TypeSchema.plugin(timestamps);

@@ -29,7 +29,7 @@
           <v-row>
             <v-col v-for="type of typeByContainer(container._id)" :key="type._id" cols="12" sm="6" md="4" lg="3">
               <TypeCard
-                  @click="$router.push({ name: 'items', params: { container: container.path, type: type.path } })"
+                  @click="$router.push({ name: 'items', params: { container: container._id, type: type._id } })"
                   @edit="editType"
                   @remove="removeType"
                   :type="type"
@@ -56,10 +56,10 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import TypeCard from '../../components/types/TypeCard';
-  import TypeEditDialog from '../../components/types/TypeEditDialog';
-  import ContainerEditDialog from '../../components/containers/ContainerEditDialog';
-  import { A_DELETE_CONTAINER, A_DELETE_TYPE } from '../../store/actions.type';
+  import TypeCard from '../components/types/TypeCard';
+  import TypeEditDialog from '../components/types/TypeEditDialog';
+  import ContainerEditDialog from '../components/containers/ContainerEditDialog';
+  import { A_DELETE_CONTAINER, A_DELETE_TYPE } from '../store/actions.type';
 
   export default {
     name: 'Dashboard',

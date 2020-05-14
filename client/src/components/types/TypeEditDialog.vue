@@ -6,9 +6,6 @@
           <v-text-field v-model="editType.name" label="Name"></v-text-field>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-text-field v-model="editType.path" label="Path"></v-text-field>
-        </v-col>
-        <v-col cols="12">
           <v-select
               v-model="editType.preset"
               :items="['book']"

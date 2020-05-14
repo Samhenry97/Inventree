@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
+import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -10,6 +11,9 @@ import Snackbar from './plugins/snackbar';
 import './plugins/chartjs';
 
 Vue.config.productionTip = false;
+
+// Keep store and router in sync
+sync(store, router);
 
 Vue.use(Vuetify);
 Vue.use(socketio);

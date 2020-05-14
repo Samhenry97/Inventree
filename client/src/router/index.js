@@ -9,7 +9,7 @@ import CheckoutsDashboard from '../views/items/checkouts/CheckoutsDashboard';
 import ReportsDashboard from '../views/items/reports/ReportsDashboard';
 import Items from '../views/items/Items';
 import ItemsDashboard from '../views/items/ItemsDashboard';
-import Dashboard from '../views/home/Dashboard';
+import Dashboard from '../views/Dashboard';
 import FieldsDashboard from '../views/items/fields/FieldsDashboard';
 
 Vue.use(Router);

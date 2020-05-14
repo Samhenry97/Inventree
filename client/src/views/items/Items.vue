@@ -73,7 +73,7 @@
 <script>
   import { mapGetters } from 'vuex';
   import Skeleton from '../../components/Skeleton';
-  import { M_SET_SELECTED_CONTAINER, M_SET_SELECTED_TYPE, M_TOGGLE_DRAWER } from '../../store/mutations.type';
+  import { M_TOGGLE_DRAWER } from '../../store/mutations.type';
   import { A_FETCH_ITEMS } from '../../store/actions.type';
 
   export default {
@@ -86,13 +86,7 @@
       loading: true
     }),
     created() {
-      const containerPath = this.$route.params.container;
-      const typePath = this.$route.params.type;
-      const container = this.containerFindOne({ path: containerPath });
-      const type = this.typeFindOne(container._id, { path: typePath });
-      this.$store.commit(M_SET_SELECTED_CONTAINER, container._id);
-      this.$store.commit(M_SET_SELECTED_TYPE, type._id);
-      this.$store.dispatch(A_FETCH_ITEMS, type._id)
+      this.$store.dispatch(A_FETCH_ITEMS, this.$route.params.type)
           .then(() => this.loading = false);
     },
     methods: {

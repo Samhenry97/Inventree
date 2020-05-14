@@ -6,9 +6,6 @@
           <v-text-field v-model="editContainer.name" label="Name"></v-text-field>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-text-field v-model="editContainer.path" label="Path"></v-text-field>
-        </v-col>
-        <v-col cols="12">
           <v-textarea v-model="editContainer.description" label="Description"></v-textarea>
         </v-col>
       </v-row>

@@ -1,7 +1,6 @@
 <template>
   <v-card hover ripple shaped @click="$emit('click')">
     <v-card-title>{{ type.name }}</v-card-title>
-    <v-card-subtitle>{{ type.path }}</v-card-subtitle>
     <v-card-actions class="pt-0">
       <v-btn text @click.stop="$emit('edit', type)">Edit</v-btn>
       <v-btn color="error" text @click.stop="$emit('remove', type)">Delete</v-btn>
