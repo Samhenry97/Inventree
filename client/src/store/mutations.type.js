@@ -40,3 +40,4 @@ export const M_DELETE_CONTAINER = 'live_deleteContainer';
 
 export const M_SET_SELECTED_CONTAINER = 'setSelectedContainer';
 export const M_SET_SELECTED_TYPE = 'setSelectedType';
+export const M_TOGGLE_DRAWER = 'toggleDrawer';

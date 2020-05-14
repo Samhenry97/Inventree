@@ -2,7 +2,8 @@
   <div id="items">
     <v-navigation-drawer
         app
-        v-model="drawer"
+        :value="drawer"
+        @input="setDrawer"
         :clipped="$vuetify.breakpoint.mdAndUp"
         mobile-break-point="md"
         :temporary="$vuetify.breakpoint.smAndDown"
@@ -72,18 +73,17 @@
 <script>
   import { mapGetters } from 'vuex';
   import Skeleton from '../../components/Skeleton';
-  import { M_SET_SELECTED_CONTAINER, M_SET_SELECTED_TYPE } from '../../store/mutations.type';
+  import { M_SET_SELECTED_CONTAINER, M_SET_SELECTED_TYPE, M_TOGGLE_DRAWER } from '../../store/mutations.type';
   import { A_FETCH_ITEMS } from '../../store/actions.type';
 
   export default {
     name: 'Items',
     components: { Skeleton },
     computed: {
-      ...mapGetters(['typeFindOne', 'containerFindOne', 'type'])
+      ...mapGetters(['typeFindOne', 'containerFindOne', 'type', 'drawer'])
     },
     data: () => ({
-      loading: true,
-      drawer: null
+      loading: true
     }),
     created() {
       const containerPath = this.$route.params.container;
@@ -94,6 +94,11 @@
       this.$store.commit(M_SET_SELECTED_TYPE, type._id);
       this.$store.dispatch(A_FETCH_ITEMS, type._id)
           .then(() => this.loading = false);
+    },
+    methods: {
+      setDrawer(value) {
+        this.$store.commit(M_TOGGLE_DRAWER, value);
+      }
     }
   };
 </script>

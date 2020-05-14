@@ -25,7 +25,7 @@
           color="primary"
           dark
       >
-        <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
+        <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="toggleDrawer" />
         <v-toolbar-title class="ml-0 pl-4">Inventree</v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -97,6 +97,7 @@
   import { mapGetters } from 'vuex';
   import ConnectionHandler from './components/ConnectionHandler';
   import { A_LOGIN, A_LOGOUT } from './store/actions.type';
+  import { M_TOGGLE_DRAWER } from './store/mutations.type';
 
   export default {
     name: 'App',
@@ -126,6 +127,9 @@
       async logout() {
         this.$store.dispatch(A_LOGOUT)
             .then(() => this.$auth.logout());
+      },
+      toggleDrawer() {
+        this.$store.commit(M_TOGGLE_DRAWER);
       }
     }
   };
