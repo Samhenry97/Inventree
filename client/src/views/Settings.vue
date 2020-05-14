@@ -1,9 +1,12 @@
 <template>
-  <div id="settings">
-    <p class="display-1">Settings</p>
+  <v-content id="settings">
+    <div class="pa-4">
+      <p class="display-1 mb-0">Edit Settings</p>
+      <v-divider class="my-2"></v-divider>
 
-    <v-switch @change="toggleDarkMode" :input-value="$vuetify.theme.dark" label="Dark Mode"></v-switch>
-  </div>
+      <v-switch @change="toggleDarkMode" :input-value="$vuetify.theme.dark" label="Dark Mode"></v-switch>
+    </div>
+  </v-content>
 </template>
 
 <script>
