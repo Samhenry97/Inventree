@@ -1,5 +1,5 @@
 <template>
-  <v-card hover ripple shaped @click="$emit('click')">
+  <v-card hover ripple @click="$emit('click')">
     <v-img v-if="photo" height="192px" :src="photo"></v-img>
     <v-card-title>
       <FieldDisplay v-for="field of titles" :key="field._id" :field="field" :value="item[field.name]"></FieldDisplay>

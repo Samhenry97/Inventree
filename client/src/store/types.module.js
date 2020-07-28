@@ -15,7 +15,6 @@ import Socket from '../common/socket';
 
 export const defaultModel = {
   name: '',
-  path: '',
   description: ''
 };
 

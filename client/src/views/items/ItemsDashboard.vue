@@ -2,28 +2,27 @@
   <div id="items-dashboard">
     <ItemEditDialog ref="editDialog" :item="editItem"></ItemEditDialog>
 
-    <div class="d-flex align-center">
-      <p class="display-1 mb-0">My Items ({{ items.length }})</p>
-      <v-spacer></v-spacer>
-      <v-btn-toggle class="mr-2" v-model="cards" mandatory dense>
-        <v-btn text color="secondary" :value="true">
-          <v-icon class="mr-2" color="secondary">mdi-card</v-icon>
-          Cards
-        </v-btn>
-        <v-btn text color="secondary" :value="false">
-          <v-icon class="mr-2" color="secondary">mdi-table</v-icon>
-          Table
-        </v-btn>
-      </v-btn-toggle>
-      <router-link :to="{ name: 'bookadd' }">
-        <v-btn color="secondary">
-          <v-icon class="mr-2">mdi-plus</v-icon>
-          Add Item
-        </v-btn>
-      </router-link>
-    </div>
-
-    <v-divider class="my-2"></v-divider>
+    <Header>
+      My Items ({{ items.length }})
+      <template #right>
+        <v-btn-toggle class="mr-2" v-model="cards" mandatory dense>
+          <v-btn text color="secondary" :value="true">
+            <v-icon class="mr-2" color="secondary">mdi-card</v-icon>
+            Cards
+          </v-btn>
+          <v-btn text color="secondary" :value="false">
+            <v-icon class="mr-2" color="secondary">mdi-table</v-icon>
+            Table
+          </v-btn>
+        </v-btn-toggle>
+        <router-link :to="{ name: 'bookadd' }">
+          <v-btn color="secondary">
+            <v-icon class="mr-2">mdi-plus</v-icon>
+            Add Item
+          </v-btn>
+        </router-link>
+      </template>
+    </Header>
 
     <CustomTable
         v-if="cards"
@@ -80,10 +79,11 @@
   import CustomTable from '../../components/CustomTable';
   import ItemCard from '../../components/items/ItemCard';
   import ItemEditDialog from '../../components/items/ItemEditDialog';
+  import Header from '../../components/Header';
 
   export default {
     name: 'ItemsDashboard',
-    components: { ItemEditDialog, ItemCard, CustomTable },
+    components: { Header, ItemEditDialog, ItemCard, CustomTable },
     computed: {
       ...mapGetters(['items', 'type', 'shelfById', 'fields']),
       headers() {

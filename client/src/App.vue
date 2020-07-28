@@ -9,19 +9,21 @@
           indeterminate
           color="secondary"
       ></v-progress-linear>
-
       <div class="loading mb-12">
         <div>
           <img :src="require('./assets/logo.png')"/>
         </div>
-        <p class="display-4">Inventree</p>
+        <p class="display-3">Inventree</p>
       </div>
     </div>
 
-    <div v-else>
+    <template v-else>
       <AppBar></AppBar>
+
       <router-view></router-view>
-    </div>
+
+      <v-footer app>&copy; Samuel Henry {{ new Date().getFullYear() }}</v-footer>
+    </template>
   </v-app>
 </template>
 
@@ -30,21 +32,20 @@
   import ConnectionHandler from './components/ConnectionHandler';
   import { A_LOGIN } from './store/actions.type';
   import AppBar from './components/AppBar';
+  import { M_SET_LOADING } from './store/mutations.type';
 
   export default {
     name: 'App',
     components: { AppBar, ConnectionHandler },
-    data: () => ({
-      loading: true,
-    }),
     beforeCreate() {
       this.$auth.$watch('loading', loading => {
-        if (!loading && !this.$auth.user) this.loading = false;
+        if (!loading && !this.$auth.user) {
+          this.$store.commit(M_SET_LOADING, false);
+        }
       });
       this.$auth.$watch('user', user => {
         if (user) {
-          this.$store.dispatch(A_LOGIN, user)
-              .then(() => this.loading = false);
+          this.$store.dispatch(A_LOGIN, user);
         }
       });
     },
@@ -53,7 +54,7 @@
         this.$vuetify.theme.dark = user.darkMode;
       }
     },
-    computed: mapGetters(['user', 'authed'])
+    computed: mapGetters(['user', 'authed', 'loading'])
   };
 </script>
 

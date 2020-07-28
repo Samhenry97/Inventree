@@ -30,18 +30,18 @@ export default {
       { email: { $regex: regex } }
     ];
     const users =  await User.find({ $or: or });
-    return users.filter(user => user._id.toString() !== conn.user._id.toString());
+    return users.filter(user => user._id.toString() !== conn.user.toString());
   },
   async getUser(conn, user) {
     return await User.findById(user);
   },
   async addFriend(conn, friend) {
-    await User.updateOne({ _id: conn.user._id }, { $addToSet: { friends: friend } });
+    await User.updateOne({ _id: conn.user }, { $addToSet: { friends: friend } });
     conn.sendToRoom('addFriend', friend);
     return friend;
   },
   async deleteFriend(conn, friend) {
-    await User.updateOne({ _id: conn.user._id }, { $pull: { friends: friend } });
+    await User.updateOne({ _id: conn.user }, { $pull: { friends: friend } });
     conn.sendToRoom('deleteFriend', friend);
     return friend;
   }

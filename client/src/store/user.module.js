@@ -1,4 +1,4 @@
-import { M_ADD_FRIEND, M_DELETE_FRIEND, M_SET_AUTHED, M_SET_USER } from './mutations.type';
+import { M_ADD_FRIEND, M_DELETE_FRIEND, M_SET_AUTHED, M_SET_LOADING, M_SET_USER, M_SET_USERS } from './mutations.type';
 import {
   A_ADD_FRIEND,
   A_DELETE_FRIEND,
@@ -13,16 +13,14 @@ import Socket from '../common/socket';
 
 const state = {
   user: {},
-  authed: false
+  authed: false,
+  loading: true
 };
 
 const getters = {
-  user(state) {
-    return state.user;
-  },
-  authed(state) {
-    return state.authed;
-  }
+  user: state => state.user,
+  authed: state => state.authed,
+  loading: state => state.loading
 };
 
 const actions = {
@@ -35,6 +33,7 @@ const actions = {
         error: 'Error logging in.'
       }).then(response => {
         commit(M_SET_AUTHED, true);
+        commit(M_SET_LOADING, false);
         resolve(response);
       }).catch(reject);
     });
@@ -100,6 +99,9 @@ const mutations = {
   },
   [M_SET_AUTHED](state, authed) {
     state.authed = authed;
+  },
+  [M_SET_LOADING](state, loading) {
+    state.loading = loading;
   },
   [M_ADD_FRIEND](state, friend) {
     state.user = {

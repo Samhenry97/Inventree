@@ -31,6 +31,16 @@ export const A_CREATE_SHELF = 'createShelf';
 export const A_UPDATE_SHELF = 'updateShelf';
 export const A_DELETE_SHELF = 'deleteShelf';
 
+export const A_FETCH_CONVERSATIONS = 'fetchConversations';
+export const A_CREATE_CONVERSATION = 'createConversation';
+export const A_UPDATE_CONVERSATION = 'updateConversation';
+export const A_DELETE_CONVERSATION = 'deleteConversation';
+
+export const A_FETCH_MESSAGES = 'fetchMessages';
+export const A_CREATE_MESSAGE = 'createMessage';
+export const A_UPDATE_MESSAGE = 'updateMessage';
+export const A_DELETE_MESSAGE = 'deleteMessage';
+
 export const A_SEARCH_BOOKS = 'searchBooks';
 export const A_ITEM_REPORTS = 'itemReports';
 

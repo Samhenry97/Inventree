@@ -1,5 +1,5 @@
 <template>
-  <v-card hover ripple shaped @click="$emit('click')">
+  <v-card hover ripple @click="$emit('click')">
     <v-card-title>{{ type.name }}</v-card-title>
     <v-card-actions class="pt-0">
       <v-btn text @click.stop="$emit('edit', type)">Edit</v-btn>

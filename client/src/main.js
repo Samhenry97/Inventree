@@ -8,6 +8,7 @@ import socketio from './plugins/socketio';
 import vuetify from './plugins/vuetify';
 import Auth0 from './plugins/auth0';
 import Snackbar from './plugins/snackbar';
+import Fragment from 'vue-fragment';
 import './plugins/chartjs';
 
 Vue.config.productionTip = false;
@@ -22,6 +23,7 @@ Vue.use(Auth0, {
   clientId: '60NWsl3CJvAc4NJFOfJS5C6DNkCbXGyn'
 });
 Vue.use(Snackbar);
+Vue.use(Fragment.Plugin);
 
 new Vue({
   router,

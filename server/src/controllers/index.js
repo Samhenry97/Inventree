@@ -8,6 +8,8 @@ import reportController from './report.controller';
 import containerController from './container.controller';
 import typeController from './type.controller';
 import fieldController from './field.controller';
+import conversationController from './conversation.controller';
+import messageController from './message.controller';
 
 export default {
   ...itemController,
@@ -19,5 +21,7 @@ export default {
   ...reportController,
   ...containerController,
   ...typeController,
-  ...fieldController
+  ...fieldController,
+  ...conversationController,
+  ...messageController
 };

@@ -12,6 +12,8 @@ import ItemsDashboard from '../views/items/ItemsDashboard';
 import Dashboard from '../views/Dashboard';
 import FieldsDashboard from '../views/items/fields/FieldsDashboard';
 import UserProfile from '../views/users/UserProfile';
+import ConversationsDashboard from '../views/conversations/ConversationsDashboard';
+import Conversation from '../views/conversations/Conversation';
 
 Vue.use(Router);
 
@@ -39,6 +41,19 @@ const router = new Router({
       path: '/u/:user',
       name: 'user-profile',
       component: UserProfile
+    },
+    {
+      path: '/m',
+      name: 'conversations',
+      component: ConversationsDashboard,
+      meta: { title: 'Conversations' },
+      children: [
+        {
+          path: ':conversation',
+          name: 'conversation',
+          component: Conversation
+        }
+      ]
     },
     {
       path: '/c/:container/:type',

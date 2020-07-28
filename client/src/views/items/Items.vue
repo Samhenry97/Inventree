@@ -1,14 +1,6 @@
 <template>
-  <div id="items">
-    <v-navigation-drawer
-        app
-        :value="drawer"
-        @input="setDrawer"
-        :clipped="$vuetify.breakpoint.mdAndUp"
-        mobile-break-point="md"
-        :temporary="$vuetify.breakpoint.smAndDown"
-        :permanent="$vuetify.breakpoint.mdAndUp"
-    >
+  <fragment>
+    <SideBar>
       <v-list dense nav>
         <v-list-item :to="{ name: 'items' }" link color="secondary">
           <v-list-item-icon>
@@ -59,7 +51,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </SideBar>
 
     <v-content>
       <div class="pa-4">
@@ -67,18 +59,18 @@
         <router-view v-else></router-view>
       </div>
     </v-content>
-  </div>
+  </fragment>
 </template>
 
 <script>
   import { mapGetters } from 'vuex';
   import Skeleton from '../../components/Skeleton';
-  import { M_TOGGLE_DRAWER } from '../../store/mutations.type';
   import { A_FETCH_ITEMS } from '../../store/actions.type';
+  import SideBar from '../../components/SideBar';
 
   export default {
     name: 'Items',
-    components: { Skeleton },
+    components: { SideBar, Skeleton },
     computed: {
       ...mapGetters(['typeFindOne', 'containerFindOne', 'type', 'drawer'])
     },
@@ -88,11 +80,6 @@
     created() {
       this.$store.dispatch(A_FETCH_ITEMS, this.$route.params.type)
           .then(() => this.loading = false);
-    },
-    methods: {
-      setDrawer(value) {
-        this.$store.commit(M_TOGGLE_DRAWER, value);
-      }
     }
   };
 </script>

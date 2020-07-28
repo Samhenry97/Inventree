@@ -7,7 +7,6 @@ export default class Connection {
   socket = null;
   io = null;
   user = null;
-  room = null;
 
   constructor(socket, io) {
     this.socket = socket;
@@ -29,16 +28,19 @@ export default class Connection {
     return await controllers[method](this, data);
   }
 
+  roomName(user) {
+    return `${ROOM_PREFIX}${user}`;
+  }
+
   login(user) {
-    this.user = user;
-    this.room = `${ROOM_PREFIX}${user._id}`;
-    this.socket.join(this.room);
+    const room = this.roomName(user._id);
+    this.user = user._id;
+    this.socket.join(room);
     logger.info(`New Login: ${user.name}`);
   }
 
   logout() {
     this.user = null;
-    this.room = null;
   }
 
   send(message, data) {
@@ -46,6 +48,13 @@ export default class Connection {
   }
 
   sendToRoom(message, data) {
-    this.io.to(this.room).emit(message, data);
+    const room = this.roomName(this.user);
+    this.io.to(room).emit(message, data);
+  }
+
+  sendToUser(user, message, data) {
+    const room = this.roomName(user);
+    console.warn(room);
+    this.io.to(room).emit(message, data);
   }
 }

@@ -2,17 +2,33 @@
   <v-autocomplete
       :items="items"
       :search-input.sync="search"
-      v-model="selection"
-      @input="visitProfile"
+      :dense="$vuetify.breakpoint.smAndDown"
+      :value="value"
+      @input="$emit('input', $event)"
       item-text="name"
-      item-value="_id"
+      return-object
+      multiple
       cache-items
       solo-inverted
       flat
       hide-details
-      label="Search Users..."
+      label="Search Inventree"
       prepend-inner-icon="mdi-magnify"
   >
+    <template #selection="{ item, attrs, selected, select }">
+      <v-chip
+          v-bind="attrs"
+          :input-value="selected"
+          close
+          @click="select"
+          @click:close="removeUser(item._id)"
+      >
+        <v-avatar left>
+          <v-img :src="item.picture"></v-img>
+        </v-avatar>
+        {{ item.name }}
+      </v-chip>
+    </template>
     <template #item="{ item }">
       <v-list-item-avatar>
         <v-img :src="item.picture"></v-img>
@@ -30,6 +46,12 @@
 
   export default {
     name: 'UserSearch',
+    props: {
+      value: {
+        type: null,
+        default: []
+      }
+    },
     data: () => ({
       loading: false,
       items: [],
@@ -49,10 +71,8 @@
               this.loading = false;
             });
       },
-      visitProfile(user) {
-        this.$emit('select', user);
-        this.$nextTick(() => this.selection = null);
-        this.$router.push({ name: 'user-profile', params: { user } });
+      removeUser(user) {
+        this.$emit('input', this.value.filter(id => id !== user));
       }
     }
   };

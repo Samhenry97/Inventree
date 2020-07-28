@@ -12,11 +12,12 @@
       hide-default-footer
   >
     <template #header>
-      <v-toolbar dark color="secondary">
+      <v-toolbar dark dense color="secondary">
         <v-text-field
             v-model="search"
             clearable
             flat
+            dense
             solo-inverted
             hide-details
             prepend-inner-icon="mdi-magnify"
@@ -26,6 +27,7 @@
         <v-select
             v-model="sortBy"
             flat
+            dense
             solo-inverted
             hide-details
             :items="sortOptions"
@@ -33,11 +35,11 @@
             label="Sort by..."
         ></v-select>
         <v-spacer></v-spacer>
-        <v-btn-toggle v-model="sortDesc" mandatory>
-          <v-btn large depressed color="secondary" :value="false">
+        <v-btn-toggle v-model="sortDesc" mandatory dense>
+          <v-btn depressed color="secondary" :value="false">
             <v-icon>mdi-arrow-up</v-icon>
           </v-btn>
-          <v-btn large depressed color="secondary" :value="true">
+          <v-btn depressed color="secondary" :value="true">
             <v-icon>mdi-arrow-down</v-icon>
           </v-btn>
         </v-btn-toggle>

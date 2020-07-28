@@ -9,6 +9,8 @@ import containers from './containers.module';
 import types from './types.module';
 import general from './general.module';
 import fields from './fields.module';
+import conversations from './conversations.module';
+import messages from './messages.module';
 
 Vue.use(Vuex);
 
@@ -22,6 +24,8 @@ export default new Vuex.Store({
     containers,
     types,
     general,
-    fields
+    fields,
+    conversations,
+    messages
   }
 })

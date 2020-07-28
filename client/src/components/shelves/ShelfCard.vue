@@ -1,5 +1,5 @@
 <template>
-  <v-card hover ripple shaped @click="$emit('click')">
+  <v-card hover ripple @click="$emit('click')">
     <v-card-title>{{ shelf.name }}</v-card-title>
     <v-card-subtitle>
       <div class="color" :style="colorStyle"></div>

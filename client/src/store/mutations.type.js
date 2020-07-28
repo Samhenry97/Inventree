@@ -1,5 +1,6 @@
 export const M_SET_USER = 'live_setUser';
 export const M_SET_AUTHED = 'setAuthed';
+export const M_SET_LOADING = 'setLoading';
 export const M_ADD_FRIEND = 'live_addFriend';
 export const M_DELETE_FRIEND = 'live_deleteFriend';
 
@@ -39,5 +40,15 @@ export const M_SET_CONTAINERS = 'live_setContainers';
 export const M_CREATE_CONTAINER = 'live_createContainer';
 export const M_UPDATE_CONTAINER = 'live_updateContainer';
 export const M_DELETE_CONTAINER = 'live_deleteContainer';
+
+export const M_SET_CONVERSATIONS = 'live_setConversations';
+export const M_CREATE_CONVERSATION = 'live_createConversation';
+export const M_UPDATE_CONVERSATION = 'live_updateConversation';
+export const M_DELETE_CONVERSATION = 'live_deleteConversation';
+
+export const M_SET_MESSAGES = 'live_setMessages';
+export const M_CREATE_MESSAGE = 'live_createMessage';
+export const M_UPDATE_MESSAGE = 'live_updateMessage';
+export const M_DELETE_MESSAGE = 'live_deleteMessage';
 
 export const M_TOGGLE_DRAWER = 'toggleDrawer';

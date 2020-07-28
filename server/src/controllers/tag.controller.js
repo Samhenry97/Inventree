@@ -7,7 +7,7 @@ export default {
     return tags;
   },
   async createTag(conn, data) {
-    data.user = conn.user._id;
+    data.user = conn.user;
     const tag = await Tag.create(data);
     conn.sendToRoom('createTag', tag);
     return tag;

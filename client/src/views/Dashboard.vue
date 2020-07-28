@@ -9,41 +9,43 @@
             :container="editTypeContainerSelection"
         ></TypeEditDialog>
 
-        <div class="d-flex align-center">
-          <p class="display-1 mb-0">My Containers ({{ containers.length }})</p>
-          <v-spacer></v-spacer>
-          <v-btn color="secondary" @click="editContainer(null)">
-            <v-icon class="mr-2">mdi-plus</v-icon>
-            Add Container
-          </v-btn>
-        </div>
-        <v-divider class="my-2"></v-divider>
+        <Header>
+          My Containers ({{ containers.length }})
+          <template #right>
+            <v-btn color="secondary" @click="editContainer(null)">
+              <v-icon class="mr-2">mdi-plus</v-icon>
+              Add Container
+            </v-btn>
+          </template>
+        </Header>
 
         <div v-for="container of containers" :key="container._id">
-          <v-toolbar color="secondary" dark>
+          <v-toolbar color="secondary" dense dark class="mt-8">
             {{ container.name }}
             <v-spacer></v-spacer>
             <v-btn @click="editContainer(container)" text>Edit</v-btn>
             <v-btn @click="removeContainer(container)" text color="error">Delete</v-btn>
           </v-toolbar>
-          <v-row>
-            <v-col v-for="type of typeByContainer(container._id)" :key="type._id" cols="12" sm="6" md="4" lg="3">
-              <TypeCard
-                  @click="$router.push({ name: 'items', params: { container: container._id, type: type._id } })"
-                  @edit="editType"
-                  @remove="removeType"
-                  :type="type"
-              ></TypeCard>
-            </v-col>
-            <v-col cols="12" sm="6" md="4" lg="3">
-              <v-card @click="addType(container)" hover ripple shaped class="fill-height">
-                <v-card-title class="fill-height align-center justify-center secondary--text">
-                  <v-icon color="secondary">mdi-plus</v-icon>
-                  Add Type
-                </v-card-title>
-              </v-card>
-            </v-col>
-          </v-row>
+          <div class="pa-4 elevation-1">
+            <v-row>
+              <v-col v-for="type of typeByContainer(container._id)" :key="type._id" cols="12" sm="6" md="4" lg="3">
+                <TypeCard
+                    @click="$router.push({ name: 'items', params: { container: container._id, type: type._id } })"
+                    @edit="editType"
+                    @remove="removeType"
+                    :type="type"
+                ></TypeCard>
+              </v-col>
+              <v-col cols="12" sm="6" md="4" lg="3">
+                <v-card @click="addType(container)" hover ripple class="fill-height">
+                  <v-card-title class="fill-height align-center justify-center secondary--text">
+                    <v-icon color="secondary">mdi-plus</v-icon>
+                    Add Type
+                  </v-card-title>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
         </div>
       </div>
 
@@ -60,10 +62,11 @@
   import TypeEditDialog from '../components/types/TypeEditDialog';
   import ContainerEditDialog from '../components/containers/ContainerEditDialog';
   import { A_DELETE_CONTAINER, A_DELETE_TYPE } from '../store/actions.type';
+  import Header from '../components/Header';
 
   export default {
     name: 'Dashboard',
-    components: { ContainerEditDialog, TypeEditDialog, TypeCard },
+    components: { Header, ContainerEditDialog, TypeEditDialog, TypeCard },
     computed: {
       ...mapGetters(['authed', 'containers', 'typeByContainer', 'containerById'])
     },
@@ -101,7 +104,3 @@
     }
   };
 </script>
-
-<style scoped>
-
-</style>

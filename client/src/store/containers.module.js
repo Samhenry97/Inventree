@@ -13,7 +13,6 @@ import Socket from '../common/socket';
 
 export const defaultModel = {
   name: '',
-  path: '',
   description: ''
 };
 
@@ -27,8 +26,8 @@ const getters = {
     const results = state.containers.filter(container => container._id === id);
     return results.length > 0 ? results[0] : null;
   },
-  containerFindOne: state => query => {
-    const results = getters.containerFindMany(state)(query);
+  containerFindOne: (state, getters) => query => {
+    const results = getters.containerFindMany(query);
     return results.length > 0 ? results[0] : null;
   },
   containerFindMany: state => query => {
